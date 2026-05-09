@@ -4,10 +4,53 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+}
+
+model User {
+  id        Int @id @default(autoincrement())
+  email     String @unique
+  contrasena  String
+  nombre      String
+
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id_evento       Int @id @default(autoincrement())
+  nombre          String
+  fecha           DateTime
+  locacion        String
+  tipo            String
+  salon           String
+  cant_invitados  Int
+  coverImage      String?
+  imagen_tarjeta   String?
+
+  // Relación con invitados
+  guests      Guest[]
+
+  createdAt DateTime @default(now())
+}
+
+model Guest {
+  id          Int    @id @default(autoincrement())
+  nombre      String
+  apellido    String
+  email       String?
+  mesa        String?   // Para bodas/cenas
+  status      String    @default("PENDIENTE") // PENDIENTE, CONFIRMADO, ASISTIO
+  
+  // Para el Check-in
+  qrHash      String    @unique // Código único que irá en el QR
+  checkInTime DateTime? 
+  
+  eventId     Int
+  event       Event     @relation(fields: [eventId], references: [id_evento], onDelete: Cascade)
+
+  @@unique([email, eventId]) // Un mismo mail no puede estar dos veces en el mismo evento
 }

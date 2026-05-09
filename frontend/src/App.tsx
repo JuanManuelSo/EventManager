@@ -1,17 +1,24 @@
-function App() {
+import { RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './store/AuthContext';
+import router from './router';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60,       // 1 min — datos frescos sin refetch agresivo
+      retry: 1,                   // 1 reintento en error de red
+      refetchOnWindowFocus: false, // evita refetch al volver a la tab
+    },
+  },
+});
+
+export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-surface">
-      <div className="p-8 bg-white border border-brand-border rounded shadow-sm">
-        <h1 className="text-3xl font-bold text-brand-dark">Event Manager</h1>
-        <p className="text-slate-500 mt-2">
-          Diseño profesional cargado correctamente.
-        </p>
-        <button className="mt-6 px-4 py-2 bg-brand-blue text-white rounded font-medium hover:bg-blue-700 transition-colors">
-          Empezar
-        </button>
-      </div>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
-
-export default App;
