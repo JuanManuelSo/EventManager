@@ -29,21 +29,29 @@ model Event {
   salon           String
   cant_invitados  Int
   coverImage      String?
-  imagen_tarjeta   String?
+  Estado          String?
 
   // Relación con invitados
   guests      Guest[]
+
+  checkedInCount number
 
   createdAt DateTime @default(now())
 }
 
 model Guest {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @default(uuid())
+  documento   String   @unique 
   nombre      String
   apellido    String
   email       String?
+  numero      String?
   mesa        String?   // Para bodas/cenas
   status      String    @default("PENDIENTE") // PENDIENTE, CONFIRMADO, ASISTIO
+  cant_acompanantes Int
+  invitacionEnviada boolean
+  video       String //Url   
+  Foto        String //Url
   
   // Para el Check-in
   qrHash      String    @unique // Código único que irá en el QR

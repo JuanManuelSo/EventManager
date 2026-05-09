@@ -1,45 +1,41 @@
-export type EventStatus = 'draft' | 'active' | 'done';
-export type GuestStatus = 'pending' | 'confirmed' | 'declined';
-export type UserRole = 'admin' | 'staff' | 'scanner';
-export type InvitationChannel = 'email' | 'whatsapp' | 'link';
+export type EventStatus = "draft" | "active" | "done";
+export type GuestStatus = "Pendiente" | "Presente" | "Ausente";
+export type InvitationChannel = "email" | "whatsapp" | "link";
 
 export interface User {
   id: string;
-  name: string;
+  nombre: string;
   email: string;
-  role: UserRole;
-  avatarUrl?: string;
 }
 
 export interface Event {
-  id: string;
-  creatorId: string;
-  name: string;
-  date: string;
-  location: string;
-  type: string;
+  id_evento: number;
+  nombre: string;
+  fecha: string;
+  locacion: string;
+  tipo: string;
   salon?: string;
-  coverImageUrl?: string;
+  coverImage?: string;
   status: EventStatus;
-  capacity?: number;
-  guestCount: number;
+  cant_invitados?: number;
   checkedInCount: number;
+
   createdAt: string;
 }
 
 export interface Guest {
   id: string;
   eventId: string;
-  firstName: string;
-  lastName: string;
+  nombre: string;
+  apellido: string;
   email?: string;
-  phone?: string;
-  qrCode: string;
-  tableNumber?: string;
+  telefono?: string;
+  qrHash: string;
+  mesa?: string;
+  cant_acompanantes?: number;
+  invitacionEnviada: boolean;
   status: GuestStatus;
   checkedIn: boolean;
-  checkedInAt?: string;
-  invitedAt?: string;
 }
 
 export interface EventStats {
