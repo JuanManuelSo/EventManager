@@ -1,0 +1,27 @@
+import { useQuery } from '@tanstack/react-query';
+import { eventsService } from '../services/events.service';
+
+export function useEvents() {
+  return useQuery({
+    queryKey: ['events'],
+    queryFn:  () => eventsService.getAll(),
+    staleTime: 1000 * 60,
+  });
+}
+
+export function useEvent(id: string) {
+  return useQuery({
+    queryKey: ['events', id],
+    queryFn:  () => eventsService.getById(id),
+    enabled:  !!id,
+    staleTime: 1000 * 30,
+  });
+}
+
+export function useDashboardStats() {
+  return useQuery({
+    queryKey: ['dashboard-stats'],
+    queryFn:  () => eventsService.getDashboardStats(),
+    staleTime: 1000 * 60,
+  });
+}

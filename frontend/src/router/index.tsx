@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import DashboardPage from "../pages/DashboardPage";
+import AppLayout from "../components/layout/AppLayout";
 
 // import DashboardPage      from '../pages/DashboardPage';
 // import EventDetailPage    from '../pages/EventDetailPage';
@@ -17,12 +19,13 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <ProtectedRoute>
-        {/* Replace with <DashboardPage /> when built */}
-        <div className="min-h-screen flex items-center justify-center bg-brand-surface">
-          <p className="text-slate-400 text-sm">Dashboard — próximamente</p>
-        </div>
+        <AppLayout />
       </ProtectedRoute>
     ),
+    children: [
+      { index: true, element: <DashboardPage /> },
+      // { path: 'events/:id', element: <EventDetailPage /> }, ← próximo
+    ],
   },
 
   /* ── Fallback ── */

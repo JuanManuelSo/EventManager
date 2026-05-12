@@ -18,6 +18,7 @@ export interface Event {
   coverImage?: string;
   status: EventStatus;
   cant_invitados?: number;
+  guestCount: number;
   checkedInCount: number;
 
   createdAt: string;
