@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Calendar, LogOut } from "lucide-react";
 import { useAuth } from "../../store/AuthContext";
-import { getInitials } from "../../lib/utils";
 
 export default function Header() {
   const { logout, user } = useAuth();
@@ -11,10 +10,6 @@ export default function Header() {
     logout();
     navigate("/login");
   }
-
-  const initials = user
-    ? getInitials(user.nombre.split(" ")[0], user.nombre.split(" ")[1] ?? "")
-    : "";
 
   return (
     <header className="h-13 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0">

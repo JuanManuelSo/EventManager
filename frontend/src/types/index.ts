@@ -1,4 +1,4 @@
-export type EventStatus = "draft" | "active" | "done";
+export type EventStatus = "Activo" | "Finalizado";
 export type GuestStatus = "Pendiente" | "Presente" | "Ausente";
 export type InvitationChannel = "email" | "whatsapp" | "link";
 
@@ -35,7 +35,9 @@ export interface Guest {
   mesa?: string;
   cant_acompanantes?: number;
   invitacionEnviada: boolean;
-  status: GuestStatus;
+  status: GuestStatus; //Estado del invitado: Pendiente, Presente, Ausente
+
+  checkedInAt?: string; //Horario de check-in
   checkedIn: boolean;
 }
 

@@ -7,13 +7,15 @@ import EventCardSkeleton from "../components/events/EventCardSkeleton";
 import StatCard from "../components/ui/StatCard";
 import type { Event } from "../types";
 
+import ModalCreateEvent from "../components/events/ModalCreateEvent";
+import type { CreateEventOutput } from "../validations/validateCreateEvent";
+
 type Filter = "all" | Event["status"];
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: "all", label: "Todos" },
-  { key: "active", label: "Activos" },
-  { key: "draft", label: "Borradores" },
-  { key: "done", label: "Finalizados" },
+  { key: "Activo", label: "Activos" },
+  { key: "Finalizado", label: "Finalizados" },
 ];
 
 export default function DashboardPage() {
@@ -22,6 +24,7 @@ export default function DashboardPage() {
   const { data: events, isLoading: eventsLoading, isError } = useEvents();
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [viewGrid, setViewGrid] = useState(true);
@@ -44,15 +47,33 @@ export default function DashboardPage() {
   }, [events, query, filter]);
 
   /* ── Count badges per tab ── */
-  const counts = useMemo<Record<Filter, number>>(() => {
-    if (!events) return { all: 0, active: 0, draft: 0, done: 0 };
+  const counts = useMemo<Partial<Record<Filter, number>>>(() => {
+    if (!events)
+      return {
+        all: 0,
+        activo: 0,
+        finalizado: 0,
+      };
+
     return {
       all: events.length,
-      active: events.filter((e) => e.status === "active").length,
-      draft: events.filter((e) => e.status === "draft").length,
-      done: events.filter((e) => e.status === "done").length,
+      activo: events.filter((e) => e.status === "Activo").length,
+      finalizado: events.filter((e) => e.status === "Finalizado").length,
     };
   }, [events]);
+
+  const handleCreateEvent = async (data: CreateEventOutput) => {
+    try {
+      console.log("Enviando al backend:", data);
+      //Aqui iria la llamada a la api
+      // const response = await fetch('/api/events', {
+      //   method: 'POST',
+      //   body: JSON.stringify(data)
+      // });
+    } catch (error) {
+      console.error("Error al crear el evento:", error);
+    }
+  };
 
   const isSearching = !!query || filter !== "all";
 
@@ -71,7 +92,7 @@ export default function DashboardPage() {
         </div>
 
         <button
-          onClick={() => navigate("/events/new")}
+          onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-4 py-2.5
                      bg-slate-900 text-white text-[13px] font-medium rounded-lg shrink-0
                      hover:bg-slate-800 active:bg-slate-950
@@ -80,6 +101,11 @@ export default function DashboardPage() {
           <Plus size={14} strokeWidth={2.5} />
           Crear evento
         </button>
+        <ModalCreateEvent
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleCreateEvent}
+        />
       </div>
 
       {/* ── Stat cards ── */}

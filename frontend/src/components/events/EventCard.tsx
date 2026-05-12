@@ -7,19 +7,13 @@ const STATUS_MAP: Record<
   Event["status"],
   { label: string; dot: string; text: string; bg: string }
 > = {
-  active: {
+  Activo: {
     label: "Activo",
     dot: "bg-emerald-400",
     text: "text-emerald-400",
     bg: "bg-emerald-400/10",
   },
-  draft: {
-    label: "Borrador",
-    dot: "bg-slate-400",
-    text: "text-slate-400",
-    bg: "bg-slate-400/10",
-  },
-  done: {
+  Finalizado: {
     label: "Finalizado",
     dot: "bg-slate-500",
     text: "text-slate-400",
@@ -29,7 +23,7 @@ const STATUS_MAP: Record<
 
 export default function EventCard({ event }: { event: Event }) {
   const navigate = useNavigate();
-  const s = STATUS_MAP[event.status];
+  const s = STATUS_MAP[event.status] || STATUS_MAP["Finalizado"];
   const pct = percentage(event.checkedInCount, event.guestCount);
 
   return (
@@ -62,7 +56,7 @@ export default function EventCard({ event }: { event: Event }) {
           className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1.25 rounded-full ${s.bg} backdrop-blur-sm`}
         >
           <span
-            className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot} ${event.status === "active" ? "animate-pulse" : ""}`}
+            className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot} ${event.status === "Activo" ? "animate-pulse" : ""}`}
           />
           <span className={`text-[10px] font-semibold leading-none ${s.text}`}>
             {s.label}
@@ -97,7 +91,7 @@ export default function EventCard({ event }: { event: Event }) {
         </div>
 
         {/* Check-in progress bar */}
-        {event.status === "active" && event.checkedInCount > 0 && (
+        {event.status === "Activo" && event.checkedInCount > 0 && (
           <div className="mb-3.5">
             <div className="flex justify-between items-center mb-1.5">
               <span className="text-[9px] text-slate-600 uppercase tracking-wider font-semibold">
