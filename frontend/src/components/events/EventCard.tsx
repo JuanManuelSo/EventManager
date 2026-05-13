@@ -24,7 +24,7 @@ const STATUS_MAP: Record<
 export default function EventCard({ event }: { event: Event }) {
   const navigate = useNavigate();
   const s = STATUS_MAP[event.status] || STATUS_MAP["Finalizado"];
-  const pct = percentage(event.checkedInCount, event.guestCount);
+  const pct = percentage(event.checkedInCount, event.cant_invitados ?? 0);
 
   return (
     <article
@@ -113,9 +113,9 @@ export default function EventCard({ event }: { event: Event }) {
         {/* Footer */}
         <div className="border-t border-white/6 pt-3 flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-slate-500">
-            <Users size={11} className="text-[#60A5FA]" />
+            <Users size={11} className="text-blue-400" />
             <span className="text-[11px]">
-              {event.guestCount.toLocaleString("es-AR")} invitados
+              {event.cant_invitados?.toLocaleString("es-AR")} invitados
             </span>
           </div>
           <ChevronRight

@@ -18,8 +18,9 @@ export interface Event {
   coverImage?: string;
   status: EventStatus;
   cant_invitados?: number;
-  guestCount: number;
+
   checkedInCount: number;
+  porcentajeAsistencia: number; //Porcentaje de asistencia calculado con cant_invitados y checkedInCount
 
   createdAt: string;
 }

@@ -102,7 +102,13 @@ export const guestsService = {
       guest.checkedInAt = new Date().toISOString();
 
       const event = MOCK_EVENTS.find((e) => e.id_evento === eventId);
-      if (event) event.checkedInCount += 1;
+      if (event) {
+        event.checkedInCount += 1;
+        event.porcentajeAsistencia = percentage(
+          event.checkedInCount,
+          event.cant_invitados ?? 0,
+        );
+      }
 
       return guest;
     }
@@ -127,7 +133,13 @@ export const guestsService = {
       guest.checkedInAt = new Date().toISOString();
 
       const event = MOCK_EVENTS.find((e) => e.id_evento === eventId);
-      if (event) event.checkedInCount += 1;
+      if (event) {
+        event.checkedInCount += 1;
+        event.porcentajeAsistencia = percentage(
+          event.checkedInCount,
+          event.cant_invitados ?? 0,
+        );
+      }
 
       return guest;
     }
@@ -166,7 +178,7 @@ export const guestsService = {
       });
 
       const event = MOCK_EVENTS.find((e) => e.id_evento === eventId);
-      if (event) event.guestCount += created;
+      if (event) event.cant_invitados = (event.cant_invitados ?? 0) + created;
 
       return { created };
     }

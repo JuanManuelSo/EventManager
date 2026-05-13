@@ -3,9 +3,7 @@ import LoginPage from "../pages/LoginPage";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
 import AppLayout from "../components/layout/AppLayout";
-
-// import DashboardPage      from '../pages/DashboardPage';
-// import EventDetailPage    from '../pages/EventDetailPage';
+import EventDetailPage from "../pages/EventDetailPage";
 
 const router = createBrowserRouter([
   /* ── Public ── */
@@ -24,7 +22,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <DashboardPage /> },
-      // { path: 'events/:id', element: <EventDetailPage /> }, ← próximo
+      { path: "events/:id", element: <EventDetailPage /> },
     ],
   },
 

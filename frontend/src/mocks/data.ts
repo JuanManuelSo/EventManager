@@ -6,6 +6,11 @@ export const MOCK_USER: User = {
   email: "admin@eventmanager.com",
 };
 
+const porcentaje = (cant_invitados: number, checkedInCount: number) => {
+  if (cant_invitados === 0) return 0;
+  return Math.round((checkedInCount / cant_invitados) * 100);
+};
+
 export const MOCK_EVENTS: Event[] = [
   {
     id_evento: 1,
@@ -16,10 +21,10 @@ export const MOCK_EVENTS: Event[] = [
     salon: "La Reja del Sol",
     coverImage:
       "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80",
-    status: "active",
+    status: "Activo",
     cant_invitados: 350,
     checkedInCount: 182,
-    guestCount: 330,
+    porcentajeAsistencia: porcentaje(350, 182),
     createdAt: "2026-01-15T10:00:00.000Z",
   },
   {
@@ -31,10 +36,10 @@ export const MOCK_EVENTS: Event[] = [
     salon: "Salón Principal",
     coverImage:
       "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=80",
-    status: "active",
+    status: "Activo",
     cant_invitados: 350,
-    guestCount: 330,
     checkedInCount: 147,
+    porcentajeAsistencia: porcentaje(350, 147),
     createdAt: "2026-01-20T10:00:00.000Z",
   },
   {
@@ -46,10 +51,10 @@ export const MOCK_EVENTS: Event[] = [
     salon: "Jardín de Invierno",
     coverImage:
       "https://images.unsplash.com/photo-1510076857177-7470076d4098?w=800&q=80",
-    status: "active",
+    status: "Activo",
     cant_invitados: 350,
-    guestCount: 330,
     checkedInCount: 95,
+    porcentajeAsistencia: porcentaje(350, 95),
     createdAt: "2026-02-01T10:00:00.000Z",
   },
 ];
