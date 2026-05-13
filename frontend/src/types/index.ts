@@ -14,7 +14,7 @@ export interface Event {
   fecha: string;
   locacion: string;
   tipo: string;
-  salon?: string;
+  salon: string;
   coverImage?: string;
   status: EventStatus;
   cant_invitados?: number;

@@ -17,7 +17,7 @@ export const createEventSchema = z.object({
 
   tipo: z.string().min(1, "El tipo es obligatorio"),
 
-  salon: z.string().max(100).nullish().or(z.literal("")),
+  salon: z.string().min(5, "El salón deber ser más específico").max(100),
 
   cant_invitados: z
     .number("Debe ser un número")
