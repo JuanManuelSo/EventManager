@@ -14,6 +14,15 @@ import {
 import { useEvent } from "../hooks/useEvents";
 import { formatDate } from "../lib/utils";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  createEventSchema,
+  type CreateEventInput,
+} from "../validations/validateCreateEvent";
+import Input from "../components/ui/Input";
+import { EditableField } from "../components/ui/EditableField";
+
 /* ── Tab definitions ── */
 type Tab = "info" | "guests" | "scan" | "metrics";
 
@@ -180,36 +189,128 @@ export default function EventDetailPage() {
    INFORMACIÓN TAB
 ════════════════════════════════════════════ */
 function InfoTab({ event }: { event: import("../types").Event }) {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty },
+  } = useForm<CreateEventInput>({
+    resolver: zodResolver(createEventSchema),
+    defaultValues: {
+      nombre: event.nombre,
+      tipo: event.tipo,
+      fecha: event.fecha, // Asegúrate de que venga en formato compatible con datetime-local
+      salon: event.salon ?? "",
+      locacion: event.locacion,
+      cant_invitados: event.cant_invitados,
+      status: event.status as any,
+    },
+  });
+
+  const onSubmit = (data: CreateEventInput) => {
+    console.log("Guardando cambios...", data);
+    // Aquí llamarías a tu API para actualizar el evento en la DB vía Prisma
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    reset(); // Revierte los cambios a los defaultValues originales
+    setIsEditing(false);
+  };
+
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-2xs">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-        <h2 className="text-sm font-semibold text-slate-800">
-          Detalles Generales
-        </h2>
-        <button
-          className="text-xs font-medium text-blue-600 hover:text-blue-700
-                     transition-colors duration-150 underline cursor-pointer"
-        >
-          Editar Información
-        </button>
-      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={(e) => e.key === "Enter" && handleSubmit(onSubmit)}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+          <h2 className="text-sm font-semibold text-slate-800">
+            Detalles Generales
+          </h2>
+          <div className="flex gap-3">
+            {!isEditing ? (
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="text-xs font-medium text-blue-600 hover:text-blue-700 underline cursor-pointer"
+              >
+                Editar Información
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="text-xs font-medium text-slate-500 hover:text-slate-700 cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={!isDirty}
+                  className="text-xs font-bold  text-blue-500  cursor-pointer disabled:opacity-50 hover:text-blue-700 "
+                >
+                  Guardar Cambios
+                </button>
+              </>
+            )}
+          </div>
+        </div>
 
-      {/* Fields grid */}
-      <div className="px-6 py-5 grid grid-cols-2 gap-x-12 gap-y-5 ">
-        <InfoField label="Nombre del evento" value={event.nombre} />
-        <InfoField label="Tipo" value={event.tipo} />
+        {/* Fields grid */}
 
-        <InfoField label="Fecha y Hora" value={formatDate(event.fecha)} />
-        <InfoField label="Salón" value={event.salon ?? "—"} />
-
-        <InfoField label="Ubicación" value={event.locacion} fullWidth />
-
-        <InfoField
-          label="Invitados"
-          value={`${event.cant_invitados?.toLocaleString("es-AR") ?? "-"} Personas`}
-        />
-      </div>
+        <div className="px-6 py-5 grid grid-cols-2 gap-x-12 gap-y-5 ">
+          <EditableField
+            label="Nombre del evento"
+            isEditing={isEditing}
+            register={register("nombre")}
+            value={event.nombre}
+            error={errors.nombre?.message}
+          />
+          <EditableField
+            label="Tipo"
+            isEditing={isEditing}
+            register={register("tipo")}
+            value={event.tipo}
+            error={errors.tipo?.message}
+          />
+          <EditableField
+            label="Fecha y Hora"
+            isEditing={isEditing}
+            register={register("fecha")}
+            type="datetime-local"
+            value={formatDate(event.fecha)}
+            error={errors.fecha?.message}
+          />
+          <EditableField
+            label="Salón"
+            isEditing={isEditing}
+            register={register("salon")}
+            value={event.salon ?? "—"}
+            error={errors.salon?.message}
+          />
+          <EditableField
+            label="Ubicación"
+            isEditing={isEditing}
+            register={register("locacion")}
+            value={event.locacion}
+            fullWidth
+            error={errors.locacion?.message}
+          />
+          <EditableField
+            label="Invitados"
+            isEditing={isEditing}
+            register={register("cant_invitados")}
+            type="number"
+            value={`${event.cant_invitados?.toLocaleString("es-AR") ?? "-"} Personas`}
+            error={errors.cant_invitados?.message}
+          />
+        </div>
+      </form>
     </div>
   );
 }
