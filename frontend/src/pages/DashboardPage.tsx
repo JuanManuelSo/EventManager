@@ -158,7 +158,7 @@ export default function DashboardPage() {
                 key={key}
                 onClick={() => setFilter(key)}
                 className={[
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded text-[12px] font-medium",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium",
                   "transition-all duration-150 focus:outline-none",
                   active
                     ? "bg-slate-900 text-white"

@@ -57,8 +57,8 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [page, setPage] = useState(1);
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [openMenu, setOpenMenu] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -89,7 +89,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
     });
   }
 
-  function toggleOne(id: string) {
+  function toggleOne(id: number) {
     setSelected((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
@@ -106,7 +106,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
       {/* Toolbar */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 flex-wrap">
-        <span className="text-[12px] font-semibold text-slate-500 shrink-0">
+        <span className="text-xs font-semibold text-slate-500 shrink-0">
           Total: {guests.length}
         </span>
 
@@ -122,7 +122,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
               setPage(1);
             }}
             placeholder="Buscar invitado..."
-            className="pl-7 pr-3 py-1.5 w-48 text-[12px] text-slate-800
+            className="pl-7 pr-3 py-1.5 w-48 text-xs text-slate-800
                        bg-slate-50 border border-slate-200 rounded-lg
                        placeholder:text-slate-400
                        focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900
@@ -216,7 +216,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                       />
                     </td>
 
-                    <td className="px-3 py-3 min-w-[140px]">
+                    <td className="px-3 py-3 min-w-35">
                       <p className="text-[13px] font-semibold text-slate-800">
                         {guest.apellido}, {guest.nombre}
                       </p>
@@ -227,11 +227,11 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                       )}
                     </td>
 
-                    <td className="px-3 py-3 text-[12px] text-slate-500 min-w-[180px]">
+                    <td className="px-3 py-3 text-xs text-slate-500 min-w-45">
                       {guest.email ?? "—"}
                     </td>
 
-                    <td className="px-3 py-3 text-[12px] text-slate-600">
+                    <td className="px-3 py-3 text-xs text-slate-600">
                       {guest.mesa ?? "—"}
                     </td>
 
@@ -253,7 +253,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                           )}
                         </span>
                       ) : (
-                        <span className="text-[12px] text-slate-300">—</span>
+                        <span className="text-xs text-slate-300">—</span>
                       )}
                     </td>
 
@@ -294,7 +294,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       {/* Pagination */}
       {filtered.length > PAGE_SIZE && (
         <div className="flex items-center justify-between px-4 py-3 border-t border-slate-100">
-          <p className="text-[12px] text-slate-400">
+          <p className="text-xs text-slate-400">
             Mostrando{" "}
             <span className="font-medium text-slate-600">
               {(page - 1) * PAGE_SIZE + 1} a{" "}
@@ -325,10 +325,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
               }, [])
               .map((p, i) =>
                 p === "ellipsis" ? (
-                  <span
-                    key={`e${i}`}
-                    className="px-1 text-slate-300 text-[12px]"
-                  >
+                  <span key={`e${i}`} className="px-1 text-slate-300 text-xs">
                     …
                   </span>
                 ) : (
@@ -336,7 +333,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                     key={p}
                     onClick={() => changePage(p as number)}
                     className={[
-                      "w-7 h-7 rounded text-[12px] font-medium transition-colors duration-150 focus:outline-none",
+                      "w-7 h-7 rounded text-xs font-medium transition-colors duration-150 focus:outline-none",
                       page === p
                         ? "bg-slate-900 text-white"
                         : "text-slate-500 hover:bg-slate-100",
@@ -386,7 +383,7 @@ function ActionBtn({
   return (
     <button
       className={[
-        "flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium rounded-lg border transition-colors duration-150 focus:outline-none",
+        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 focus:outline-none",
         primary
           ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
           : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50",
@@ -402,7 +399,7 @@ function MenuItem({ label, danger }: { label: string; danger?: boolean }) {
   return (
     <button
       className={[
-        "w-full text-left px-3 py-2 text-[12px] font-medium transition-colors duration-100",
+        "w-full text-left px-3 py-2 text-xs font-medium transition-colors duration-100",
         danger
           ? "text-red-500 hover:bg-red-50"
           : "text-slate-700 hover:bg-slate-50",

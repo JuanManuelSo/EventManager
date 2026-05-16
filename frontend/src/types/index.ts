@@ -26,7 +26,7 @@ export interface Event {
 }
 
 export interface Guest {
-  id: string;
+  id: number;
   eventId: number;
   nombre: string;
   apellido: string;
@@ -54,7 +54,7 @@ export interface EventStats {
 
 export interface CheckinRecord {
   id: string;
-  guestId: string;
+  guestId: number;
   guestName: string;
   tableNumber?: string;
   initials: string;
@@ -83,4 +83,9 @@ export interface DashboardStats {
   totalEvents: number;
   totalGuests: number;
   averageAttendance: number;
+}
+
+export interface CheckinResult {
+  guest: Guest;
+  alreadyIn: boolean;
 }

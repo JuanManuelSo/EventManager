@@ -23,6 +23,7 @@ import {
 import Input from "../components/ui/Input";
 import { EditableField } from "../components/ui/EditableField";
 import GuestsTab from "../components/guests/GuestsTab";
+import ScanTab from "../components/scan/ScanTab";
 
 /* ── Tab definitions ── */
 type Tab = "info" | "guests" | "scan" | "metrics";
@@ -122,7 +123,7 @@ export default function EventDetailPage() {
               </div>
               <div className="flex items-center gap-1.5 text-slate-400">
                 <Calendar size={11} className="shrink-0" />
-                <span className="text-[12px]">{formatDate(event.fecha)}</span>
+                <span className="text-xs">{formatDate(event.fecha)}</span>
               </div>
             </div>
           </div>
@@ -180,7 +181,7 @@ export default function EventDetailPage() {
       {/* ── Tab content ── */}
       {tab === "info" && <InfoTab event={event} />}
       {tab === "guests" && <GuestsTab eventId={event.id_evento} />}
-      {tab === "scan" && <ComingSoon label="Escaneo QR" />}
+      {tab === "scan" && <ScanTab eventId={event.id_evento} />}
       {tab === "metrics" && <ComingSoon label="Métricas" />}
     </div>
   );
