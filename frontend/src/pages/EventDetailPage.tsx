@@ -22,6 +22,7 @@ import {
 } from "../validations/validateCreateEvent";
 import Input from "../components/ui/Input";
 import { EditableField } from "../components/ui/EditableField";
+import GuestsTab from "../components/guests/GuestsTab";
 
 /* ── Tab definitions ── */
 type Tab = "info" | "guests" | "scan" | "metrics";
@@ -178,7 +179,7 @@ export default function EventDetailPage() {
 
       {/* ── Tab content ── */}
       {tab === "info" && <InfoTab event={event} />}
-      {tab === "guests" && <ComingSoon label="Invitados" />}
+      {tab === "guests" && <GuestsTab eventId={event.id_evento} />}
       {tab === "scan" && <ComingSoon label="Escaneo QR" />}
       {tab === "metrics" && <ComingSoon label="Métricas" />}
     </div>

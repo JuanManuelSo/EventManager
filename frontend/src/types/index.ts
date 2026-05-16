@@ -27,7 +27,7 @@ export interface Event {
 
 export interface Guest {
   id: string;
-  eventId: string;
+  eventId: number;
   nombre: string;
   apellido: string;
   email?: string;

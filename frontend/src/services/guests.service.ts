@@ -14,9 +14,11 @@ export const guestsService = {
       status?: string;
     } = {},
   ): Promise<PaginatedResponse<Guest>> {
+    const mockEventKey = `ev${eventId}`;
+
     if (USE_MOCK) {
       await sleep(500);
-      let guests = MOCK_GUESTS[eventId] ?? [];
+      let guests = MOCK_GUESTS[mockEventKey] ?? [];
 
       if (options.search) {
         const q = options.search.toLowerCase();
@@ -38,7 +40,8 @@ export const guestsService = {
       }
 
       const page = options.page ?? 1;
-      const pageSize = options.pageSize ?? 10;
+      const pageSize =
+        options.pageSize ?? (options.page === undefined ? guests.length : 10);
       const total = guests.length;
       const totalPages = Math.ceil(total / pageSize);
       const start = (page - 1) * pageSize;
@@ -56,9 +59,11 @@ export const guestsService = {
   },
 
   async getStats(eventId: number): Promise<EventStats> {
+    const mockEventKey = `ev${eventId}`;
+
     if (USE_MOCK) {
       await sleep(300);
-      const guests = MOCK_GUESTS[eventId] ?? [];
+      const guests = MOCK_GUESTS[mockEventKey] ?? [];
       const total = guests.length;
       const present = guests.filter((g) => g.checkedIn).length;
       const confirmed = guests.filter((g) => g.status === "Presente").length;
@@ -90,9 +95,11 @@ export const guestsService = {
   },
 
   async checkin(eventId: number, qrCode: string): Promise<Guest> {
+    const mockEventKey = `ev${eventId}`;
+
     if (USE_MOCK) {
       await sleep(300);
-      const guests = MOCK_GUESTS[eventId] ?? [];
+      const guests = MOCK_GUESTS[mockEventKey] ?? [];
       const guest = guests.find((g) => g.qrHash === qrCode);
       if (!guest) throw new Error("QR no encontrado");
       if (guest.checkedIn)
@@ -121,9 +128,11 @@ export const guestsService = {
   },
 
   async manualCheckin(eventId: number, guestId: string): Promise<Guest> {
+    const mockEventKey = `ev${eventId}`;
+
     if (USE_MOCK) {
       await sleep(300);
-      const guests = MOCK_GUESTS[eventId] ?? [];
+      const guests = MOCK_GUESTS[mockEventKey] ?? [];
       const guest = guests.find((g) => g.id === guestId);
       if (!guest) throw new Error("Invitado no encontrado");
       if (guest.checkedIn)
@@ -155,15 +164,17 @@ export const guestsService = {
     eventId: number,
     rows: Partial<Guest>[],
   ): Promise<{ created: number }> {
+    const mockEventKey = `ev${eventId}`;
+
     if (USE_MOCK) {
       await sleep(1000);
-      const guests = MOCK_GUESTS[eventId] ?? [];
+      const guests = MOCK_GUESTS[mockEventKey] ?? [];
       let created = 0;
 
       rows.forEach((row, i) => {
         guests.push({
           id: `g${eventId}-import-${Date.now()}-${i}`,
-          eventId: String(eventId),
+          eventId: eventId,
           nombre: row.nombre ?? "Nombre",
           apellido: row.apellido ?? "Apellido",
           email: row.email,

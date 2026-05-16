@@ -105,7 +105,7 @@ const LAST_NAMES = [
   "Castro",
 ];
 
-function buildGuests(eventId: string, count: number): Guest[] {
+function buildGuests(eventId: number, count: number): Guest[] {
   const guests: Guest[] = [];
   for (let i = 0; i < count; i++) {
     const nombre = FIRST_NAMES[i % FIRST_NAMES.length];
@@ -133,9 +133,9 @@ function buildGuests(eventId: string, count: number): Guest[] {
 }
 
 export const MOCK_GUESTS: Record<string, Guest[]> = {
-  ev1: buildGuests("ev1", 330),
-  ev2: buildGuests("ev2", 330),
-  ev3: buildGuests("ev3", 330),
+  ev1: buildGuests(1, 330),
+  ev2: buildGuests(2, 330),
+  ev3: buildGuests(3, 330),
 };
 
 export const MOCK_DASHBOARD_STATS: DashboardStats = {
