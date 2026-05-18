@@ -8,14 +8,15 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 model User {
-  id        Int @id @default(autoincrement())
-  email     String @unique
+  id          Int @id @default(autoincrement())
+  email       String @unique
   contrasena  String
   nombre      String
+  events      Event[]
 
   createdAt DateTime @default(now())
 }
@@ -31,16 +32,20 @@ model Event {
   coverImage      String?
   Estado          String?
 
+  // Relación con el creador
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id])
+
   // Relación con invitados
   guests      Guest[]
 
-  checkedInCount number
+  checkedInCount Int
 
   createdAt DateTime @default(now())
 }
 
 model Guest {
-  id          Int    @id @default(uuid())
+  id          Int    @id @default(autoincrement())
   documento   String   @unique 
   nombre      String
   apellido    String
@@ -49,7 +54,7 @@ model Guest {
   mesa        String?   // Para bodas/cenas
   status      String    @default("PENDIENTE") // PENDIENTE, CONFIRMADO, ASISTIO
   cant_acompanantes Int
-  invitacionEnviada boolean
+  invitacionEnviada Boolean @default(false)
   video       String //Url   
   Foto        String //Url
   

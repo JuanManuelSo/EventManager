@@ -20,7 +20,6 @@ import {
   createEventSchema,
   type CreateEventInput,
 } from "../validations/validateCreateEvent";
-import Input from "../components/ui/Input";
 import { EditableField } from "../components/ui/EditableField";
 import GuestsTab from "../components/guests/GuestsTab";
 import ScanTab from "../components/scan/ScanTab";
@@ -317,26 +316,24 @@ function InfoTab({ event }: { event: import("../types").Event }) {
   );
 }
 
-function InfoField({
-  label,
-  value,
-  fullWidth,
-}: {
-  label: string;
-  value: string;
-  fullWidth?: boolean;
-}) {
-  return (
-    <div className={fullWidth ? "col-span-2" : ""}>
-      <p className="text-[11px] text-slate-400 mb-1">{label}</p>
-      <p className="text-[13px] font-semibold text-slate-800">{value}</p>
-    </div>
-  );
-}
+// function InfoField({
+//   label,
+//   value,
+//   fullWidth,
+// }: {
+//   label: string;
+//   value: string;
+//   fullWidth?: boolean;
+// }) {
+//   return (
+//     <div className={fullWidth ? "col-span-2" : ""}>
+//       <p className="text-[11px] text-slate-400 mb-1">{label}</p>
+//       <p className="text-[13px] font-semibold text-slate-800">{value}</p>
+//     </div>
+//   );
+// }
 
-/* ════════════════════════════════════════════
-   PLACEHOLDER — otras tabs
-════════════════════════════════════════════ */
+/* ComingSoon Tabs */
 function ComingSoon({ label }: { label: string }) {
   return (
     <div className="flex items-center justify-center py-24 bg-white border border-slate-200 rounded-xl">
