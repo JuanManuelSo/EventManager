@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum EventStatus {
+  ACTIVO
+  FINALIZADO
+}
+
+enum GuestStatus {
+  PENDIENTE
+  AUSENTE
+  PRESENTE
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  contrasena String
+  nombre     String
+  events     Event[]
+
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id_evento      Int         @id @default(autoincrement())
+  nombre         String
+  fecha          DateTime
+  locacion       String
+  tipo           String
+  salon          String
+  cant_invitados Int
+  coverImage     String?
+  Estado         EventStatus @default(ACTIVO)
+
+  // Relación con el creador
+  ownerId Int
+  owner   User @relation(fields: [ownerId], references: [id])
+
+  // Relación con invitados
+  guests Guest[]
+
+  checkedInCount Int
+
+  createdAt DateTime @default(now())
+}
+
+model Guest {
+  id                Int         @id @default(autoincrement())
+  documento         String      @unique
+  nombre            String
+  apellido          String
+  email             String?
+  numero            String?
+  mesa              String? // Para bodas/cenas
+  status            GuestStatus @default(PENDIENTE)
+  cant_acompanantes Int?
+  invitacionEnviada Boolean     @default(false)
+  video             String? //Url   
+  foto              String? //Url
+
+  // Para el Check-in
+  qrHash      String    @unique // Código único que irá en el QR
+  checkInTime DateTime?
+
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id_evento], onDelete: Cascade)
+
+  @@unique([email, eventId]) // Un mismo mail no puede estar dos veces en el mismo evento
+}
