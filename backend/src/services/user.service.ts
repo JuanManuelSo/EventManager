@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { prisma } from "../lib/prisma.js";
 import type { CreateUserInput } from "../validations/user.validation.js";
+import jwt from "jsonwebtoken";
 
 const SALT_ROUNDS = 12;
 
@@ -71,5 +72,40 @@ export const userService = {
     });
 
     return { message: "Usuario eliminado correctamente" };
+  },
+
+  async login({ email, password }: { email: string; password: string }) {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        nombre: true,
+        contrasena: true,
+      },
+    });
+
+    if (!user) {
+      const error = new Error("Credenciales inválidas") as any;
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.contrasena);
+
+    if (!isMatch) {
+      const error = new Error("Credenciales inválidas") as any;
+      error.statusCode = 401;
+      throw error;
+    }
+
+    // Generar token de acceso
+    const accessToken = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "1h" },
+    );
+
+    return { user, accessToken };
   },
 };

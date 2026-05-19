@@ -5,12 +5,13 @@ import {
   useEffect,
   useCallback,
   type ReactNode,
-} from 'react';
-import type { User } from '../types';
-import { authService } from '../services/auth.service';
+} from "react";
+import type { User } from "../types";
+import { authService } from "../services/auth.service";
 
 interface AuthContextValue {
   user: User | null;
+  setUser: (user: User | null) => void;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -25,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = authService.getCurrentUser();
-    if (stored && localStorage.getItem('access_token')) {
+    if (stored && localStorage.getItem("access_token")) {
       setUser(stored);
     }
     setIsLoading(false);
@@ -36,8 +37,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
     });
-    localStorage.setItem('access_token', accessToken);
-    localStorage.setItem('user', JSON.stringify(authedUser));
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("user", JSON.stringify(authedUser));
     setUser(authedUser);
   }, []);
 
@@ -50,6 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         isAuthenticated: !!user,
         isLoading,
         login,
@@ -63,6 +65,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
 }

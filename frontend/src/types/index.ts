@@ -3,9 +3,10 @@ export type GuestStatus = "Pendiente" | "Presente" | "Ausente";
 export type InvitationChannel = "email" | "whatsapp" | "link";
 
 export interface User {
-  id: string;
+  id: number;
   nombre: string;
   email: string;
+  createdAt: string;
 }
 
 export interface Event {

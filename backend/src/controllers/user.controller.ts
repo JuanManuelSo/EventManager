@@ -45,4 +45,29 @@ export const userController = {
       next(error);
     }
   },
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body as {
+        email: string;
+        password: string;
+      };
+
+      const { user, accessToken } = await userService.login({
+        email,
+        password,
+      });
+
+      res.json({
+        status: "success",
+        message: "Login exitoso",
+        data: {
+          user,
+          accessToken,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

@@ -1,9 +1,10 @@
 import type { Event, Guest, User, DashboardStats } from "../types";
 
 export const MOCK_USER: User = {
-  id: "u1",
+  id: 1,
   nombre: "Martín González",
   email: "admin@eventmanager.com",
+  createdAt: new Date().toISOString(),
 };
 
 const porcentaje = (cant_invitados: number, checkedInCount: number) => {
@@ -116,7 +117,7 @@ function buildGuests(eventId: number, count: number): Guest[] {
     const tableNum = Math.floor(i / 8) + 1;
 
     guests.push({
-      id: `g${eventId}-${i}`,
+      id: eventId,
       eventId,
       nombre,
       apellido,

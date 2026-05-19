@@ -127,7 +127,7 @@ export const guestsService = {
     return data;
   },
 
-  async manualCheckin(eventId: number, guestId: string): Promise<Guest> {
+  async manualCheckin(eventId: number, guestId: number): Promise<Guest> {
     const mockEventKey = `ev${eventId}`;
 
     if (USE_MOCK) {
@@ -173,7 +173,7 @@ export const guestsService = {
 
       rows.forEach((row, i) => {
         guests.push({
-          id: `g${eventId}-import-${Date.now()}-${i}`,
+          id: eventId,
           eventId: eventId,
           nombre: row.nombre ?? "Nombre",
           apellido: row.apellido ?? "Apellido",

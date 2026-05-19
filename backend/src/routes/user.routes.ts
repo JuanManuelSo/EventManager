@@ -11,4 +11,6 @@ router.post("/", validate(createUserSchema), userController.create);
 router.get("/", userController.getAll);
 router.get("/:id", userController.getById);
 
+router.post("/login", userController.login);
+
 export default router;

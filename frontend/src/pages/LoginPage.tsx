@@ -1,15 +1,18 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../store/AuthContext";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+
+import { useLogin } from "../hooks/useAuth";
 
 const QUOTE =
   '"El check‑in que antes solía tomar 30 minutos ahora solo toma 3."';
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+
+  const loginMutation = useLogin();
 
   const [credentials, setCredentials] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +21,6 @@ export default function LoginPage() {
     password?: string;
     form?: string;
   }>({});
-  const [submitting, setSubmitting] = useState(false);
 
   /* Already authenticated → redirect immediately */
   if (!authLoading && isAuthenticated) {
@@ -35,24 +37,23 @@ export default function LoginPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    console.log("submitting", { credentials, password });
     if (!validate()) return;
 
-    setSubmitting(true);
     setErrors({});
 
-    try {
-      /* authService accepts email or alias "admin" → see auth.service.ts */
-      const emailOrAlias = credentials.trim().includes("@")
-        ? credentials.trim()
-        : `${credentials.trim()}@eventmanager.com`;
+    const emailOrAlias = credentials.trim().includes("@")
+      ? credentials.trim()
+      : `${credentials.trim()}@eventmanager.com`;
 
-      await login(emailOrAlias, password);
-      navigate("/", { replace: true });
-    } catch {
-      setErrors({ form: "Credenciales incorrectas. Intentá nuevamente." });
-    } finally {
-      setSubmitting(false);
-    }
+    loginMutation.mutate(
+      { email: emailOrAlias, password },
+      {
+        onError: () => {
+          setErrors({ form: "Credenciales incorrectas. Intentá nuevamente." });
+        },
+      },
+    );
   }
 
   return (
@@ -162,7 +163,7 @@ export default function LoginPage() {
             {/* Submit */}
             <Button
               type="submit"
-              loading={submitting}
+              loading={loginMutation.isPending}
               fullWidth
               size="lg"
               className="mt-1"
