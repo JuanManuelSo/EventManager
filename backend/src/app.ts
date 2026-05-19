@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import { env } from "./config/env.js";
+import router from "./routes/index.js";
 
 import notFoundMiddleware from "./middlewares/notFound.middleware.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
     message: "API funcionando",
   });
 });
+
+app.use("/api", router);
 
 app.use(notFoundMiddleware);
 
