@@ -1,4 +1,4 @@
-export type EventStatus = "Activo" | "Finalizado";
+export type EventStatus = "ACTIVO" | "FINALIZADO";
 export type GuestStatus = "Pendiente" | "Presente" | "Ausente";
 export type InvitationChannel = "email" | "whatsapp" | "link";
 
@@ -17,11 +17,13 @@ export interface Event {
   tipo: string;
   salon: string;
   coverImage?: string;
-  status: EventStatus;
+  Estado: EventStatus;
   cant_invitados?: number;
 
   checkedInCount: number;
   porcentajeAsistencia: number; //Porcentaje de asistencia calculado con cant_invitados y checkedInCount
+
+  ownerId?: number;
 
   createdAt: string;
 }

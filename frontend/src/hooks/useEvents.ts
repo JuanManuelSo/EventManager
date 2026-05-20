@@ -25,3 +25,12 @@ export function useDashboardStats() {
     staleTime: 1000 * 60,
   });
 }
+
+export function useEventsByUser(id: number) {
+  return useQuery({
+    queryKey: ["events", id],
+    queryFn: () => eventsService.getEventByUser(),
+    enabled: !!id,
+    staleTime: 1000 * 30,
+  });
+}

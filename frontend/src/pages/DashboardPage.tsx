@@ -1,7 +1,8 @@
 import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Plus, LayoutGrid, List } from "lucide-react";
-import { useEvents, useDashboardStats } from "../hooks/useEvents";
+import { useDashboardStats, useEventsByUser } from "../hooks/useEvents";
+import { useAuth } from "../store/AuthContext";
 import EventCard from "../components/events/EventCard";
 import EventCardSkeleton from "../components/events/EventCardSkeleton";
 import StatCard from "../components/ui/StatCard";
@@ -10,18 +11,32 @@ import type { Event } from "../types";
 import ModalCreateEvent from "../components/events/ModalCreateEvent";
 import type { CreateEventOutput } from "../validations/validateCreateEvent";
 
-type Filter = "all" | Event["status"];
+type Filter = "all" | Event["Estado"];
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: "all", label: "Todos" },
-  { key: "Activo", label: "Activos" },
-  { key: "Finalizado", label: "Finalizados" },
+  { key: "ACTIVO", label: "Activos" },
+  { key: "FINALIZADO", label: "Finalizados" },
 ];
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const { data: events, isLoading: eventsLoading, isError } = useEvents();
+  // 1. Debug: Verificar si el ID del usuario está disponible y su tipo
+  console.log(
+    "[Dashboard] Auth User:",
+    user
+      ? `ID: ${user.id} (${typeof user.id}), Name: ${user.nombre}`
+      : "Cargando usuario...",
+  );
+
+  const {
+    data: events,
+    isLoading: eventsLoading,
+    isError,
+  } = useEventsByUser(user?.id);
+
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,10 +47,13 @@ export default function DashboardPage() {
 
   /* ── Derived list ── */
   const filtered = useMemo(() => {
-    if (!events) return [];
+    if (!events || !Array.isArray(events)) return [];
+
     const q = query.trim().toLowerCase();
     return events.filter((e) => {
-      const matchFilter = filter === "all" || e.status === filter;
+      // Normalizamos el status por si el backend devuelve "ACTIVO" en lugar de "Activo"
+      const matchFilter =
+        filter === "all" || e.Estado?.toLowerCase() === filter.toLowerCase();
       const matchQuery =
         !q ||
         e.nombre.toLowerCase().includes(q) ||
@@ -51,14 +69,15 @@ export default function DashboardPage() {
     if (!events)
       return {
         all: 0,
-        activo: 0,
-        finalizado: 0,
+        Activo: 0,
+        Finalizado: 0,
       };
 
     return {
       all: events.length,
-      activo: events.filter((e) => e.status === "Activo").length,
-      finalizado: events.filter((e) => e.status === "Finalizado").length,
+      Activo: events.filter((e) => e.Estado?.toLowerCase() === "activo").length,
+      Finalizado: events.filter((e) => e.Estado?.toLowerCase() === "finalizado")
+        .length,
     };
   }, [events]);
 

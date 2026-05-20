@@ -1,8 +1,13 @@
-import type { Event, DashboardStats } from "../types";
+import type { Event, User, DashboardStats } from "../types";
 import { MOCK_EVENTS, MOCK_DASHBOARD_STATS } from "../mocks/data";
 import { sleep } from "../lib/utils";
 
 const USE_MOCK = true;
+
+type ApiResponse<T> = {
+  status: string;
+  data: T;
+};
 
 export const eventsService = {
   async getAll(): Promise<Event[]> {
@@ -48,7 +53,7 @@ export const eventsService = {
         tipo: payload.tipo ?? "General",
         salon: payload.salon ?? "",
         coverImage: payload.coverImage,
-        status: "Activo",
+        Estado: "ACTIVO",
         cant_invitados: payload.cant_invitados ?? 0,
         checkedInCount: 0,
         porcentajeAsistencia: 0,
@@ -84,5 +89,18 @@ export const eventsService = {
     }
     const { default: api } = await import("../lib/api");
     await api.delete(`/events/${id}`);
+  },
+
+  async getEventByUser(): Promise<Event[]> {
+    // if (USE_MOCK) {
+    //   await sleep(400);
+    //   const events = MOCK_EVENTS.filter((e) => e.ownerId === id);
+    //   return events;
+    // }
+
+    const { default: api } = await import("../lib/api");
+    const response = await api.get<ApiResponse<Event[]>>(`/events`);
+
+    return response.data.data;
   },
 };
