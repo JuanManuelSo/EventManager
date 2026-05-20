@@ -2263,6 +2263,7 @@ export namespace Prisma {
   export type EventAvgAggregateOutputType = {
     id_evento: number | null
     cant_invitados: number | null
+    porcentajeAsistencia: number | null
     ownerId: number | null
     checkedInCount: number | null
   }
@@ -2270,6 +2271,7 @@ export namespace Prisma {
   export type EventSumAggregateOutputType = {
     id_evento: number | null
     cant_invitados: number | null
+    porcentajeAsistencia: number | null
     ownerId: number | null
     checkedInCount: number | null
   }
@@ -2284,6 +2286,7 @@ export namespace Prisma {
     cant_invitados: number | null
     coverImage: string | null
     Estado: $Enums.EventStatus | null
+    porcentajeAsistencia: number | null
     ownerId: number | null
     checkedInCount: number | null
     createdAt: Date | null
@@ -2299,6 +2302,7 @@ export namespace Prisma {
     cant_invitados: number | null
     coverImage: string | null
     Estado: $Enums.EventStatus | null
+    porcentajeAsistencia: number | null
     ownerId: number | null
     checkedInCount: number | null
     createdAt: Date | null
@@ -2314,6 +2318,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage: number
     Estado: number
+    porcentajeAsistencia: number
     ownerId: number
     checkedInCount: number
     createdAt: number
@@ -2324,6 +2329,7 @@ export namespace Prisma {
   export type EventAvgAggregateInputType = {
     id_evento?: true
     cant_invitados?: true
+    porcentajeAsistencia?: true
     ownerId?: true
     checkedInCount?: true
   }
@@ -2331,6 +2337,7 @@ export namespace Prisma {
   export type EventSumAggregateInputType = {
     id_evento?: true
     cant_invitados?: true
+    porcentajeAsistencia?: true
     ownerId?: true
     checkedInCount?: true
   }
@@ -2345,6 +2352,7 @@ export namespace Prisma {
     cant_invitados?: true
     coverImage?: true
     Estado?: true
+    porcentajeAsistencia?: true
     ownerId?: true
     checkedInCount?: true
     createdAt?: true
@@ -2360,6 +2368,7 @@ export namespace Prisma {
     cant_invitados?: true
     coverImage?: true
     Estado?: true
+    porcentajeAsistencia?: true
     ownerId?: true
     checkedInCount?: true
     createdAt?: true
@@ -2375,6 +2384,7 @@ export namespace Prisma {
     cant_invitados?: true
     coverImage?: true
     Estado?: true
+    porcentajeAsistencia?: true
     ownerId?: true
     checkedInCount?: true
     createdAt?: true
@@ -2477,6 +2487,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage: string | null
     Estado: $Enums.EventStatus
+    porcentajeAsistencia: number
     ownerId: number
     checkedInCount: number
     createdAt: Date
@@ -2511,6 +2522,7 @@ export namespace Prisma {
     cant_invitados?: boolean
     coverImage?: boolean
     Estado?: boolean
+    porcentajeAsistencia?: boolean
     ownerId?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
@@ -2529,6 +2541,7 @@ export namespace Prisma {
     cant_invitados?: boolean
     coverImage?: boolean
     Estado?: boolean
+    porcentajeAsistencia?: boolean
     ownerId?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
@@ -2545,6 +2558,7 @@ export namespace Prisma {
     cant_invitados?: boolean
     coverImage?: boolean
     Estado?: boolean
+    porcentajeAsistencia?: boolean
     ownerId?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
@@ -2561,12 +2575,13 @@ export namespace Prisma {
     cant_invitados?: boolean
     coverImage?: boolean
     Estado?: boolean
+    porcentajeAsistencia?: boolean
     ownerId?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "ownerId" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "porcentajeAsistencia" | "ownerId" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     guests?: boolean | Event$guestsArgs<ExtArgs>
@@ -2595,6 +2610,7 @@ export namespace Prisma {
       cant_invitados: number
       coverImage: string | null
       Estado: $Enums.EventStatus
+      porcentajeAsistencia: number
       ownerId: number
       checkedInCount: number
       createdAt: Date
@@ -3032,6 +3048,7 @@ export namespace Prisma {
     readonly cant_invitados: FieldRef<"Event", 'Int'>
     readonly coverImage: FieldRef<"Event", 'String'>
     readonly Estado: FieldRef<"Event", 'EventStatus'>
+    readonly porcentajeAsistencia: FieldRef<"Event", 'Int'>
     readonly ownerId: FieldRef<"Event", 'Int'>
     readonly checkedInCount: FieldRef<"Event", 'Int'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
@@ -4748,6 +4765,7 @@ export namespace Prisma {
     cant_invitados: 'cant_invitados',
     coverImage: 'coverImage',
     Estado: 'Estado',
+    porcentajeAsistencia: 'porcentajeAsistencia',
     ownerId: 'ownerId',
     checkedInCount: 'checkedInCount',
     createdAt: 'createdAt'
@@ -4970,6 +4988,7 @@ export namespace Prisma {
     cant_invitados?: IntFilter<"Event"> | number
     coverImage?: StringNullableFilter<"Event"> | string | null
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
@@ -4987,6 +5006,7 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     coverImage?: SortOrderInput | SortOrder
     Estado?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
@@ -5007,6 +5027,7 @@ export namespace Prisma {
     cant_invitados?: IntFilter<"Event"> | number
     coverImage?: StringNullableFilter<"Event"> | string | null
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
@@ -5024,6 +5045,7 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     coverImage?: SortOrderInput | SortOrder
     Estado?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
@@ -5047,6 +5069,7 @@ export namespace Prisma {
     cant_invitados?: IntWithAggregatesFilter<"Event"> | number
     coverImage?: StringNullableWithAggregatesFilter<"Event"> | string | null
     Estado?: EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
+    porcentajeAsistencia?: IntWithAggregatesFilter<"Event"> | number
     ownerId?: IntWithAggregatesFilter<"Event"> | number
     checkedInCount?: IntWithAggregatesFilter<"Event"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -5226,6 +5249,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     checkedInCount: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
@@ -5242,6 +5266,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     ownerId: number
     checkedInCount: number
     createdAt?: Date | string
@@ -5257,6 +5282,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -5273,6 +5299,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5289,6 +5316,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     ownerId: number
     checkedInCount: number
     createdAt?: Date | string
@@ -5303,6 +5331,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5317,6 +5346,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5623,6 +5653,7 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     coverImage?: SortOrder
     Estado?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
@@ -5631,6 +5662,7 @@ export namespace Prisma {
   export type EventAvgOrderByAggregateInput = {
     id_evento?: SortOrder
     cant_invitados?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
   }
@@ -5645,6 +5677,7 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     coverImage?: SortOrder
     Estado?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
@@ -5660,6 +5693,7 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     coverImage?: SortOrder
     Estado?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
@@ -5668,6 +5702,7 @@ export namespace Prisma {
   export type EventSumOrderByAggregateInput = {
     id_evento?: SortOrder
     cant_invitados?: SortOrder
+    porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
     checkedInCount?: SortOrder
   }
@@ -6258,6 +6293,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     checkedInCount: number
     createdAt?: Date | string
     guests?: GuestCreateNestedManyWithoutEventInput
@@ -6273,6 +6309,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     checkedInCount: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
@@ -6317,6 +6354,7 @@ export namespace Prisma {
     cant_invitados?: IntFilter<"Event"> | number
     coverImage?: StringNullableFilter<"Event"> | string | null
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
@@ -6457,6 +6495,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     checkedInCount: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
@@ -6472,6 +6511,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     ownerId: number
     checkedInCount: number
     createdAt?: Date | string
@@ -6502,6 +6542,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -6517,6 +6558,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6532,6 +6574,7 @@ export namespace Prisma {
     cant_invitados: number
     coverImage?: string | null
     Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
     checkedInCount: number
     createdAt?: Date | string
   }
@@ -6545,6 +6588,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUpdateManyWithoutEventNestedInput
@@ -6560,6 +6604,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
@@ -6575,6 +6620,7 @@ export namespace Prisma {
     cant_invitados?: IntFieldUpdateOperationsInput | number
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

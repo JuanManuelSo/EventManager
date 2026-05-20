@@ -34,15 +34,16 @@ model User {
 }
 
 model Event {
-  id_evento      Int         @id @default(autoincrement())
-  nombre         String
-  fecha          DateTime
-  locacion       String
-  tipo           String
-  salon          String
-  cant_invitados Int
-  coverImage     String?
-  Estado         EventStatus @default(ACTIVO)
+  id_evento            Int         @id @default(autoincrement())
+  nombre               String
+  fecha                DateTime
+  locacion             String
+  tipo                 String
+  salon                String
+  cant_invitados       Int
+  coverImage           String?
+  Estado               EventStatus @default(ACTIVO)
+  porcentajeAsistencia Int         @default(0)
 
   // Relación con el creador
   ownerId Int

@@ -44,6 +44,7 @@ model Event {
   cant_invitados  Int
   coverImage      String?
   Estado          EventStatus @default(ACTIVO)
+  porcentajeAsistencia Int @default(0)
 
   // Relación con el creador
   ownerId     Int
@@ -53,6 +54,7 @@ model Event {
   guests      Guest[]
 
   checkedInCount Int
+  
 
   createdAt DateTime @default(now())
 }

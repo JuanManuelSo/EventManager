@@ -138,6 +138,7 @@ exports.Prisma.EventScalarFieldEnum = {
   cant_invitados: 'cant_invitados',
   coverImage: 'coverImage',
   Estado: 'Estado',
+  porcentajeAsistencia: 'porcentajeAsistencia',
   ownerId: 'ownerId',
   checkedInCount: 'checkedInCount',
   createdAt: 'createdAt'
