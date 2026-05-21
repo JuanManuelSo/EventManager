@@ -22,7 +22,7 @@ export const MOCK_EVENTS: Event[] = [
     salon: "La Reja del Sol",
     coverImage:
       "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80",
-    status: "Activo",
+    Estado: "ACTIVO",
     cant_invitados: 350,
     checkedInCount: 182,
     porcentajeAsistencia: porcentaje(350, 182),
@@ -37,7 +37,7 @@ export const MOCK_EVENTS: Event[] = [
     salon: "Salón Principal",
     coverImage:
       "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=80",
-    status: "Activo",
+    Estado: "ACTIVO",
     cant_invitados: 350,
     checkedInCount: 147,
     porcentajeAsistencia: porcentaje(350, 147),
@@ -52,7 +52,7 @@ export const MOCK_EVENTS: Event[] = [
     salon: "Jardín de Invierno",
     coverImage:
       "https://images.unsplash.com/photo-1510076857177-7470076d4098?w=800&q=80",
-    status: "Activo",
+    Estado: "ACTIVO",
     cant_invitados: 350,
     checkedInCount: 95,
     porcentajeAsistencia: porcentaje(350, 95),

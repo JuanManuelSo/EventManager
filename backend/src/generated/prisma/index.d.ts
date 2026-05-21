@@ -5250,7 +5250,7 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
     guests?: GuestCreateNestedManyWithoutEventInput
@@ -5268,7 +5268,7 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
   }
@@ -5318,7 +5318,7 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
   }
 
@@ -6294,7 +6294,7 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestCreateNestedManyWithoutEventInput
   }
@@ -6310,7 +6310,7 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
   }
@@ -6496,7 +6496,7 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
   }
@@ -6513,7 +6513,7 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
   }
 
@@ -6575,7 +6575,7 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
-    checkedInCount: number
+    checkedInCount?: number
     createdAt?: Date | string
   }
 

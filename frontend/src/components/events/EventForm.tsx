@@ -10,9 +10,14 @@ import Button from "../ui/Button";
 interface EventFormProps {
   onSubmit: (data: CreateEventInput) => void;
   initialData?: Partial<CreateEventInput>;
+  isSubmittingExternal?: boolean; // ← nuevo
 }
 
-export const EventForm = ({ onSubmit, initialData }: EventFormProps) => {
+export const EventForm = ({
+  onSubmit,
+  initialData,
+  isSubmittingExternal,
+}: EventFormProps) => {
   const {
     register,
     handleSubmit,
@@ -20,10 +25,11 @@ export const EventForm = ({ onSubmit, initialData }: EventFormProps) => {
   } = useForm<CreateEventInput>({
     resolver: zodResolver(createEventSchema),
     defaultValues: {
-      status: "Activo",
       ...initialData, // Permite reutilizar el form para editar
     },
   });
+
+  const loading = isSubmitting || isSubmittingExternal;
 
   return (
     <form
@@ -126,12 +132,12 @@ export const EventForm = ({ onSubmit, initialData }: EventFormProps) => {
       </div>
       <Button
         type="submit"
-        loading={isSubmitting}
+        loading={loading}
         fullWidth
         size="lg"
         className="mt-1"
       >
-        {isSubmitting ? "Guardando..." : "Crear Evento"}
+        {loading ? "Guardando..." : "Crear Evento"}
       </Button>
     </form>
   );

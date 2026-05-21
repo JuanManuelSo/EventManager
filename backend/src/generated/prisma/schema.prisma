@@ -52,7 +52,7 @@ model Event {
   // Relación con invitados
   guests Guest[]
 
-  checkedInCount Int
+  checkedInCount Int @default(0)
 
   createdAt DateTime @default(now())
 }

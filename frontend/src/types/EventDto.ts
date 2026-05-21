@@ -7,6 +7,8 @@ export interface CreateEventDTO {
   tipo: string;
   salon: string;
   coverImage?: string;
-  status: EventStatus;
   cant_invitados?: number;
+  ownerId?: number;
+  checkedInCount?: number;
+  porcentajeAsistencia?: number;
 }

@@ -12,7 +12,7 @@ import {
   BarChart2,
 } from "lucide-react";
 import { useEvent } from "../hooks/useEvents";
-import { formatDate } from "../lib/utils";
+import { formatDate, formatDateTime } from "../lib/utils";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -206,7 +206,6 @@ function InfoTab({ event }: { event: import("../types").Event }) {
       salon: event.salon ?? "",
       locacion: event.locacion,
       cant_invitados: event.cant_invitados,
-      status: event.status as any,
     },
   });
 
@@ -284,7 +283,7 @@ function InfoTab({ event }: { event: import("../types").Event }) {
             isEditing={isEditing}
             register={register("fecha")}
             type="datetime-local"
-            value={formatDate(event.fecha)}
+            value={formatDateTime(event.fecha)}
             error={errors.fecha?.message}
           />
           <EditableField

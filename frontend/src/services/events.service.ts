@@ -1,4 +1,5 @@
 import type { Event, User, DashboardStats } from "../types";
+import type { CreateEventDTO } from "../types/EventDto";
 import { MOCK_EVENTS, MOCK_DASHBOARD_STATS } from "../mocks/data";
 import { sleep } from "../lib/utils";
 
@@ -21,15 +22,15 @@ export const eventsService = {
   },
 
   async getById(id: number): Promise<Event> {
-    if (USE_MOCK) {
-      await sleep(400);
-      const event = MOCK_EVENTS.find((e) => e.id_evento === id);
-      if (!event) throw new Error("Evento no encontrado");
-      return event;
-    }
+    // if (USE_MOCK) {
+    //   await sleep(400);
+    //   const event = MOCK_EVENTS.find((e) => e.id_evento === id);
+    //   if (!event) throw new Error("Evento no encontrado");
+    //   return event;
+    // }
     const { default: api } = await import("../lib/api");
-    const { data } = await api.get<Event>(`/events/${id}`);
-    return data;
+    const response = await api.get(`/events/${id}`);
+    return response.data.data;
   },
 
   async getDashboardStats(): Promise<DashboardStats> {
@@ -42,29 +43,16 @@ export const eventsService = {
     return data;
   },
 
-  async create(payload: Partial<Event>): Promise<Event> {
-    if (USE_MOCK) {
-      await sleep(700);
-      const newEvent: Event = {
-        id_evento: MOCK_EVENTS.length + 1,
-        nombre: payload.nombre ?? "Nuevo Evento",
-        fecha: payload.fecha ?? new Date().toISOString(),
-        locacion: payload.locacion ?? "",
-        tipo: payload.tipo ?? "General",
-        salon: payload.salon ?? "",
-        coverImage: payload.coverImage,
-        Estado: "ACTIVO",
-        cant_invitados: payload.cant_invitados ?? 0,
-        checkedInCount: 0,
-        porcentajeAsistencia: 0,
-        createdAt: new Date().toISOString(),
-      };
-      MOCK_EVENTS.push(newEvent);
-      return newEvent;
-    }
+  async create(data: CreateEventDTO): Promise<Event> {
+    const payload = {
+      ...data,
+      // Convertir a ISO completo con timezone
+      fecha: new Date(data.fecha).toISOString(),
+    };
+
     const { default: api } = await import("../lib/api");
-    const { data } = await api.post<Event>("/events", payload);
-    return data;
+    const { data: res } = await api.post<{ data: Event }>("/events", payload);
+    return res.data;
   },
 
   async update(id: number, payload: Partial<Event>): Promise<Event> {

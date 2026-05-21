@@ -11,12 +11,14 @@ interface ModalCreateEventProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (data: CreateEventOutput) => Promise<void>;
+  isLoading?: boolean;
 }
 
 export default function ModalCreateEvent({
   isOpen,
   onClose,
   onConfirm,
+  isLoading,
 }: ModalCreateEventProps) {
   const handleFormSubmit = async (data: CreateEventOutput) => {
     await onConfirm(data);
@@ -44,7 +46,7 @@ export default function ModalCreateEvent({
           </button>
         </div>
 
-        <EventForm onSubmit={handleFormSubmit} />
+        <EventForm onSubmit={onConfirm} isSubmittingExternal={isLoading} />
 
         <Button
           variant="secondary"

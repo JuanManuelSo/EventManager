@@ -1,7 +1,10 @@
 import { useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Search, Plus, LayoutGrid, List } from "lucide-react";
-import { useDashboardStats, useEventsByUser } from "../hooks/useEvents";
+import {
+  useDashboardStats,
+  useEventsByUser,
+  useCreateEvent,
+} from "../hooks/useEvents";
 import { useAuth } from "../store/AuthContext";
 import EventCard from "../components/events/EventCard";
 import EventCardSkeleton from "../components/events/EventCardSkeleton";
@@ -20,8 +23,36 @@ const FILTERS: { key: Filter; label: string }[] = [
 ];
 
 export default function DashboardPage() {
-  const navigate = useNavigate();
+  function NewEventCard({ onClick }: { onClick: () => void }) {
+    return (
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="rounded-xl border-2 border-dashed border-slate-200 min-h-70
+                 flex flex-col items-center justify-center gap-3
+                 text-slate-400
+                 hover:border-slate-300 hover:bg-slate-50/60 hover:text-slate-500
+                 transition-all duration-200 focus:outline-none group"
+      >
+        <div
+          className="w-9 h-9 rounded-lg border border-dashed border-slate-300
+                      flex items-center justify-center
+                      group-hover:border-slate-400 transition-colors duration-200"
+        >
+          <Plus size={16} />
+        </div>
+        <div className="text-center">
+          <p className="text-[13px] font-medium">Nuevo evento</p>
+          <p className="text-[11px] text-slate-300 mt-0.5">
+            Hacé clic para comenzar
+          </p>
+        </div>
+      </button>
+    );
+  }
+
   const { user } = useAuth();
+
+  const createEventMutation = useCreateEvent();
 
   // 1. Debug: Verificar si el ID del usuario está disponible y su tipo
   console.log(
@@ -69,29 +100,29 @@ export default function DashboardPage() {
     if (!events)
       return {
         all: 0,
-        Activo: 0,
-        Finalizado: 0,
+        ACTIVO: 0,
+        FINALIZADO: 0,
       };
 
     return {
       all: events.length,
-      Activo: events.filter((e) => e.Estado?.toLowerCase() === "activo").length,
-      Finalizado: events.filter((e) => e.Estado?.toLowerCase() === "finalizado")
-        .length,
+      ACTIVO: events.filter((e) => e.Estado === "ACTIVO").length,
+      FINALIZADO: events.filter((e) => e.Estado === "FINALIZADO").length,
     };
   }, [events]);
 
   const handleCreateEvent = async (data: CreateEventOutput) => {
-    try {
-      console.log("Enviando al backend:", data);
-      //Aqui iria la llamada a la api
-      // const response = await fetch('/api/events', {
-      //   method: 'POST',
-      //   body: JSON.stringify(data)
-      // });
-    } catch (error) {
-      console.error("Error al crear el evento:", error);
-    }
+    if (!user) return;
+    createEventMutation.mutate(data, {
+      onSuccess: () => {
+        setIsModalOpen(false);
+      },
+      onError: (error) => {
+        console.error("[Dashboard] Error al crear evento:", error);
+        console.log("ownerId:", user.id);
+        console.log("DATA ENVIADA", data);
+      },
+    });
   };
 
   const isSearching = !!query || filter !== "all";
@@ -124,6 +155,7 @@ export default function DashboardPage() {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onConfirm={handleCreateEvent}
+          isLoading={createEventMutation.isPending} // ← nuevo
         />
       </div>
 
@@ -248,7 +280,7 @@ export default function DashboardPage() {
 
           {/* New event placeholder — only in default view */}
           {!isSearching && viewGrid && (
-            <NewEventCard onClick={() => navigate("/events/new")} />
+            <NewEventCard onClick={() => setIsModalOpen(true)} />
           )}
         </div>
       )}
@@ -288,33 +320,6 @@ function StatSkeleton() {
       <div className="h-2.5 w-28 bg-slate-100 rounded animate-pulse mb-3" />
       <div className="h-8   w-16 bg-slate-100 rounded animate-pulse" />
     </div>
-  );
-}
-
-function NewEventCard({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="rounded-xl border-2 border-dashed border-slate-200 min-h-70
-                 flex flex-col items-center justify-center gap-3
-                 text-slate-400
-                 hover:border-slate-300 hover:bg-slate-50/60 hover:text-slate-500
-                 transition-all duration-200 focus:outline-none group"
-    >
-      <div
-        className="w-9 h-9 rounded-lg border border-dashed border-slate-300
-                      flex items-center justify-center
-                      group-hover:border-slate-400 transition-colors duration-200"
-      >
-        <Plus size={16} />
-      </div>
-      <div className="text-center">
-        <p className="text-[13px] font-medium">Nuevo evento</p>
-        <p className="text-[11px] text-slate-300 mt-0.5">
-          Hacé clic para comenzar
-        </p>
-      </div>
-    </button>
   );
 }
 

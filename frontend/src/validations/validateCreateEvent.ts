@@ -28,10 +28,10 @@ export const createEventSchema = z.object({
   coverImage: z
     .string()
     .url("URL de imagen inválida")
-    .nullish()
-    .or(z.literal("")),
-
-  status: z.enum(["Activo", "Finalizado"]),
+    .optional()
+    .or(z.literal(""))
+    .transform((val) => (val === "" ? undefined : val))
+    .optional(), // string vacío → undefined
 });
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;
