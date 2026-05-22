@@ -11,7 +11,7 @@ import {
   QrCode,
   BarChart2,
 } from "lucide-react";
-import { useEvent } from "../hooks/useEvents";
+import { useEvent, useDeleteEvent } from "../hooks/useEvents";
 import { formatDate, formatDateTime } from "../lib/utils";
 
 import { useForm } from "react-hook-form";
@@ -23,6 +23,7 @@ import {
 import { EditableField } from "../components/ui/EditableField";
 import GuestsTab from "../components/guests/GuestsTab";
 import ScanTab from "../components/scan/ScanTab";
+import DeleteEventModal from "../components/events/DeleteEventModal";
 
 /* ── Tab definitions ── */
 type Tab = "info" | "guests" | "scan" | "metrics";
@@ -38,6 +39,19 @@ export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [tab, setTab] = useState<Tab>("info");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const deleteEventMutation = useDeleteEvent();
+
+  const handleDeleteConfirm = () => {
+    deleteEventMutation.mutate(eventId, {
+      onSuccess: () => {
+        setIsDeleteModalOpen(false);
+        navigate("/");
+      },
+    });
+  };
+
   const eventId = id ? Number(id) : NaN;
 
   const {
@@ -48,14 +62,6 @@ export default function EventDetailPage() {
     status,
     fetchStatus,
   } = useEvent(eventId);
-
-  console.group("[EventDetailPage] debug");
-  console.log("id desde URL:", id);
-  console.log("status:", status, "| fetchStatus:", fetchStatus);
-  console.log("isLoading:", isLoading, "| isError:", isError);
-  console.log("error:", error);
-  console.log("event data:", event);
-  console.groupEnd();
 
   /* ── Loading ── */
   if (isLoading) return <PageSkeleton />;
@@ -142,6 +148,7 @@ export default function EventDetailPage() {
             </div>
 
             <button
+              onClick={() => setIsDeleteModalOpen(true)}
               className="w-9 h-9 flex items-center justify-center rounded-lg
                          bg-white/4 border border-white/10 text-slate-500
                          hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400
@@ -182,6 +189,14 @@ export default function EventDetailPage() {
       {tab === "guests" && <GuestsTab eventId={event.id_evento} />}
       {tab === "scan" && <ScanTab eventId={event.id_evento} />}
       {tab === "metrics" && <ComingSoon label="Métricas" />}
+
+      <DeleteEventModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        event={event}
+        isLoading={deleteEventMutation.isPending}
+      />
     </div>
   );
 }

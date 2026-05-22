@@ -1,9 +1,5 @@
-import { useState } from "react";
 import { EventForm } from "../events/EventForm";
-import type {
-  CreateEventInput,
-  CreateEventOutput,
-} from "../../validations/validateCreateEvent";
+import type { CreateEventOutput } from "../../validations/validateCreateEvent";
 import { X } from "lucide-react";
 import Button from "../ui/Button";
 
@@ -20,9 +16,6 @@ export default function ModalCreateEvent({
   onConfirm,
   isLoading,
 }: ModalCreateEventProps) {
-  const handleFormSubmit = async (data: CreateEventOutput) => {
-    await onConfirm(data);
-  };
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

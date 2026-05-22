@@ -34,13 +34,17 @@ export const eventsService = {
   },
 
   async getDashboardStats(): Promise<DashboardStats> {
-    if (USE_MOCK) {
-      await sleep(300);
-      return MOCK_DASHBOARD_STATS;
-    }
+    // if (USE_MOCK) {
+    //   await sleep(300);
+    //   return MOCK_DASHBOARD_STATS;
+    // }
     const { default: api } = await import("../lib/api");
-    const { data } = await api.get<DashboardStats>("/events/stats/dashboard");
-    return data;
+    const { data } = await api.get<{
+      status: string;
+      data: DashboardStats;
+    }>("/events/stats");
+
+    return data.data;
   },
 
   async create(data: CreateEventDTO): Promise<Event> {
@@ -69,12 +73,12 @@ export const eventsService = {
   },
 
   async delete(id: number): Promise<void> {
-    if (USE_MOCK) {
-      await sleep(400);
-      const idx = MOCK_EVENTS.findIndex((e) => e.id_evento === id);
-      if (idx !== -1) MOCK_EVENTS.splice(idx, 1);
-      return;
-    }
+    // if (USE_MOCK) {
+    //   await sleep(400);
+    //   const idx = MOCK_EVENTS.findIndex((e) => e.id_evento === id);
+    //   if (idx !== -1) MOCK_EVENTS.splice(idx, 1);
+    //   return;
+    // }
     const { default: api } = await import("../lib/api");
     await api.delete(`/events/${id}`);
   },
@@ -90,5 +94,15 @@ export const eventsService = {
     const response = await api.get<ApiResponse<Event[]>>(`/events`);
 
     return response.data.data;
+  },
+
+  async getStats(): Promise<{
+    totalEvents: number;
+  }> {
+    const { default: api } = await import("../lib/api");
+
+    const { data } = await api.get("/events/stats");
+
+    return data.data;
   },
 };

@@ -14,6 +14,19 @@ export function useCreateEvent() {
   });
 }
 
+export function useDeleteEvent() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: eventsService.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
+    },
+  });
+}
+
 export function useEvents() {
   return useQuery({
     queryKey: ["events"],
