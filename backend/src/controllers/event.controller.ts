@@ -3,6 +3,8 @@ import { eventService } from "../services/event.service.js";
 import type { CreateEventInput } from "../validations/event.validation.js";
 import { createEventSchema } from "../validations/event.validation.js";
 import z from "zod";
+import { error } from "console";
+import { stat } from "fs";
 
 const paramsSchema = z.object({
   id: z.coerce.number().int().positive(),
@@ -31,6 +33,26 @@ export const eventController = {
       res.status(201).json({
         status: "success",
         data: event,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const eventId = Number(req.params.id);
+      const ownerId = req.user?.userId;
+      if (!ownerId) {
+        return res.status(401).json({
+          status: "error",
+        });
+      }
+
+      await eventService.delete(eventId, ownerId);
+
+      res.json({
+        status: "success",
+        message: "Evento eliminado",
       });
     } catch (error) {
       next(error);
@@ -65,6 +87,30 @@ export const eventController = {
 
       const events = await eventService.getEventByUser(id);
       res.json({ status: "succes", data: events });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async summary(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = paramsSchema.parse({
+        id: req.user?.userId,
+      });
+      if (!id) {
+        res.status(401).json({
+          status: "error",
+          message: "Usuario no autenticado",
+        });
+        return;
+      }
+
+      const summary = await eventService.getDashboardSummary(id);
+
+      res.json({
+        status: "succes",
+        data: summary,
+      });
     } catch (error) {
       next(error);
     }

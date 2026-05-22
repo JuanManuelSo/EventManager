@@ -26,6 +26,38 @@ export const eventService = {
     });
     return event;
   },
+  async delete(eventId: number, ownerId: number) {
+    const event = await prisma.event.findFirst({
+      where: {
+        id_evento: eventId,
+        ownerId,
+      },
+    });
+
+    if (!event) {
+      const error = new Error("Evento no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (event.ownerId !== ownerId) {
+      const error = new Error("No autorizado para eliminar este evento") as any;
+
+      error.statusCode = 403;
+
+      throw error;
+    }
+
+    await prisma.event.delete({
+      where: {
+        id_evento: eventId,
+      },
+    });
+
+    return {
+      success: true,
+    };
+  },
   async getById(id: number) {
     const event = await prisma.event.findUnique({
       where: { id_evento: id },
@@ -50,5 +82,36 @@ export const eventService = {
       },
     });
     return events;
+  },
+  async getDashboardSummary(ownerId: number) {
+    const [totalEvents, guests, attendance] = await Promise.all([
+      prisma.event.count({
+        where: { ownerId },
+      }),
+
+      prisma.event.aggregate({
+        where: { ownerId },
+
+        _sum: {
+          cant_invitados: true,
+        },
+      }),
+
+      prisma.event.aggregate({
+        where: { ownerId },
+
+        _avg: {
+          porcentajeAsistencia: true,
+        },
+      }),
+    ]);
+
+    return {
+      totalEvents,
+
+      totalGuests: guests._sum.cant_invitados ?? 0,
+
+      averageAttendance: Math.round(attendance._avg.porcentajeAsistencia ?? 0),
+    };
   },
 };
