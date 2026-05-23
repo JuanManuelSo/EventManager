@@ -14,6 +14,8 @@ import {
 import { useGuests } from "../../hooks/useGuests";
 import type { Guest } from "../../types";
 
+import ExcelImportModal from "./Excelimportmodal";
+
 const PAGE_SIZE = 10;
 
 type StatusFilter = "all" | Guest["status"];
@@ -59,6 +61,9 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [openMenu, setOpenMenu] = useState<number | null>(null);
+
+  //Estado para modal
+  const [isImportOpen, setIsImportOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -133,7 +138,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
         <div className="flex items-center gap-1">
           {STATUS_FILTERS.map(({ key, label }) => (
             <button
-              key={key}
+              key={`status-invitado-${key}`}
               onClick={() => {
                 setStatusFilter(key);
                 setPage(1);
@@ -153,7 +158,11 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
         <div className="flex-1" />
 
         <div className="flex items-center gap-2">
-          <ActionBtn icon={<Upload size={13} />} label="Cargar Excel" />
+          <ActionBtn
+            icon={<Upload size={13} />}
+            label="Cargar Excel"
+            onClick={() => setIsImportOpen(true)}
+          />
           <ActionBtn icon={<QrCode size={13} />} label="Generar QRs" />
           <ActionBtn
             icon={<Send size={13} />}
@@ -351,6 +360,14 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
           </div>
         </div>
       )}
+      <ExcelImportModal
+        isOpen={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        onConfirm={(rows) => {
+          console.log("Rows importadas:", rows);
+          setIsImportOpen(false);
+        }}
+      />
     </div>
   );
 }
@@ -375,10 +392,12 @@ function ActionBtn({
   icon,
   label,
   primary,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
   primary?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <button
@@ -388,6 +407,7 @@ function ActionBtn({
           ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
           : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50",
       ].join(" ")}
+      onClick={onClick}
     >
       {icon}
       {label}

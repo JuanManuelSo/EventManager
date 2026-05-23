@@ -16,10 +16,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const variantClasses: Record<Variant, string> = {
   primary:
     "bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 " +
-    "focus:ring-slate-900 border-transparent",
+    "focus:ring-slate-900 border-transparent cursor-pointer",
   secondary:
     "bg-white text-slate-700 hover:bg-slate-50 active:bg-slate-100 " +
-    "focus:ring-slate-300 border-slate-200",
+    "focus:ring-slate-300 border-slate-200 cursor-pointer",
   ghost:
     "bg-transparent text-slate-600 hover:bg-slate-100 active:bg-slate-200 " +
     "focus:ring-slate-200 border-transparent",

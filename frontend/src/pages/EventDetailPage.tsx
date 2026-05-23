@@ -12,6 +12,7 @@ import {
   BarChart2,
 } from "lucide-react";
 import { useEvent, useDeleteEvent } from "../hooks/useEvents";
+import { useToast } from "../components/ui/Toast";
 import { formatDate, formatDateTime } from "../lib/utils";
 
 import { useForm } from "react-hook-form";
@@ -38,6 +39,7 @@ const TABS: { key: Tab; label: string; icon: React.ReactNode }[] = [
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const toast = useToast();
   const [tab, setTab] = useState<Tab>("info");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -47,7 +49,15 @@ export default function EventDetailPage() {
     deleteEventMutation.mutate(eventId, {
       onSuccess: () => {
         setIsDeleteModalOpen(false);
+        toast.success("Evento eliminado", {
+          description: "El evento se eliminó permanentemente.",
+        });
         navigate("/");
+      },
+      onError: () => {
+        toast.error("Error al eliminar", {
+          description: "No se pudo eliminar el evento. Intentá nuevamente.",
+        });
       },
     });
   };
@@ -85,7 +95,7 @@ export default function EventDetailPage() {
   }
 
   return (
-    <div className="max-w-290 mx-auto px-6 py-6">
+    <div key={eventId} className="max-w-290 mx-auto px-6 py-6">
       {/* ── Back link ── */}
       <button
         onClick={() => navigate("/")}
@@ -214,7 +224,9 @@ function InfoTab({ event }: { event: import("../types").Event }) {
     formState: { errors, isDirty },
   } = useForm<CreateEventInput>({
     resolver: zodResolver(createEventSchema),
-    defaultValues: {
+    // Usamos 'values' en lugar de 'defaultValues' para que el formulario
+    // se actualice automáticamente cuando los datos del evento terminen de cargar.
+    values: {
       nombre: event.nombre,
       tipo: event.tipo,
       fecha: event.fecha, // Asegúrate de que venga en formato compatible con datetime-local
@@ -361,7 +373,7 @@ function ComingSoon({ label }: { label: string }) {
 ════════════════════════════════════════════ */
 function PageSkeleton() {
   return (
-    <div className="max-w-220 mx-auto px-6 py-6">
+    <div className="max-w-290 mx-auto px-6 py-6">
       <div className="h-4 w-24 bg-slate-200 rounded animate-pulse mb-4" />
       <div className="rounded-xl overflow-hidden border border-slate-200 mb-5">
         <div className="h-220 bg-slate-200 animate-pulse" />

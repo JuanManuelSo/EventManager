@@ -6,6 +6,7 @@ import {
   useCreateEvent,
 } from "../hooks/useEvents";
 import { useAuth } from "../store/AuthContext";
+import { useToast } from "../components/ui/Toast";
 import EventCard from "../components/events/EventCard";
 import EventCardSkeleton from "../components/events/EventCardSkeleton";
 import StatCard from "../components/ui/StatCard";
@@ -51,16 +52,9 @@ export default function DashboardPage() {
   }
 
   const { user } = useAuth();
+  const toast = useToast();
 
   const createEventMutation = useCreateEvent();
-
-  // 1. Debug: Verificar si el ID del usuario está disponible y su tipo
-  console.log(
-    "[Dashboard] Auth User:",
-    user
-      ? `ID: ${user.id} (${typeof user.id}), Name: ${user.nombre}`
-      : "Cargando usuario...",
-  );
 
   const {
     data: events,
@@ -97,7 +91,7 @@ export default function DashboardPage() {
 
   /* ── Count badges per tab ── */
   const counts = useMemo<Partial<Record<Filter, number>>>(() => {
-    if (!events)
+    if (!events || !Array.isArray(events))
       return {
         all: 0,
         ACTIVO: 0,
@@ -116,11 +110,17 @@ export default function DashboardPage() {
     createEventMutation.mutate(data, {
       onSuccess: () => {
         setIsModalOpen(false);
+        toast.success("Evento creado", {
+          description: "El evento se creó correctamente.",
+        });
       },
       onError: (error) => {
-        console.error("[Dashboard] Error al crear evento:", error);
-        console.log("ownerId:", user.id);
-        console.log("DATA ENVIADA", data);
+        toast.error("Error al crear el evento", {
+          description:
+            error instanceof Error
+              ? error.message
+              : "Ocurrió un error inesperado.",
+        });
       },
     });
   };

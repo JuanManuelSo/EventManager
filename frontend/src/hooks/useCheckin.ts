@@ -9,7 +9,7 @@ export function useScanQR(eventId: number) {
     onSuccess: () => {
       // Refetch guests list and event (to update checkedInCount)
       queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
-      queryClient.invalidateQueries({ queryKey: ["events", eventId] });
+      queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
     },
   });
 }
@@ -22,7 +22,7 @@ export function useCheckinById(eventId: number) {
       checkinService.checkinById(guestId, eventId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
-      queryClient.invalidateQueries({ queryKey: ["events", eventId] });
+      queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
     },
   });
 }

@@ -46,7 +46,7 @@ export default function ModalCreateEvent({
           onClick={onClose}
           fullWidth
           size="lg"
-          className="mt-4  "
+          className="mt-4 "
         >
           Cancelar
         </Button>

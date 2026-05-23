@@ -37,7 +37,7 @@ export function useEvents() {
 
 export function useEvent(id: number) {
   return useQuery({
-    queryKey: ["events", id],
+    queryKey: ["events", "detail", id],
     queryFn: () => eventsService.getById(id),
     enabled: !!id,
     staleTime: 1000 * 30,
@@ -54,7 +54,7 @@ export function useDashboardStats() {
 
 export function useEventsByUser(id: number) {
   return useQuery({
-    queryKey: ["events", id],
+    queryKey: ["events", "list", id],
     queryFn: () => eventsService.getEventByUser(),
     enabled: !!id,
     staleTime: 1000 * 30,
