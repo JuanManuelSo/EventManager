@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { guestsService } from "../services/guests.service";
+import { normalizeGuest } from "../lib/utils";
 
 export function useGuests(eventId: number) {
   return useQuery({
     queryKey: ["guests", eventId],
     queryFn: () => guestsService.getByEvent(eventId),
 
-    select: (res) => res.data,
+    select: (res) => res.data.map(normalizeGuest),
     enabled: !!eventId,
     staleTime: 1000 * 30,
   });

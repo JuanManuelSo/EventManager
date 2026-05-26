@@ -11,96 +11,12 @@ import {
 import * as XLSX from "xlsx";
 import Button from "../ui/Button";
 
-/* ── Guest row parsed from Excel ── */
-export interface GuestImportRow {
-  documento: string;
-  nombre: string;
-  apellido: string;
-  email?: string;
-  numero?: string;
-  mesa?: string;
-  cant_acompanantes?: number;
-}
-
-/* ── Validation ── */
-interface RowError {
-  row: number;
-  field: string;
-  message: string;
-}
-
-const REQUIRED_COLS = ["documento", "nombre", "apellido"] as const;
-
-const COL_ALIASES: Record<string, keyof GuestImportRow> = {
-  documento: "documento",
-  dni: "documento",
-  "n° doc": "documento",
-  nombre: "nombre",
-  "nombre(s)": "nombre",
-  apellido: "apellido",
-  "apellido(s)": "apellido",
-  email: "email",
-  correo: "email",
-  "e-mail": "email",
-  telefono: "numero",
-  teléfono: "numero",
-  numero: "numero",
-  celular: "numero",
-  mesa: "mesa",
-  "n° mesa": "mesa",
-  acompanantes: "cant_acompanantes",
-  acompañantes: "cant_acompanantes",
-  cant_acompanantes: "cant_acompanantes",
-};
-
-function parseSheet(wb: XLSX.WorkBook): {
-  rows: GuestImportRow[];
-  errors: RowError[];
-} {
-  const ws = wb.Sheets[wb.SheetNames[0]];
-  const raw = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, {
-    defval: "",
-    raw: false,
-  });
-
-  const rows: GuestImportRow[] = [];
-  const errors: RowError[] = [];
-
-  raw.forEach((rawRow, i) => {
-    const rowNum = i + 2; // Excel row (header = 1)
-    const mapped: Partial<GuestImportRow> = {};
-
-    // Map columns by alias
-    for (const [key, val] of Object.entries(rawRow)) {
-      const normalized = key.trim().toLowerCase();
-      const field = COL_ALIASES[normalized];
-      if (field) {
-        if (field === "cant_acompanantes") {
-          mapped[field] = val ? parseInt(String(val), 10) : undefined;
-        } else {
-          (mapped as any)[field] = String(val).trim();
-        }
-      }
-    }
-
-    // Validate required
-    for (const req of REQUIRED_COLS) {
-      if (!mapped[req]) {
-        errors.push({
-          row: rowNum,
-          field: req,
-          message: `"${req}" es requerido`,
-        });
-      }
-    }
-
-    if (mapped.documento && mapped.nombre && mapped.apellido) {
-      rows.push(mapped as GuestImportRow);
-    }
-  });
-
-  return { rows, errors };
-}
+import { useToast } from "../ui/Toast";
+import {
+  parseGuestSheet,
+  type GuestImportRow,
+  type RowError,
+} from "../../lib/guestImport";
 
 /* ── Props ── */
 interface Props {
@@ -126,6 +42,8 @@ export default function ExcelImportModal({
   const [showErr, setShowErr] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const toast = useToast();
+
   const reset = () => {
     setStep("upload");
     setFile(null);
@@ -140,18 +58,33 @@ export default function ExcelImportModal({
   };
 
   const processFile = useCallback((f: File) => {
-    if (!f.name.match(/\.(xlsx|xls|csv)$/i)) return;
+    console.log("1. processFile llamado", f.name, f.type, f.size);
+
+    if (!f.name.match(/\.(xlsx|xls|csv)$/i)) {
+      return;
+    }
     setFile(f);
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const data = new Uint8Array(e.target!.result as ArrayBuffer);
-      const wb = XLSX.read(data, { type: "array" });
-      const { rows: r, errors: errs } = parseSheet(wb);
-      setRows(r);
-      setErrors(errs);
-      setStep("preview");
+      try {
+        const data = new Uint8Array(e.target!.result as ArrayBuffer);
+        const wb = XLSX.read(data, { type: "array" });
+
+        const { rows: r, errors: errs } = parseGuestSheet(wb);
+
+        setRows(r);
+        setErrors(errs);
+        setStep("preview");
+      } catch (err) {
+        console.error("ERROR en onload:", err);
+      }
     };
+
+    reader.onerror = (err) => {
+      console.error("ERROR FileReader:", err);
+    };
+
     reader.readAsArrayBuffer(f);
   }, []);
 
@@ -178,7 +111,7 @@ export default function ExcelImportModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm "
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
@@ -259,7 +192,7 @@ export default function ExcelImportModal({
                 <p className="text-[12px] font-semibold text-slate-700 mb-2 ">
                   Columnas reconocidas
                 </p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5 ">
                   {[
                     { col: "documento", req: true },
                     { col: "nombre", req: true },

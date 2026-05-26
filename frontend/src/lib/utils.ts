@@ -1,3 +1,5 @@
+import type { Guest } from "../types";
+
 export function formatDate(isoString: string): string {
   const date = new Date(isoString);
   return date.toLocaleDateString("es-AR", {
@@ -58,4 +60,24 @@ const AVATAR_COLORS = [
 export function getAvatarColor(id: string): { bg: string; text: string } {
   const index = id.charCodeAt(0) % AVATAR_COLORS.length;
   return AVATAR_COLORS[index];
+}
+
+const STATUS_MAP: Record<string, Guest["status"]> = {
+  PENDIENTE: "Pendiente",
+  PRESENTE: "Presente",
+  AUSENTE: "Ausente",
+  // por si acaso ya vienen bien:
+  Pendiente: "Pendiente",
+  Presente: "Presente",
+  Ausente: "Ausente",
+};
+
+export function normalizeGuest(g: any): Guest {
+  return {
+    ...g,
+    telefono: g.telefono ?? g.numero,
+    checkedIn: !!g.checkInTime,
+    checkedInAt: g.checkInTime ?? undefined,
+    status: STATUS_MAP[g.status] ?? "Pendiente",
+  };
 }

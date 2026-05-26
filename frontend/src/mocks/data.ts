@@ -119,6 +119,7 @@ function buildGuests(eventId: number, count: number): Guest[] {
     guests.push({
       id: eventId,
       eventId,
+      documento: `${eventId}-${i.toString().padStart(5, "0")}`,
       nombre,
       apellido,
       email: `${nombre.toLowerCase().replace(" ", ".")}${i}@gmail.com`,

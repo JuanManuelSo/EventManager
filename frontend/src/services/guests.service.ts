@@ -2,7 +2,7 @@ import type { Guest, PaginatedResponse, EventStats } from "../types";
 import { MOCK_GUESTS, MOCK_EVENTS } from "../mocks/data";
 import { sleep, percentage } from "../lib/utils";
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export const guestsService = {
   async getByEvent(
@@ -163,38 +163,12 @@ export const guestsService = {
   async bulkCreate(
     eventId: number,
     rows: Partial<Guest>[],
-  ): Promise<{ created: number }> {
+  ): Promise<{ created: number; guests: Guest[] }> {
     const mockEventKey = `ev${eventId}`;
 
-    if (USE_MOCK) {
-      await sleep(1000);
-      const guests = MOCK_GUESTS[mockEventKey] ?? [];
-      let created = 0;
-
-      rows.forEach((row, i) => {
-        guests.push({
-          id: eventId,
-          eventId: eventId,
-          nombre: row.nombre ?? "Nombre",
-          apellido: row.apellido ?? "Apellido",
-          email: row.email,
-          telefono: row.telefono,
-          qrHash: `QR-${eventId}-IMP-${Date.now()}-${i}`,
-          mesa: row.mesa,
-          status: "Pendiente",
-          checkedIn: false,
-          invitacionEnviada: false,
-        });
-        created++;
-      });
-
-      const event = MOCK_EVENTS.find((e) => e.id_evento === eventId);
-      if (event) event.cant_invitados = (event.cant_invitados ?? 0) + created;
-
-      return { created };
-    }
-
     const { default: api } = await import("../lib/api");
+    console.log("Payload enviado:", JSON.stringify({ guests: rows }, null, 2));
+
     const { data } = await api.post(`/events/${eventId}/guests/bulk`, {
       guests: rows,
     });

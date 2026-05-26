@@ -11,10 +11,15 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGuests } from "../../hooks/useGuests";
+import { guestsService } from "../../services/guests.service";
 import type { Guest } from "../../types";
 
-import ExcelImportModal from "./Excelimportmodal";
+import ExcelImportModal from "./ExcelImportModal";
+import type { GuestImportRow } from "../../lib/guestImport";
+
+import { useToast } from "../ui/Toast";
 
 const PAGE_SIZE = 10;
 
@@ -53,6 +58,7 @@ const STATUS_CONFIG: Record<
 
 export default function GuestsTab({ eventId }: { eventId: number }) {
   const { data: guests = [], isLoading } = useGuests(eventId);
+  const [importedGuests, setImportedGuests] = useState<Guest[]>([]);
 
   console.log("GuestTab render", { guests });
 
@@ -62,12 +68,17 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [openMenu, setOpenMenu] = useState<number | null>(null);
 
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
   //Estado para modal
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [importLoading, setImportLoading] = useState(false);
 
+  const allGuests = [...guests, ...importedGuests];
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return guests.filter((g: Guest) => {
+    return allGuests.filter((g: Guest) => {
       const matchStatus = statusFilter === "all" || g.status === statusFilter;
       const matchQuery =
         !q ||
@@ -112,7 +123,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       {/* Toolbar */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 flex-wrap">
         <span className="text-xs font-semibold text-slate-500 shrink-0">
-          Total: {guests.length}
+          Total: {allGuests.length}
         </span>
 
         <div className="relative">
@@ -144,7 +155,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                 setPage(1);
               }}
               className={[
-                "px-2.5 py-1 rounded text-[11px] font-medium transition-colors duration-150 focus:outline-none",
+                "px-2.5 py-1 rounded text-[11px] font-medium transition-colors duration-150 focus:outline-none cursor-pointer",
                 statusFilter === key
                   ? "bg-slate-900 text-white"
                   : "text-slate-500 hover:bg-slate-100",
@@ -208,7 +219,11 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
               </tr>
             ) : (
               paginated.map((guest: Guest) => {
-                const s = STATUS_CONFIG[guest.status];
+                const s =
+                  STATUS_CONFIG[guest.status] ?? STATUS_CONFIG["Pendiente"];
+                if (!STATUS_CONFIG[guest.status]) {
+                  console.warn("Status desconocido:", guest.status, guest);
+                }
                 const isOpen = openMenu === guest.id;
 
                 return (
@@ -270,7 +285,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                       <div className="relative inline-block">
                         <button
                           onClick={() => setOpenMenu(isOpen ? null : guest.id)}
-                          className="p-1.5 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors duration-150 focus:outline-none"
+                          className="p-1.5 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors duration-150 focus:outline-none cursor-pointer"
                         >
                           <MoreVertical size={15} />
                         </button>
@@ -363,9 +378,39 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       <ExcelImportModal
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
-        onConfirm={(rows) => {
-          console.log("Rows importadas:", rows);
-          setIsImportOpen(false);
+        isLoading={importLoading}
+        onConfirm={async (rows) => {
+          const mapped: Partial<Guest>[] = rows.map((r: GuestImportRow) => ({
+            documento: r.documento,
+            nombre: r.nombre,
+            apellido: r.apellido,
+            email: r.email,
+            numero: r.numero,
+            telefono: r.numero,
+            mesa: r.mesa,
+            status: (r.status ?? "Pendiente") as Guest["status"],
+            cant_acompanantes: r.cant_acompanantes,
+          }));
+          console.log(
+            "status del primer row:",
+            rows[0]?.status,
+            "→ mapped:",
+            mapped[0]?.status,
+          );
+
+          setImportLoading(true);
+          try {
+            const result = await guestsService.bulkCreate(eventId, mapped);
+            queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
+            setIsImportOpen(false);
+            toast.success(
+              `${result.created} invitados importados correctamente`,
+            );
+          } catch {
+            toast.error("Error al importar invitados");
+          } finally {
+            setImportLoading(false);
+          }
         }}
       />
     </div>
@@ -402,7 +447,7 @@ function ActionBtn({
   return (
     <button
       className={[
-        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 focus:outline-none",
+        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 focus:outline-none cursor-pointer",
         primary
           ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
           : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50",
@@ -419,7 +464,7 @@ function MenuItem({ label, danger }: { label: string; danger?: boolean }) {
   return (
     <button
       className={[
-        "w-full text-left px-3 py-2 text-xs font-medium transition-colors duration-100",
+        "w-full text-left px-3 py-2 text-xs font-medium transition-colors duration-100 cursor-pointer",
         danger
           ? "text-red-500 hover:bg-red-50"
           : "text-slate-700 hover:bg-slate-50",

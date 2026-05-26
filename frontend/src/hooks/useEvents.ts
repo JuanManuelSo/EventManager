@@ -10,6 +10,9 @@ export function useCreateEvent() {
       queryClient.invalidateQueries({
         queryKey: ["events"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard-stats"],
+      });
     },
   });
 }
@@ -22,6 +25,9 @@ export function useDeleteEvent() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["events"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard-stats"],
       });
     },
   });

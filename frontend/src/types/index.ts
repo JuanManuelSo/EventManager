@@ -31,17 +31,19 @@ export interface Event {
 export interface Guest {
   id: number;
   eventId: number;
+  documento: string;
   nombre: string;
   apellido: string;
   email?: string;
   telefono?: string;
+  numero?: string;
   qrHash: string;
   mesa?: string;
   cant_acompanantes?: number;
   invitacionEnviada: boolean;
-  status: GuestStatus; //Estado del invitado: Pendiente, Presente, Ausente
+  status: GuestStatus;
 
-  checkedInAt?: string; //Horario de check-in
+  checkedInAt?: string;
   checkedIn: boolean;
 }
 

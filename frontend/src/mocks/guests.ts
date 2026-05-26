@@ -4,6 +4,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g1",
     eventId: 1,
+    documento: "1-00001",
     nombre: "Juan Manuel",
     apellido: "Sosa",
     email: "juanmasosa162@gmail.com",
@@ -18,6 +19,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g2",
     eventId: 1,
+    documento: "1-00002",
     nombre: "Valentina",
     apellido: "Méndez",
     email: "vale.mendez@gmail.com",
@@ -31,6 +33,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g3",
     eventId: 1,
+    documento: "1-00003",
     nombre: "Rodrigo",
     apellido: "Fernández",
     email: "rodri.f@outlook.com",
@@ -43,6 +46,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g4",
     eventId: 1,
+    documento: "1-00004",
     nombre: "Camila",
     apellido: "Torres",
     email: "cami.torres@gmail.com",
@@ -56,6 +60,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g5",
     eventId: 1,
+    documento: "1-00005",
     nombre: "Ignacio",
     apellido: "Ramos",
     email: "nacho.ramos@mail.com",
@@ -68,6 +73,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g6",
     eventId: 1,
+    documento: "1-00006",
     nombre: "Sofía",
     apellido: "López",
     email: "sofi.lopez@gmail.com",
@@ -82,6 +88,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g7",
     eventId: 1,
+    documento: "1-00007",
     nombre: "Matías",
     apellido: "Gutiérrez",
     email: "mati.g@corp.com",
@@ -94,6 +101,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g8",
     eventId: 1,
+    documento: "1-00008",
     nombre: "Lucía",
     apellido: "Martínez",
     email: "lu.martinez@gmail.com",
@@ -107,6 +115,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g9",
     eventId: 1,
+    documento: "1-00009",
     nombre: "Tomás",
     apellido: "Herrera",
     email: "tomas.h@mail.com",
@@ -119,6 +128,7 @@ export const MOCK_GUESTS: Guest[] = [
   {
     id: "g10",
     eventId: 1,
+    documento: "1-00010",
     nombre: "Florencia",
     apellido: "Ruiz",
     email: "flor.ruiz@outlook.com",
