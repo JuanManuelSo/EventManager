@@ -1,2 +1,2 @@
 # EventManager
-Software for to manage Events
+software for managment events
