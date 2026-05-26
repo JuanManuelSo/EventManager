@@ -63,7 +63,7 @@ model Event {
 
 model Guest {
   id          Int    @id @default(autoincrement())
-  documento   String   @unique 
+  documento   String   
   nombre      String
   apellido    String
   email       String?
