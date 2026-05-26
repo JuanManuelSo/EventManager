@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Calendar, LogOut } from "lucide-react";
 import { useAuth } from "../../store/AuthContext";
+import { NavBtn } from "../ui/NavBtn";
+import { LogOutBtn } from "../ui/LogOutBtn";
 
 export default function Header() {
   const { logout, user } = useAuth();
@@ -27,7 +29,7 @@ export default function Header() {
       </button>
 
       {/* Right */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 cursor-pointer">
         <NavBtn
           onClick={() => navigate("/calendario")}
           icon={<Calendar size={13} />}
@@ -42,54 +44,6 @@ export default function Header() {
         </LogOutBtn>
       </div>
     </header>
-  );
-}
-
-function NavBtn({
-  onClick,
-  icon,
-  children,
-}: {
-  onClick: () => void;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-1.5 px-2.5 py-1.5
-                 text-xs font-medium text-slate-500
-                 border border-slate-200 rounded
-                 hover:bg-slate-50 hover:text-slate-700
-                 transition-colors duration-150 focus:outline-none"
-    >
-      {icon}
-      {children}
-    </button>
-  );
-}
-
-function LogOutBtn({
-  onClick,
-  icon,
-  children,
-}: {
-  onClick: () => void;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-1.5 px-2.5 py-1.5
-                 text-xs font-medium text-rose-500
-                 border border-rose-200 rounded
-                 hover:bg-rose-50 hover:text-rose-700
-                 transition-colors duration-150 focus:outline-none"
-    >
-      {icon}
-      {children}
-    </button>
   );
 }
 

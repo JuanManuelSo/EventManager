@@ -164,8 +164,6 @@ export const guestsService = {
     eventId: number,
     rows: Partial<Guest>[],
   ): Promise<{ created: number; guests: Guest[] }> {
-    const mockEventKey = `ev${eventId}`;
-
     const { default: api } = await import("../lib/api");
     console.log("Payload enviado:", JSON.stringify({ guests: rows }, null, 2));
 

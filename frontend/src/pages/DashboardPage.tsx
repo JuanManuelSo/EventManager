@@ -60,7 +60,7 @@ export default function DashboardPage() {
     data: events,
     isLoading: eventsLoading,
     isError,
-  } = useEventsByUser(user?.id);
+  } = useEventsByUser(user?.id ?? 0);
 
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
 
@@ -132,10 +132,10 @@ export default function DashboardPage() {
       {/* ── Page header ── */}
       <div className="flex items-start justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-[22px] font-semibold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
             Gestión de Eventos
           </h1>
-          <p className="text-[13px] text-slate-400 mt-1 leading-relaxed max-w-md">
+          <p className="text-sm text-slate-400 mt-1 leading-relaxed max-w-md">
             Panel centralizado para el control de acceso y logística de eventos
             corporativos y sociales de alto perfil.
           </p>
@@ -144,9 +144,10 @@ export default function DashboardPage() {
         <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-4 py-2.5
-                     bg-slate-900 text-white text-[13px] font-medium rounded-lg shrink-0
+                     bg-slate-900 text-white text-sm font-medium rounded-lg shrink-0
                      hover:bg-slate-800 active:bg-slate-950
-                     transition-colors duration-150 focus:outline-none"
+                     transition-colors duration-150 focus:outline-none
+                     cursor-pointer"
         >
           <Plus size={14} strokeWidth={2.5} />
           Crear evento
@@ -203,7 +204,7 @@ export default function DashboardPage() {
         <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
           {FILTERS.map(({ key, label }) => {
             const active = filter === key;
-            const count = counts[key];
+            const count = counts[key] ?? 0;
             return (
               <button
                 key={key}

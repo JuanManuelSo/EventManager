@@ -181,7 +181,7 @@ export default function EventDetailPage() {
               onClick={() => setTab(key)}
               className={[
                 "flex items-center gap-1.5 px-4 py-2.5 text-[13px] font-medium whitespace-nowrap",
-                "border-b-2 -mb-px transition-all duration-150 focus:outline-none",
+                "border-b-2 -mb-px transition-all duration-150 focus:outline-none cursor-pointer",
                 active
                   ? "border-blue-500 text-blue-600"
                   : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300",
