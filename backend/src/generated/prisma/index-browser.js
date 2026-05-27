@@ -140,6 +140,15 @@ exports.Prisma.EventScalarFieldEnum = {
   Estado: 'Estado',
   porcentajeAsistencia: 'porcentajeAsistencia',
   ownerId: 'ownerId',
+  qrJobStatus: 'qrJobStatus',
+  qrGeneratedAt: 'qrGeneratedAt',
+  qrJobStartedAt: 'qrJobStartedAt',
+  qrJobFinishedAt: 'qrJobFinishedAt',
+  qrJobError: 'qrJobError',
+  qrJobTotal: 'qrJobTotal',
+  qrJobProcessed: 'qrJobProcessed',
+  qrJobRequestedBy: 'qrJobRequestedBy',
+  invitationBaseImageUrl: 'invitationBaseImageUrl',
   checkedInCount: 'checkedInCount',
   createdAt: 'createdAt'
 };
@@ -157,6 +166,8 @@ exports.Prisma.GuestScalarFieldEnum = {
   invitacionEnviada: 'invitacionEnviada',
   video: 'video',
   foto: 'foto',
+  qrImageUrl: 'qrImageUrl',
+  qrGeneratedAt: 'qrGeneratedAt',
   qrHash: 'qrHash',
   checkInTime: 'checkInTime',
   eventId: 'eventId'
@@ -179,6 +190,13 @@ exports.Prisma.NullsOrder = {
 exports.EventStatus = exports.$Enums.EventStatus = {
   ACTIVO: 'ACTIVO',
   FINALIZADO: 'FINALIZADO'
+};
+
+exports.QrJobStatus = exports.$Enums.QrJobStatus = {
+  IDLE: 'IDLE',
+  PROCESSING: 'PROCESSING',
+  DONE: 'DONE',
+  ERROR: 'ERROR'
 };
 
 exports.GuestStatus = exports.$Enums.GuestStatus = {

@@ -49,6 +49,16 @@ export const GuestStatus: {
 
 export type GuestStatus = (typeof GuestStatus)[keyof typeof GuestStatus]
 
+
+export const QrJobStatus: {
+  IDLE: 'IDLE',
+  PROCESSING: 'PROCESSING',
+  DONE: 'DONE',
+  ERROR: 'ERROR'
+};
+
+export type QrJobStatus = (typeof QrJobStatus)[keyof typeof QrJobStatus]
+
 }
 
 export type EventStatus = $Enums.EventStatus
@@ -58,6 +68,10 @@ export const EventStatus: typeof $Enums.EventStatus
 export type GuestStatus = $Enums.GuestStatus
 
 export const GuestStatus: typeof $Enums.GuestStatus
+
+export type QrJobStatus = $Enums.QrJobStatus
+
+export const QrJobStatus: typeof $Enums.QrJobStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2265,6 +2279,9 @@ export namespace Prisma {
     cant_invitados: number | null
     porcentajeAsistencia: number | null
     ownerId: number | null
+    qrJobTotal: number | null
+    qrJobProcessed: number | null
+    qrJobRequestedBy: number | null
     checkedInCount: number | null
   }
 
@@ -2273,6 +2290,9 @@ export namespace Prisma {
     cant_invitados: number | null
     porcentajeAsistencia: number | null
     ownerId: number | null
+    qrJobTotal: number | null
+    qrJobProcessed: number | null
+    qrJobRequestedBy: number | null
     checkedInCount: number | null
   }
 
@@ -2288,6 +2308,15 @@ export namespace Prisma {
     Estado: $Enums.EventStatus | null
     porcentajeAsistencia: number | null
     ownerId: number | null
+    qrJobStatus: $Enums.QrJobStatus | null
+    qrGeneratedAt: Date | null
+    qrJobStartedAt: Date | null
+    qrJobFinishedAt: Date | null
+    qrJobError: string | null
+    qrJobTotal: number | null
+    qrJobProcessed: number | null
+    qrJobRequestedBy: number | null
+    invitationBaseImageUrl: string | null
     checkedInCount: number | null
     createdAt: Date | null
   }
@@ -2304,6 +2333,15 @@ export namespace Prisma {
     Estado: $Enums.EventStatus | null
     porcentajeAsistencia: number | null
     ownerId: number | null
+    qrJobStatus: $Enums.QrJobStatus | null
+    qrGeneratedAt: Date | null
+    qrJobStartedAt: Date | null
+    qrJobFinishedAt: Date | null
+    qrJobError: string | null
+    qrJobTotal: number | null
+    qrJobProcessed: number | null
+    qrJobRequestedBy: number | null
+    invitationBaseImageUrl: string | null
     checkedInCount: number | null
     createdAt: Date | null
   }
@@ -2320,6 +2358,15 @@ export namespace Prisma {
     Estado: number
     porcentajeAsistencia: number
     ownerId: number
+    qrJobStatus: number
+    qrGeneratedAt: number
+    qrJobStartedAt: number
+    qrJobFinishedAt: number
+    qrJobError: number
+    qrJobTotal: number
+    qrJobProcessed: number
+    qrJobRequestedBy: number
+    invitationBaseImageUrl: number
     checkedInCount: number
     createdAt: number
     _all: number
@@ -2331,6 +2378,9 @@ export namespace Prisma {
     cant_invitados?: true
     porcentajeAsistencia?: true
     ownerId?: true
+    qrJobTotal?: true
+    qrJobProcessed?: true
+    qrJobRequestedBy?: true
     checkedInCount?: true
   }
 
@@ -2339,6 +2389,9 @@ export namespace Prisma {
     cant_invitados?: true
     porcentajeAsistencia?: true
     ownerId?: true
+    qrJobTotal?: true
+    qrJobProcessed?: true
+    qrJobRequestedBy?: true
     checkedInCount?: true
   }
 
@@ -2354,6 +2407,15 @@ export namespace Prisma {
     Estado?: true
     porcentajeAsistencia?: true
     ownerId?: true
+    qrJobStatus?: true
+    qrGeneratedAt?: true
+    qrJobStartedAt?: true
+    qrJobFinishedAt?: true
+    qrJobError?: true
+    qrJobTotal?: true
+    qrJobProcessed?: true
+    qrJobRequestedBy?: true
+    invitationBaseImageUrl?: true
     checkedInCount?: true
     createdAt?: true
   }
@@ -2370,6 +2432,15 @@ export namespace Prisma {
     Estado?: true
     porcentajeAsistencia?: true
     ownerId?: true
+    qrJobStatus?: true
+    qrGeneratedAt?: true
+    qrJobStartedAt?: true
+    qrJobFinishedAt?: true
+    qrJobError?: true
+    qrJobTotal?: true
+    qrJobProcessed?: true
+    qrJobRequestedBy?: true
+    invitationBaseImageUrl?: true
     checkedInCount?: true
     createdAt?: true
   }
@@ -2386,6 +2457,15 @@ export namespace Prisma {
     Estado?: true
     porcentajeAsistencia?: true
     ownerId?: true
+    qrJobStatus?: true
+    qrGeneratedAt?: true
+    qrJobStartedAt?: true
+    qrJobFinishedAt?: true
+    qrJobError?: true
+    qrJobTotal?: true
+    qrJobProcessed?: true
+    qrJobRequestedBy?: true
+    invitationBaseImageUrl?: true
     checkedInCount?: true
     createdAt?: true
     _all?: true
@@ -2489,6 +2569,15 @@ export namespace Prisma {
     Estado: $Enums.EventStatus
     porcentajeAsistencia: number
     ownerId: number
+    qrJobStatus: $Enums.QrJobStatus
+    qrGeneratedAt: Date | null
+    qrJobStartedAt: Date | null
+    qrJobFinishedAt: Date | null
+    qrJobError: string | null
+    qrJobTotal: number | null
+    qrJobProcessed: number | null
+    qrJobRequestedBy: number | null
+    invitationBaseImageUrl: string | null
     checkedInCount: number
     createdAt: Date
     _count: EventCountAggregateOutputType | null
@@ -2524,6 +2613,15 @@ export namespace Prisma {
     Estado?: boolean
     porcentajeAsistencia?: boolean
     ownerId?: boolean
+    qrJobStatus?: boolean
+    qrGeneratedAt?: boolean
+    qrJobStartedAt?: boolean
+    qrJobFinishedAt?: boolean
+    qrJobError?: boolean
+    qrJobTotal?: boolean
+    qrJobProcessed?: boolean
+    qrJobRequestedBy?: boolean
+    invitationBaseImageUrl?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -2543,6 +2641,15 @@ export namespace Prisma {
     Estado?: boolean
     porcentajeAsistencia?: boolean
     ownerId?: boolean
+    qrJobStatus?: boolean
+    qrGeneratedAt?: boolean
+    qrJobStartedAt?: boolean
+    qrJobFinishedAt?: boolean
+    qrJobError?: boolean
+    qrJobTotal?: boolean
+    qrJobProcessed?: boolean
+    qrJobRequestedBy?: boolean
+    invitationBaseImageUrl?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -2560,6 +2667,15 @@ export namespace Prisma {
     Estado?: boolean
     porcentajeAsistencia?: boolean
     ownerId?: boolean
+    qrJobStatus?: boolean
+    qrGeneratedAt?: boolean
+    qrJobStartedAt?: boolean
+    qrJobFinishedAt?: boolean
+    qrJobError?: boolean
+    qrJobTotal?: boolean
+    qrJobProcessed?: boolean
+    qrJobRequestedBy?: boolean
+    invitationBaseImageUrl?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -2577,11 +2693,20 @@ export namespace Prisma {
     Estado?: boolean
     porcentajeAsistencia?: boolean
     ownerId?: boolean
+    qrJobStatus?: boolean
+    qrGeneratedAt?: boolean
+    qrJobStartedAt?: boolean
+    qrJobFinishedAt?: boolean
+    qrJobError?: boolean
+    qrJobTotal?: boolean
+    qrJobProcessed?: boolean
+    qrJobRequestedBy?: boolean
+    invitationBaseImageUrl?: boolean
     checkedInCount?: boolean
     createdAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "porcentajeAsistencia" | "ownerId" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "porcentajeAsistencia" | "ownerId" | "qrJobStatus" | "qrGeneratedAt" | "qrJobStartedAt" | "qrJobFinishedAt" | "qrJobError" | "qrJobTotal" | "qrJobProcessed" | "qrJobRequestedBy" | "invitationBaseImageUrl" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     guests?: boolean | Event$guestsArgs<ExtArgs>
@@ -2612,6 +2737,15 @@ export namespace Prisma {
       Estado: $Enums.EventStatus
       porcentajeAsistencia: number
       ownerId: number
+      qrJobStatus: $Enums.QrJobStatus
+      qrGeneratedAt: Date | null
+      qrJobStartedAt: Date | null
+      qrJobFinishedAt: Date | null
+      qrJobError: string | null
+      qrJobTotal: number | null
+      qrJobProcessed: number | null
+      qrJobRequestedBy: number | null
+      invitationBaseImageUrl: string | null
       checkedInCount: number
       createdAt: Date
     }, ExtArgs["result"]["event"]>
@@ -3050,6 +3184,15 @@ export namespace Prisma {
     readonly Estado: FieldRef<"Event", 'EventStatus'>
     readonly porcentajeAsistencia: FieldRef<"Event", 'Int'>
     readonly ownerId: FieldRef<"Event", 'Int'>
+    readonly qrJobStatus: FieldRef<"Event", 'QrJobStatus'>
+    readonly qrGeneratedAt: FieldRef<"Event", 'DateTime'>
+    readonly qrJobStartedAt: FieldRef<"Event", 'DateTime'>
+    readonly qrJobFinishedAt: FieldRef<"Event", 'DateTime'>
+    readonly qrJobError: FieldRef<"Event", 'String'>
+    readonly qrJobTotal: FieldRef<"Event", 'Int'>
+    readonly qrJobProcessed: FieldRef<"Event", 'Int'>
+    readonly qrJobRequestedBy: FieldRef<"Event", 'Int'>
+    readonly invitationBaseImageUrl: FieldRef<"Event", 'String'>
     readonly checkedInCount: FieldRef<"Event", 'Int'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
   }
@@ -3532,6 +3675,8 @@ export namespace Prisma {
     invitacionEnviada: boolean | null
     video: string | null
     foto: string | null
+    qrImageUrl: string | null
+    qrGeneratedAt: Date | null
     qrHash: string | null
     checkInTime: Date | null
     eventId: number | null
@@ -3550,6 +3695,8 @@ export namespace Prisma {
     invitacionEnviada: boolean | null
     video: string | null
     foto: string | null
+    qrImageUrl: string | null
+    qrGeneratedAt: Date | null
     qrHash: string | null
     checkInTime: Date | null
     eventId: number | null
@@ -3568,6 +3715,8 @@ export namespace Prisma {
     invitacionEnviada: number
     video: number
     foto: number
+    qrImageUrl: number
+    qrGeneratedAt: number
     qrHash: number
     checkInTime: number
     eventId: number
@@ -3600,6 +3749,8 @@ export namespace Prisma {
     invitacionEnviada?: true
     video?: true
     foto?: true
+    qrImageUrl?: true
+    qrGeneratedAt?: true
     qrHash?: true
     checkInTime?: true
     eventId?: true
@@ -3618,6 +3769,8 @@ export namespace Prisma {
     invitacionEnviada?: true
     video?: true
     foto?: true
+    qrImageUrl?: true
+    qrGeneratedAt?: true
     qrHash?: true
     checkInTime?: true
     eventId?: true
@@ -3636,6 +3789,8 @@ export namespace Prisma {
     invitacionEnviada?: true
     video?: true
     foto?: true
+    qrImageUrl?: true
+    qrGeneratedAt?: true
     qrHash?: true
     checkInTime?: true
     eventId?: true
@@ -3741,6 +3896,8 @@ export namespace Prisma {
     invitacionEnviada: boolean
     video: string | null
     foto: string | null
+    qrImageUrl: string | null
+    qrGeneratedAt: Date | null
     qrHash: string
     checkInTime: Date | null
     eventId: number
@@ -3778,6 +3935,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: boolean
     foto?: boolean
+    qrImageUrl?: boolean
+    qrGeneratedAt?: boolean
     qrHash?: boolean
     checkInTime?: boolean
     eventId?: boolean
@@ -3797,6 +3956,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: boolean
     foto?: boolean
+    qrImageUrl?: boolean
+    qrGeneratedAt?: boolean
     qrHash?: boolean
     checkInTime?: boolean
     eventId?: boolean
@@ -3816,6 +3977,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: boolean
     foto?: boolean
+    qrImageUrl?: boolean
+    qrGeneratedAt?: boolean
     qrHash?: boolean
     checkInTime?: boolean
     eventId?: boolean
@@ -3835,12 +3998,14 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: boolean
     foto?: boolean
+    qrImageUrl?: boolean
+    qrGeneratedAt?: boolean
     qrHash?: boolean
     checkInTime?: boolean
     eventId?: boolean
   }
 
-  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documento" | "nombre" | "apellido" | "email" | "numero" | "mesa" | "status" | "cant_acompanantes" | "invitacionEnviada" | "video" | "foto" | "qrHash" | "checkInTime" | "eventId", ExtArgs["result"]["guest"]>
+  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documento" | "nombre" | "apellido" | "email" | "numero" | "mesa" | "status" | "cant_acompanantes" | "invitacionEnviada" | "video" | "foto" | "qrImageUrl" | "qrGeneratedAt" | "qrHash" | "checkInTime" | "eventId", ExtArgs["result"]["guest"]>
   export type GuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
   }
@@ -3869,6 +4034,8 @@ export namespace Prisma {
       invitacionEnviada: boolean
       video: string | null
       foto: string | null
+      qrImageUrl: string | null
+      qrGeneratedAt: Date | null
       qrHash: string
       checkInTime: Date | null
       eventId: number
@@ -4308,6 +4475,8 @@ export namespace Prisma {
     readonly invitacionEnviada: FieldRef<"Guest", 'Boolean'>
     readonly video: FieldRef<"Guest", 'String'>
     readonly foto: FieldRef<"Guest", 'String'>
+    readonly qrImageUrl: FieldRef<"Guest", 'String'>
+    readonly qrGeneratedAt: FieldRef<"Guest", 'DateTime'>
     readonly qrHash: FieldRef<"Guest", 'String'>
     readonly checkInTime: FieldRef<"Guest", 'DateTime'>
     readonly eventId: FieldRef<"Guest", 'Int'>
@@ -4767,6 +4936,15 @@ export namespace Prisma {
     Estado: 'Estado',
     porcentajeAsistencia: 'porcentajeAsistencia',
     ownerId: 'ownerId',
+    qrJobStatus: 'qrJobStatus',
+    qrGeneratedAt: 'qrGeneratedAt',
+    qrJobStartedAt: 'qrJobStartedAt',
+    qrJobFinishedAt: 'qrJobFinishedAt',
+    qrJobError: 'qrJobError',
+    qrJobTotal: 'qrJobTotal',
+    qrJobProcessed: 'qrJobProcessed',
+    qrJobRequestedBy: 'qrJobRequestedBy',
+    invitationBaseImageUrl: 'invitationBaseImageUrl',
     checkedInCount: 'checkedInCount',
     createdAt: 'createdAt'
   };
@@ -4787,6 +4965,8 @@ export namespace Prisma {
     invitacionEnviada: 'invitacionEnviada',
     video: 'video',
     foto: 'foto',
+    qrImageUrl: 'qrImageUrl',
+    qrGeneratedAt: 'qrGeneratedAt',
     qrHash: 'qrHash',
     checkInTime: 'checkInTime',
     eventId: 'eventId'
@@ -4877,6 +5057,20 @@ export namespace Prisma {
    * Reference to a field of type 'EventStatus[]'
    */
   export type ListEnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QrJobStatus'
+   */
+  export type EnumQrJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QrJobStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QrJobStatus[]'
+   */
+  export type ListEnumQrJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QrJobStatus[]'>
     
 
 
@@ -4990,6 +5184,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
+    qrJobStatus?: EnumQrJobStatusFilter<"Event"> | $Enums.QrJobStatus
+    qrGeneratedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobStartedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobFinishedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobError?: StringNullableFilter<"Event"> | string | null
+    qrJobTotal?: IntNullableFilter<"Event"> | number | null
+    qrJobProcessed?: IntNullableFilter<"Event"> | number | null
+    qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
+    invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5008,6 +5211,15 @@ export namespace Prisma {
     Estado?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobStatus?: SortOrder
+    qrGeneratedAt?: SortOrderInput | SortOrder
+    qrJobStartedAt?: SortOrderInput | SortOrder
+    qrJobFinishedAt?: SortOrderInput | SortOrder
+    qrJobError?: SortOrderInput | SortOrder
+    qrJobTotal?: SortOrderInput | SortOrder
+    qrJobProcessed?: SortOrderInput | SortOrder
+    qrJobRequestedBy?: SortOrderInput | SortOrder
+    invitationBaseImageUrl?: SortOrderInput | SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
     owner?: UserOrderByWithRelationInput
@@ -5029,6 +5241,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
+    qrJobStatus?: EnumQrJobStatusFilter<"Event"> | $Enums.QrJobStatus
+    qrGeneratedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobStartedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobFinishedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobError?: StringNullableFilter<"Event"> | string | null
+    qrJobTotal?: IntNullableFilter<"Event"> | number | null
+    qrJobProcessed?: IntNullableFilter<"Event"> | number | null
+    qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
+    invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5047,6 +5268,15 @@ export namespace Prisma {
     Estado?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobStatus?: SortOrder
+    qrGeneratedAt?: SortOrderInput | SortOrder
+    qrJobStartedAt?: SortOrderInput | SortOrder
+    qrJobFinishedAt?: SortOrderInput | SortOrder
+    qrJobError?: SortOrderInput | SortOrder
+    qrJobTotal?: SortOrderInput | SortOrder
+    qrJobProcessed?: SortOrderInput | SortOrder
+    qrJobRequestedBy?: SortOrderInput | SortOrder
+    invitationBaseImageUrl?: SortOrderInput | SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
     _count?: EventCountOrderByAggregateInput
@@ -5071,6 +5301,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
     porcentajeAsistencia?: IntWithAggregatesFilter<"Event"> | number
     ownerId?: IntWithAggregatesFilter<"Event"> | number
+    qrJobStatus?: EnumQrJobStatusWithAggregatesFilter<"Event"> | $Enums.QrJobStatus
+    qrGeneratedAt?: DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+    qrJobStartedAt?: DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+    qrJobFinishedAt?: DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+    qrJobError?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    qrJobTotal?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    qrJobProcessed?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    qrJobRequestedBy?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    invitationBaseImageUrl?: StringNullableWithAggregatesFilter<"Event"> | string | null
     checkedInCount?: IntWithAggregatesFilter<"Event"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
@@ -5091,6 +5330,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
+    qrImageUrl?: StringNullableFilter<"Guest"> | string | null
+    qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
     qrHash?: StringFilter<"Guest"> | string
     checkInTime?: DateTimeNullableFilter<"Guest"> | Date | string | null
     eventId?: IntFilter<"Guest"> | number
@@ -5110,6 +5351,8 @@ export namespace Prisma {
     invitacionEnviada?: SortOrder
     video?: SortOrderInput | SortOrder
     foto?: SortOrderInput | SortOrder
+    qrImageUrl?: SortOrderInput | SortOrder
+    qrGeneratedAt?: SortOrderInput | SortOrder
     qrHash?: SortOrder
     checkInTime?: SortOrderInput | SortOrder
     eventId?: SortOrder
@@ -5118,12 +5361,12 @@ export namespace Prisma {
 
   export type GuestWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    documento?: string
-    qrHash?: string
     email_eventId?: GuestEmailEventIdCompoundUniqueInput
+    eventId_qrHash?: GuestEventIdQrHashCompoundUniqueInput
     AND?: GuestWhereInput | GuestWhereInput[]
     OR?: GuestWhereInput[]
     NOT?: GuestWhereInput | GuestWhereInput[]
+    documento?: StringFilter<"Guest"> | string
     nombre?: StringFilter<"Guest"> | string
     apellido?: StringFilter<"Guest"> | string
     email?: StringNullableFilter<"Guest"> | string | null
@@ -5134,10 +5377,13 @@ export namespace Prisma {
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
+    qrImageUrl?: StringNullableFilter<"Guest"> | string | null
+    qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
+    qrHash?: StringFilter<"Guest"> | string
     checkInTime?: DateTimeNullableFilter<"Guest"> | Date | string | null
     eventId?: IntFilter<"Guest"> | number
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
-  }, "id" | "documento" | "qrHash" | "email_eventId">
+  }, "id" | "email_eventId" | "eventId_qrHash">
 
   export type GuestOrderByWithAggregationInput = {
     id?: SortOrder
@@ -5152,6 +5398,8 @@ export namespace Prisma {
     invitacionEnviada?: SortOrder
     video?: SortOrderInput | SortOrder
     foto?: SortOrderInput | SortOrder
+    qrImageUrl?: SortOrderInput | SortOrder
+    qrGeneratedAt?: SortOrderInput | SortOrder
     qrHash?: SortOrder
     checkInTime?: SortOrderInput | SortOrder
     eventId?: SortOrder
@@ -5178,6 +5426,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolWithAggregatesFilter<"Guest"> | boolean
     video?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     foto?: StringNullableWithAggregatesFilter<"Guest"> | string | null
+    qrImageUrl?: StringNullableWithAggregatesFilter<"Guest"> | string | null
+    qrGeneratedAt?: DateTimeNullableWithAggregatesFilter<"Guest"> | Date | string | null
     qrHash?: StringWithAggregatesFilter<"Guest"> | string
     checkInTime?: DateTimeNullableWithAggregatesFilter<"Guest"> | Date | string | null
     eventId?: IntWithAggregatesFilter<"Guest"> | number
@@ -5250,6 +5500,15 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
@@ -5268,6 +5527,15 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
@@ -5283,6 +5551,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -5301,6 +5578,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
@@ -5318,6 +5604,15 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
   }
@@ -5332,6 +5627,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5348,6 +5652,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5364,6 +5677,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
     event: EventCreateNestedOneWithoutGuestsInput
@@ -5382,6 +5697,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
     eventId: number
@@ -5399,6 +5716,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     event?: EventUpdateOneRequiredWithoutGuestsNestedInput
@@ -5417,6 +5736,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventId?: IntFieldUpdateOperationsInput | number
@@ -5435,6 +5756,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
     eventId: number
@@ -5452,6 +5775,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -5469,6 +5794,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventId?: IntFieldUpdateOperationsInput | number
@@ -5623,6 +5950,35 @@ export namespace Prisma {
     not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
   }
 
+  export type EnumQrJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QrJobStatus | EnumQrJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQrJobStatusFilter<$PrismaModel> | $Enums.QrJobStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -5655,6 +6011,15 @@ export namespace Prisma {
     Estado?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobStatus?: SortOrder
+    qrGeneratedAt?: SortOrder
+    qrJobStartedAt?: SortOrder
+    qrJobFinishedAt?: SortOrder
+    qrJobError?: SortOrder
+    qrJobTotal?: SortOrder
+    qrJobProcessed?: SortOrder
+    qrJobRequestedBy?: SortOrder
+    invitationBaseImageUrl?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
   }
@@ -5664,6 +6029,9 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobTotal?: SortOrder
+    qrJobProcessed?: SortOrder
+    qrJobRequestedBy?: SortOrder
     checkedInCount?: SortOrder
   }
 
@@ -5679,6 +6047,15 @@ export namespace Prisma {
     Estado?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobStatus?: SortOrder
+    qrGeneratedAt?: SortOrder
+    qrJobStartedAt?: SortOrder
+    qrJobFinishedAt?: SortOrder
+    qrJobError?: SortOrder
+    qrJobTotal?: SortOrder
+    qrJobProcessed?: SortOrder
+    qrJobRequestedBy?: SortOrder
+    invitationBaseImageUrl?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
   }
@@ -5695,6 +6072,15 @@ export namespace Prisma {
     Estado?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobStatus?: SortOrder
+    qrGeneratedAt?: SortOrder
+    qrJobStartedAt?: SortOrder
+    qrJobFinishedAt?: SortOrder
+    qrJobError?: SortOrder
+    qrJobTotal?: SortOrder
+    qrJobProcessed?: SortOrder
+    qrJobRequestedBy?: SortOrder
+    invitationBaseImageUrl?: SortOrder
     checkedInCount?: SortOrder
     createdAt?: SortOrder
   }
@@ -5704,6 +6090,9 @@ export namespace Prisma {
     cant_invitados?: SortOrder
     porcentajeAsistencia?: SortOrder
     ownerId?: SortOrder
+    qrJobTotal?: SortOrder
+    qrJobProcessed?: SortOrder
+    qrJobRequestedBy?: SortOrder
     checkedInCount?: SortOrder
   }
 
@@ -5735,30 +6124,17 @@ export namespace Prisma {
     _max?: NestedEnumEventStatusFilter<$PrismaModel>
   }
 
-  export type EnumGuestStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumGuestStatusFilter<$PrismaModel> | $Enums.GuestStatus
+  export type EnumQrJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QrJobStatus | EnumQrJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQrJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.QrJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQrJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumQrJobStatusFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -5766,7 +6142,38 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumGuestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGuestStatusFilter<$PrismaModel> | $Enums.GuestStatus
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type EventScalarRelationFilter = {
@@ -5777,6 +6184,11 @@ export namespace Prisma {
   export type GuestEmailEventIdCompoundUniqueInput = {
     email: string
     eventId: number
+  }
+
+  export type GuestEventIdQrHashCompoundUniqueInput = {
+    eventId: number
+    qrHash: string
   }
 
   export type GuestCountOrderByAggregateInput = {
@@ -5792,6 +6204,8 @@ export namespace Prisma {
     invitacionEnviada?: SortOrder
     video?: SortOrder
     foto?: SortOrder
+    qrImageUrl?: SortOrder
+    qrGeneratedAt?: SortOrder
     qrHash?: SortOrder
     checkInTime?: SortOrder
     eventId?: SortOrder
@@ -5816,6 +6230,8 @@ export namespace Prisma {
     invitacionEnviada?: SortOrder
     video?: SortOrder
     foto?: SortOrder
+    qrImageUrl?: SortOrder
+    qrGeneratedAt?: SortOrder
     qrHash?: SortOrder
     checkInTime?: SortOrder
     eventId?: SortOrder
@@ -5834,6 +6250,8 @@ export namespace Prisma {
     invitacionEnviada?: SortOrder
     video?: SortOrder
     foto?: SortOrder
+    qrImageUrl?: SortOrder
+    qrGeneratedAt?: SortOrder
     qrHash?: SortOrder
     checkInTime?: SortOrder
     eventId?: SortOrder
@@ -5855,42 +6273,12 @@ export namespace Prisma {
     _max?: NestedEnumGuestStatusFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EventCreateNestedManyWithoutOwnerInput = {
@@ -5979,6 +6367,22 @@ export namespace Prisma {
     set?: $Enums.EventStatus
   }
 
+  export type EnumQrJobStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QrJobStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutEventsNestedInput = {
     create?: XOR<UserCreateWithoutEventsInput, UserUncheckedCreateWithoutEventsInput>
     connectOrCreate?: UserCreateOrConnectWithoutEventsInput
@@ -6025,20 +6429,8 @@ export namespace Prisma {
     set?: $Enums.GuestStatus
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type EventUpdateOneRequiredWithoutGuestsNestedInput = {
@@ -6164,6 +6556,35 @@ export namespace Prisma {
     not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
   }
 
+  export type NestedEnumQrJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QrJobStatus | EnumQrJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQrJobStatusFilter<$PrismaModel> | $Enums.QrJobStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6181,17 +6602,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
     in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
@@ -6202,19 +6612,17 @@ export namespace Prisma {
     _max?: NestedEnumEventStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumGuestStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumGuestStatusFilter<$PrismaModel> | $Enums.GuestStatus
+  export type NestedEnumQrJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QrJobStatus | EnumQrJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QrJobStatus[] | ListEnumQrJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQrJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.QrJobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQrJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumQrJobStatusFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -6222,17 +6630,10 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedEnumGuestStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumGuestStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuestStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumGuestStatusFilter<$PrismaModel>
-    _max?: NestedEnumGuestStatusFilter<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6262,26 +6663,34 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumGuestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGuestStatusFilter<$PrismaModel> | $Enums.GuestStatus
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumGuestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GuestStatus | EnumGuestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GuestStatus[] | ListEnumGuestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGuestStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGuestStatusFilter<$PrismaModel>
+    _max?: NestedEnumGuestStatusFilter<$PrismaModel>
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EventCreateWithoutOwnerInput = {
@@ -6294,6 +6703,15 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestCreateNestedManyWithoutEventInput
@@ -6310,6 +6728,15 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
@@ -6356,6 +6783,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     porcentajeAsistencia?: IntFilter<"Event"> | number
     ownerId?: IntFilter<"Event"> | number
+    qrJobStatus?: EnumQrJobStatusFilter<"Event"> | $Enums.QrJobStatus
+    qrGeneratedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobStartedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobFinishedAt?: DateTimeNullableFilter<"Event"> | Date | string | null
+    qrJobError?: StringNullableFilter<"Event"> | string | null
+    qrJobTotal?: IntNullableFilter<"Event"> | number | null
+    qrJobProcessed?: IntNullableFilter<"Event"> | number | null
+    qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
+    invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
     checkedInCount?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
   }
@@ -6392,6 +6828,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
   }
@@ -6409,6 +6847,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
   }
@@ -6481,6 +6921,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
+    qrImageUrl?: StringNullableFilter<"Guest"> | string | null
+    qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
     qrHash?: StringFilter<"Guest"> | string
     checkInTime?: DateTimeNullableFilter<"Guest"> | Date | string | null
     eventId?: IntFilter<"Guest"> | number
@@ -6496,6 +6938,15 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
@@ -6513,6 +6964,15 @@ export namespace Prisma {
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
     ownerId: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
   }
@@ -6543,6 +7003,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
@@ -6560,6 +7029,15 @@ export namespace Prisma {
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
     ownerId?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6575,6 +7053,15 @@ export namespace Prisma {
     coverImage?: string | null
     Estado?: $Enums.EventStatus
     porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
   }
@@ -6589,6 +7076,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUpdateManyWithoutEventNestedInput
@@ -6605,6 +7101,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
@@ -6621,6 +7126,15 @@ export namespace Prisma {
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6638,6 +7152,8 @@ export namespace Prisma {
     invitacionEnviada?: boolean
     video?: string | null
     foto?: string | null
+    qrImageUrl?: string | null
+    qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
   }
@@ -6654,6 +7170,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -6671,6 +7189,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -6688,6 +7208,8 @@ export namespace Prisma {
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
+    qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

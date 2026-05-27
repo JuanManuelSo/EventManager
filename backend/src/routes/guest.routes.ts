@@ -10,5 +10,7 @@ router.post("/bulk", authMiddleware, guestController.bulkCreate);
 router.post("/checkin", authMiddleware, guestController.checkin);
 router.post("/:guestId/checkin", authMiddleware, guestController.manualCheckin);
 router.post("/invitations", authMiddleware, guestController.sendInvitations);
+router.post("/qr/generate", authMiddleware, guestController.generateQrs);
+router.get("/qr/download", authMiddleware, guestController.downloadQrs);
 
 export default router;

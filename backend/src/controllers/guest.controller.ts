@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { guestService } from "../services/guest.service.js";
 import { bulkCreateGuestsSchema } from "../validations/guest.validation.js";
+import { qrJobService } from "../services/qr-job.service.js";
 import z from "zod";
 
 const paramsSchema = z.object({
@@ -93,6 +94,61 @@ export const guestController = {
       const result = await guestService.sendInvitations(eventId, guestIds);
 
       res.json({ status: "success", ...result });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async generateQrs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        res.status(401).json({ status: "error", message: "Usuario no autenticado" });
+        return;
+      }
+
+      const data = await qrJobService.start(eventId, userId);
+
+      res.json({ status: "success", data });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ status: "error", message: error.message });
+        return;
+      }
+
+      next(error);
+    }
+  },
+
+  async downloadQrs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        res.status(401).json({ status: "error", message: "Usuario no autenticado" });
+        return;
+      }
+
+      const event = await guestService.getOwnedEvent(eventId, userId);
+
+      if (!event) {
+        res.status(404).json({ status: "error", message: "Evento no encontrado" });
+        return;
+      }
+
+      const zip = qrJobService.getZip(eventId);
+      if (!zip) {
+        res.status(404).json({ status: "error", message: "ZIP no disponible todavía" });
+        return;
+      }
+
+      const safeFileName = `qrs-evento-${String(eventId).replace(/[^0-9]/g, "") || eventId}.zip`;
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", `attachment; filename="${safeFileName}"`);
+      res.send(zip);
     } catch (error) {
       next(error);
     }

@@ -24,6 +24,13 @@ enum GuestStatus{
   PRESENTE
 }
 
+enum QrJobStatus {
+  IDLE
+  PROCESSING
+  DONE
+  ERROR
+}
+
 model User {
   id          Int @id @default(autoincrement())
   email       String @unique
@@ -53,6 +60,16 @@ model Event {
   // Relación con invitados
   guests      Guest[]
 
+  qrJobStatus       QrJobStatus @default(IDLE)
+  qrGeneratedAt     DateTime?
+  qrJobStartedAt    DateTime?
+  qrJobFinishedAt   DateTime?
+  qrJobError        String?
+  qrJobTotal        Int?
+  qrJobProcessed    Int?
+  qrJobRequestedBy  Int?
+  invitationBaseImageUrl String?
+
   checkedInCount Int @default(0)
   
 
@@ -75,12 +92,16 @@ model Guest {
   video       String? //Url   
   foto        String? //Url
   
+  qrImageUrl    String?    // URL o path de la imagen generada (para uso futuro)
+  qrGeneratedAt DateTime?
+
   // Para el Check-in
-  qrHash      String    @unique // Código único que irá en el QR
+  qrHash      String // Código único que irá en el QR
   checkInTime DateTime? 
   
   eventId     Int
   event       Event     @relation(fields: [eventId], references: [id_evento], onDelete: Cascade)
 
   @@unique([email, eventId]) // Un mismo mail no puede estar dos veces en el mismo evento
+  @@unique([eventId, qrHash])
 }

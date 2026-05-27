@@ -36,6 +36,13 @@ function parseGuestStatus(val?: string) {
 }
 
 export const guestService = {
+  async getOwnedEvent(eventId: number, ownerId: number) {
+    return prisma.event.findFirst({
+      where: { id_evento: eventId, ownerId },
+      select: { id_evento: true, ownerId: true, qrJobStatus: true },
+    });
+  },
+
   async getByEvent(eventId: number, options: GetByEventOptions = {}) {
     const { search, status } = options;
 

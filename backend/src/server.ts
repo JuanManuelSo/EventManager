@@ -1,6 +1,8 @@
 import app from "./app.js";
+import { createServer } from "http";
 
 import { prisma } from "./lib/prisma.js";
+import { initSocket } from "./lib/socket.js";
 
 import { env } from "./config/env.js";
 
@@ -10,7 +12,10 @@ async function bootstrap() {
 
     console.log("Database connected");
 
-    app.listen(env.PORT, () => {
+    const httpServer = createServer(app);
+    initSocket(httpServer);
+
+    httpServer.listen(env.PORT, () => {
       console.log(`Server running on port ${env.PORT}`);
     });
   } catch (error) {
