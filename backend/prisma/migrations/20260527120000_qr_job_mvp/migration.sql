@@ -1,16 +1,17 @@
 -- AlterTable
 ALTER TABLE "Event"
-ADD COLUMN "invitationBaseImageUrl" TEXT,
-ADD COLUMN "qrJobError" TEXT,
-ADD COLUMN "qrJobFinishedAt" TIMESTAMP(3),
-ADD COLUMN "qrJobProcessed" INTEGER,
-ADD COLUMN "qrJobRequestedBy" INTEGER,
-ADD COLUMN "qrJobStartedAt" TIMESTAMP(3),
-ADD COLUMN "qrJobTotal" INTEGER,
-DROP COLUMN "qrZipUrl";
+ADD COLUMN IF NOT EXISTS "invitationBaseImageUrl" TEXT,
+ADD COLUMN IF NOT EXISTS "qrJobError" TEXT,
+ADD COLUMN IF NOT EXISTS "qrJobFinishedAt" TIMESTAMP(3),
+ADD COLUMN IF NOT EXISTS "qrJobProcessed" INTEGER,
+ADD COLUMN IF NOT EXISTS "qrJobRequestedBy" INTEGER,
+ADD COLUMN IF NOT EXISTS "qrJobStartedAt" TIMESTAMP(3),
+ADD COLUMN IF NOT EXISTS "qrJobTotal" INTEGER;
+
+ALTER TABLE "Event" DROP COLUMN IF EXISTS "qrZipUrl";
 
 -- DropIndex
-DROP INDEX "Guest_qrHash_key";
+DROP INDEX IF EXISTS "Guest_qrHash_key";
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Guest_eventId_qrHash_key" ON "Guest"("eventId", "qrHash");
+CREATE UNIQUE INDEX IF NOT EXISTS "Guest_eventId_qrHash_key" ON "Guest"("eventId", "qrHash");

@@ -187,4 +187,22 @@ export const guestsService = {
     });
     return data;
   },
+
+  async generateQrs(eventId: number): Promise<{
+    eventId: number;
+    qrJobStatus: "PROCESSING";
+    total: number;
+  }> {
+    const { default: api } = await import("../lib/api");
+    const { data } = await api.post(`/events/${eventId}/guests/qr/generate`);
+    return data.data;
+  },
+
+  async downloadQrs(eventId: number): Promise<Blob> {
+    const { default: api } = await import("../lib/api");
+    const response = await api.get(`/events/${eventId}/guests/qr/download`, {
+      responseType: "blob",
+    });
+    return response.data as Blob;
+  },
 };
