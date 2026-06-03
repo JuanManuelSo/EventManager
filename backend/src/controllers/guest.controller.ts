@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { guestService } from "../services/guest.service.js";
-import { bulkCreateGuestsSchema } from "../validations/guest.validation.js";
+import {
+  bulkCreateGuestsSchema,
+  createGuestSchema,
+} from "../validations/guest.validation.js";
 import { qrJobService } from "../services/qr-job.service.js";
 import z from "zod";
 
@@ -53,6 +56,19 @@ export const guestController = {
     }
   },
 
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
+      const body = createGuestSchema.parse(req.body);
+
+      const guest = await guestService.create(eventId, body);
+
+      res.status(201).json({ status: "success", data: guest });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async checkin(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
@@ -82,6 +98,44 @@ export const guestController = {
 
       res.json({ status: "success", data: guest });
     } catch (error) {
+      next(error);
+    }
+  },
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId, guestId } = paramsSchema.parse({
+        eventId: req.params.eventId,
+        guestId: req.params.guestId,
+      });
+
+      if (!guestId) {
+        res
+          .status(400)
+          .json({ status: "error", message: "guestId requerido" });
+        return;
+      }
+
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        res
+          .status(401)
+          .json({ status: "error", message: "Usuario no autenticado" });
+        return;
+      }
+
+      const result = await guestService.delete(eventId, guestId, userId);
+
+      res.json({ status: "success", ...result });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res
+          .status(error.statusCode)
+          .json({ status: "error", message: error.message });
+        return;
+      }
+
       next(error);
     }
   },

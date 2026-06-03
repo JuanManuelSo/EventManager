@@ -2,6 +2,7 @@ import { Router } from "express";
 import userRoutes from "./user.routes.js";
 import eventRoutes from "./event.routes.js";
 import guestRoutes from "./guest.routes.js";
+import checkInRoutes from "./checkIn.route.js";
 
 const router = Router();
 
@@ -9,5 +10,7 @@ const router = Router();
 router.use("/users", userRoutes);
 router.use("/events", eventRoutes);
 router.use("/events/:eventId/guests", guestRoutes);
+
+router.use("/checkin/", checkInRoutes);
 
 export default router;

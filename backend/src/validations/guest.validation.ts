@@ -17,4 +17,6 @@ export const bulkCreateGuestsSchema = z.object({
     .min(1, "Debe incluir al menos un invitado"),
 });
 
+export const createGuestSchema = guestImportRowSchema;
+
 export type GuestImportInput = z.infer<typeof guestImportRowSchema>;

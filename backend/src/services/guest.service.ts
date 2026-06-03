@@ -106,6 +106,25 @@ export const guestService = {
     };
   },
 
+  async create(eventId: number, row: GuestImportRow) {
+    const guest = await prisma.guest.create({
+      data: {
+        documento: row.documento,
+        nombre: row.nombre,
+        apellido: row.apellido,
+        email: row.email || null,
+        numero: row.numero || null,
+        mesa: row.mesa || null,
+        cant_acompanantes: row.cant_acompanantes ?? null,
+        status: parseGuestStatus(row.status),
+        qrHash: generateQrHash(eventId),
+        eventId,
+      },
+    });
+
+    return guest;
+  },
+
   async bulkCreate(eventId: number, rows: GuestImportRow[]) {
     let createdCount = 0;
 
@@ -132,13 +151,6 @@ export const guestService = {
         }
         throw err;
       }
-    }
-
-    if (createdCount > 0) {
-      await prisma.event.update({
-        where: { id_evento: eventId },
-        data: { cant_invitados: { increment: createdCount } },
-      });
     }
 
     return { created: createdCount };
@@ -224,6 +236,55 @@ export const guestService = {
     });
 
     return updated;
+  },
+
+  async delete(eventId: number, guestId: number, userId: number) {
+    const event = await this.getOwnedEvent(eventId, userId);
+
+    if (!event) {
+      const error = new Error("Evento no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const guest = await prisma.guest.findFirst({
+      where: { id: guestId, eventId },
+    });
+
+    if (!guest) {
+      const error = new Error("Invitado no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (guest.status === "PRESENTE") {
+      const error = new Error(
+        "No se puede eliminar un invitado que ya está presente"
+      ) as any;
+      error.statusCode = 409;
+      throw error;
+    }
+
+    await prisma.guest.delete({ where: { id: guest.id } });
+
+    if (guest.checkInTime) {
+      const checkedInCount = await prisma.guest.count({
+        where: { eventId, checkInTime: { not: null } },
+      });
+
+      const totalGuests = await prisma.guest.count({ where: { eventId } });
+      const porcentajeAsistencia =
+        totalGuests > 0
+          ? Math.round((checkedInCount / totalGuests) * 100)
+          : 0;
+
+      await prisma.event.update({
+        where: { id_evento: eventId },
+        data: { checkedInCount, porcentajeAsistencia },
+      });
+    }
+
+    return { deleted: true };
   },
 
   async sendInvitations(eventId: number, guestIds: number[]) {
