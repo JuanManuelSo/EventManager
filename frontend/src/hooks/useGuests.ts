@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { guestsService } from "../services/guests.service";
 import { normalizeGuest } from "../lib/utils";
 
@@ -27,5 +28,19 @@ export function useGuestsPaginated(
     queryFn: () => guestsService.getByEvent(eventId, options),
     enabled: !!eventId,
     staleTime: 1000 * 30,
+  });
+}
+
+export function useDeleteGuest() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ eventId, guestId }: { eventId: number; guestId: number }) =>
+      guestsService.delete(eventId, guestId),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["guests", variables.eventId],
+      });
+    },
   });
 }

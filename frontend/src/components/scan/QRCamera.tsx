@@ -13,8 +13,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScanLine, CameraOff, Loader2 } from "lucide-react";
+import { BrowserQRCodeReader } from "@zxing/browser";
 
-const REAL_CAMERA = false; // ← flip to true + install @zxing/browser for production
+const REAL_CAMERA = true; // ← flip to true + install @zxing/browser for production
 
 interface Props {
   onScan: (qrCode: string) => void;
@@ -26,6 +27,8 @@ export default function QRCamera({ onScan, active, disabled }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [camError, setCamError] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const lastScanRef = useRef<number>(0);
+  const COOLDOWN_MS = 3000; // 3 segundos entre scans
 
   /* ── Real camera mode ── */
   useEffect(() => {
@@ -35,12 +38,18 @@ export default function QRCamera({ onScan, active, disabled }: Props) {
 
     async function startCamera() {
       try {
+        if (disabled) return;
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const droidcam = devices.find(
+          (d) =>
+            d.kind === "videoinput" &&
+            d.label.toLowerCase().includes("droidcam"),
+        );
+
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "environment",
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
-          },
+          video: droidcam
+            ? { deviceId: { exact: droidcam.deviceId } }
+            : { facingMode: "environment" },
         });
         if (stopped) {
           stream.getTracks().forEach((t) => t.stop());
@@ -54,13 +63,24 @@ export default function QRCamera({ onScan, active, disabled }: Props) {
 
         /**
          * Decode frames with @zxing/browser:
-         *
-         * import { BrowserQRCodeReader } from '@zxing/browser';
-         * const reader = new BrowserQRCodeReader();
-         * reader.decodeFromVideoElement(videoRef.current, (result, err) => {
-         *   if (result && !stopped) onScan(result.getText());
-         * });
          */
+
+        const reader = new BrowserQRCodeReader();
+        if (videoRef.current) {
+          reader.decodeFromVideoElement(videoRef.current, (result, err) => {
+            if (disabled) return;
+            if (result && !stopped) {
+              const now = Date.now();
+              if (now - lastScanRef.current < COOLDOWN_MS) return;
+              lastScanRef.current = now;
+              console.log("📷 QR decodificado:", result.getText());
+              onScan(result.getText());
+            }
+            if (err) {
+              console.warn("⚠️ Frame sin QR (normal):", err?.message);
+            }
+          });
+        }
       } catch (err) {
         setCamError(
           "No se pudo acceder a la cámara. Verificá los permisos del navegador.",

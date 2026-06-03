@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Search,
   Upload,
@@ -11,15 +13,19 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
+  UserPlus,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { io, type Socket } from "socket.io-client";
-import { useGuests } from "../../hooks/useGuests";
+import { useGuests, useDeleteGuest } from "../../hooks/useGuests";
 import { guestsService } from "../../services/guests.service";
 import type { Guest } from "../../types";
 
 import ExcelImportModal from "./ExcelImportModal";
+import ManualGuestModal from "./ManualGuestModal";
+import DeleteGuestModal from "../guests/DeleteGuestModal";
+
 import type { GuestImportRow } from "../../lib/guestImport";
 
 import { useToast } from "../ui/Toast";
@@ -65,6 +71,8 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const { data: guests = [], isLoading } = useGuests(eventId);
   const [importedGuests] = useState<Guest[]>([]);
 
+  const navigate = useNavigate();
+
   console.log("GuestTab render", { guests });
 
   const [query, setQuery] = useState("");
@@ -75,10 +83,16 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
 
   const queryClient = useQueryClient();
   const toast = useToast();
+  const deleteGuestMutation = useDeleteGuest();
 
   //Estado para modal
+  const [isDeleteGuestModalOpen, setIsDeleteGuestModalOpen] = useState(false);
+  const [guestToDelete, setGuestToDelete] = useState<Guest | null>(null);
+
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isManualGuestOpen, setIsManualGuestOpen] = useState(false);
   const [importLoading, setImportLoading] = useState(false);
+  const [manualCreateLoading, setManualCreateLoading] = useState(false);
   const [isQrConfirmOpen, setIsQrConfirmOpen] = useState(false);
   const [qrWidgetOpen, setQrWidgetOpen] = useState(false);
   const [qrJob, setQrJob] = useState<{
@@ -140,9 +154,33 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       toast.success("Generación de QRs iniciada");
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message ?? "No se pudo iniciar la generación de QRs");
+      toast.error(
+        error?.response?.data?.message ??
+          "No se pudo iniciar la generación de QRs",
+      );
     },
   });
+
+  const handleDeleteConfirm = () => {
+    if (!guestToDelete) return;
+
+    deleteGuestMutation.mutate(
+      { eventId, guestId: guestToDelete.id },
+      {
+        onSuccess: () => {
+          setIsDeleteGuestModalOpen(false);
+          setGuestToDelete(null);
+          toast.success("Invitado eliminado correctamente");
+        },
+        onError: (error: any) => {
+          toast.error(
+            error?.response?.data?.message ??
+              "No se pudo eliminar el invitado"
+          );
+        },
+      },
+    );
+  };
 
   async function triggerDownload() {
     const blob = await guestsService.downloadQrs(eventId);
@@ -163,11 +201,14 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       socket.emit("qr:join", { eventId });
     });
 
-    socket.on("qr:job_started", (payload: { eventId: number; total: number }) => {
-      if (payload.eventId !== eventId) return;
-      setQrWidgetOpen(true);
-      setQrJob({ status: "PROCESSING", processed: 0, total: payload.total });
-    });
+    socket.on(
+      "qr:job_started",
+      (payload: { eventId: number; total: number }) => {
+        if (payload.eventId !== eventId) return;
+        setQrWidgetOpen(true);
+        setQrJob({ status: "PROCESSING", processed: 0, total: payload.total });
+      },
+    );
 
     socket.on(
       "qr:job_progress",
@@ -182,27 +223,45 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       },
     );
 
-    socket.on("qr:job_done", async (payload: { eventId: number; total: number }) => {
-      if (payload.eventId !== eventId) return;
-      setQrWidgetOpen(true);
-      setQrJob({ status: "DONE", processed: payload.total, total: payload.total });
-      toast.success("QRs listos. Descargando ZIP...");
-      try {
-        await triggerDownload();
-      } catch {
-        toast.error("No se pudo descargar el ZIP");
-      } finally {
-        queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
-      }
-    });
+    socket.on(
+      "qr:job_done",
+      async (payload: { eventId: number; total: number }) => {
+        if (payload.eventId !== eventId) return;
+        setQrWidgetOpen(true);
+        setQrJob({
+          status: "DONE",
+          processed: payload.total,
+          total: payload.total,
+        });
+        toast.success("QRs listos. Descargando ZIP...");
+        try {
+          await triggerDownload();
+        } catch {
+          toast.error("No se pudo descargar el ZIP");
+        } finally {
+          queryClient.invalidateQueries({
+            queryKey: ["events", "detail", eventId],
+          });
+        }
+      },
+    );
 
-    socket.on("qr:job_error", (payload: { eventId: number; message: string }) => {
-      if (payload.eventId !== eventId) return;
-      setQrWidgetOpen(true);
-      setQrJob((prev) => ({ ...prev, status: "ERROR", error: payload.message }));
-      toast.error(payload.message || "Falló la generación de QRs");
-      queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
-    });
+    socket.on(
+      "qr:job_error",
+      (payload: { eventId: number; message: string }) => {
+        if (payload.eventId !== eventId) return;
+        setQrWidgetOpen(true);
+        setQrJob((prev) => ({
+          ...prev,
+          status: "ERROR",
+          error: payload.message,
+        }));
+        toast.error(payload.message || "Falló la generación de QRs");
+        queryClient.invalidateQueries({
+          queryKey: ["events", "detail", eventId],
+        });
+      },
+    );
 
     return () => {
       socket.emit("qr:leave", { eventId });
@@ -211,7 +270,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   }, [eventId]);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
+    <div className="bg-white border border-slate-200 rounded-xl overflow-visible shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
       {/* Toolbar */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 flex-wrap">
         <span className="text-xs font-semibold text-slate-500 shrink-0">
@@ -267,6 +326,11 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
             onClick={() => setIsImportOpen(true)}
           />
           <ActionBtn
+            icon={<UserPlus size={13} />}
+            label="Cargar Invitado"
+            onClick={() => setIsManualGuestOpen(true)}
+          />
+          <ActionBtn
             icon={<QrCode size={13} />}
             label="Generar QRs"
             disabled={allGuests.length === 0 || generateQrMutation.isPending}
@@ -287,7 +351,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-b-xl min-h-65">
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50/60">
@@ -400,11 +464,25 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                               onClick={() => setOpenMenu(null)}
                             />
                             <div className="absolute right-0 top-full mt-1 z-20 w-44 bg-white border border-slate-200 rounded-lg shadow-[0_4px_16px_rgb(0,0,0,0.1)] py-1 overflow-hidden">
-                              <MenuItem label="Ver QR" />
-                              <MenuItem label="Editar invitado" />
-                              <MenuItem label="Enviar invitación" />
+                              <MenuItem label="Ver QR" onClick={() => {}} />
+                              <MenuItem
+                                label="Editar invitado"
+                                onClick={() => {}}
+                              />
+                              <MenuItem
+                                label="Enviar invitación"
+                                onClick={() => {}}
+                              />
                               <div className="my-1 border-t border-slate-100" />
-                              <MenuItem label="Eliminar" danger />
+                              <MenuItem
+                                label="Eliminar "
+                                danger
+                                onClick={() => {
+                                  setGuestToDelete(guest);
+                                  setIsDeleteGuestModalOpen(true);
+                                  setOpenMenu(null);
+                                }}
+                              />
                             </div>
                           </>
                         )}
@@ -516,6 +594,27 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
           }
         }}
       />
+      <ManualGuestModal
+        isOpen={isManualGuestOpen}
+        onClose={() => setIsManualGuestOpen(false)}
+        isLoading={manualCreateLoading}
+        onConfirm={async (guest) => {
+          setManualCreateLoading(true);
+          try {
+            await guestsService.create(eventId, {
+              ...guest,
+              telefono: guest.numero,
+            });
+            queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
+            setIsManualGuestOpen(false);
+            toast.success("Invitado cargado correctamente");
+          } catch {
+            toast.error("Error al cargar invitado manualmente");
+          } finally {
+            setManualCreateLoading(false);
+          }
+        }}
+      />
       <ConfirmGenerateQrModal
         isOpen={isQrConfirmOpen}
         totalGuests={allGuests.length}
@@ -531,6 +630,16 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
           onDownloadAgain={triggerDownload}
         />
       )}
+      <DeleteGuestModal
+        isOpen={isDeleteGuestModalOpen}
+        onClose={() => {
+          setIsDeleteGuestModalOpen(false);
+          setGuestToDelete(null);
+        }}
+        onConfirm={handleDeleteConfirm}
+        guest={guestToDelete!}
+        isLoading={deleteGuestMutation.isPending}
+      />
     </div>
   );
 }
@@ -601,9 +710,13 @@ function ConfirmGenerateQrModal({
     <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md rounded-xl bg-white border border-slate-200 shadow-xl p-5">
-        <h3 className="text-sm font-semibold text-slate-800">Confirmar generación de QRs</h3>
+        <h3 className="text-sm font-semibold text-slate-800">
+          Confirmar generación de QRs
+        </h3>
         <p className="text-xs text-slate-500 mt-2">
-          Se van a procesar <span className="font-semibold text-slate-700">{totalGuests}</span> invitados.
+          Se van a procesar{" "}
+          <span className="font-semibold text-slate-700">{totalGuests}</span>{" "}
+          invitados.
         </p>
         <div className="mt-4 flex justify-end gap-2">
           <button
@@ -631,18 +744,31 @@ function QrProgressWidget({
   onRetry,
   onDownloadAgain,
 }: {
-  state: { status: "IDLE" | "PROCESSING" | "DONE" | "ERROR"; processed: number; total: number; error?: string };
+  state: {
+    status: "IDLE" | "PROCESSING" | "DONE" | "ERROR";
+    processed: number;
+    total: number;
+    error?: string;
+  };
   onClose: () => void;
   onRetry: () => void;
   onDownloadAgain: () => Promise<void>;
 }) {
-  const percent = state.total > 0 ? Math.round((state.processed / state.total) * 100) : 0;
+  const percent =
+    state.total > 0 ? Math.round((state.processed / state.total) * 100) : 0;
 
   return (
     <div className="fixed bottom-4 right-4 z-50 w-84 rounded-xl border border-slate-200 bg-white shadow-lg p-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-slate-800">Generación de QRs</p>
-        <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-xs">Cerrar</button>
+        <p className="text-sm font-semibold text-slate-800">
+          Generación de QRs
+        </p>
+        <button
+          onClick={onClose}
+          className="text-slate-400 hover:text-slate-600 text-xs"
+        >
+          Cerrar
+        </button>
       </div>
 
       {state.status === "PROCESSING" && (
@@ -652,15 +778,22 @@ function QrProgressWidget({
             Procesando {state.processed}/{state.total}
           </div>
           <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full bg-blue-600 transition-all duration-200" style={{ width: `${percent}%` }} />
+            <div
+              className="h-full bg-blue-600 transition-all duration-200"
+              style={{ width: `${percent}%` }}
+            />
           </div>
-          <p className="mt-1 text-[11px] text-slate-500">{percent}% completado</p>
+          <p className="mt-1 text-[11px] text-slate-500">
+            {percent}% completado
+          </p>
         </>
       )}
 
       {state.status === "DONE" && (
         <div className="mt-3">
-          <p className="text-xs text-emerald-700 font-medium">Listo. ZIP generado correctamente.</p>
+          <p className="text-xs text-emerald-700 font-medium">
+            Listo. ZIP generado correctamente.
+          </p>
           <button
             onClick={() => void onDownloadAgain()}
             className="mt-2 px-3 py-1.5 text-xs rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
@@ -672,7 +805,9 @@ function QrProgressWidget({
 
       {state.status === "ERROR" && (
         <div className="mt-3">
-          <p className="text-xs text-red-600 font-medium">{state.error || "Error generando QRs"}</p>
+          <p className="text-xs text-red-600 font-medium">
+            {state.error || "Error generando QRs"}
+          </p>
           <button
             onClick={onRetry}
             className="mt-2 px-3 py-1.5 text-xs rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
@@ -685,9 +820,18 @@ function QrProgressWidget({
   );
 }
 
-function MenuItem({ label, danger }: { label: string; danger?: boolean }) {
+function MenuItem({
+  label,
+  danger,
+  onClick,
+}: {
+  label: string;
+  danger?: boolean;
+  onClick: () => void;
+}) {
   return (
     <button
+      onClick={onClick}
       className={[
         "w-full text-left px-3 py-2 text-xs font-medium transition-colors duration-100 cursor-pointer",
         danger

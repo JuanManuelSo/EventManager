@@ -1,9 +1,5 @@
 import type { CheckinResult } from "../types";
-import { MOCK_GUESTS } from "../mocks/guests";
-import { sleep } from "../lib/utils";
 import api from "../lib/api";
-
-const USE_MOCK = true;
 
 export const checkinService = {
   /**
@@ -12,32 +8,9 @@ export const checkinService = {
    * If 0 rows → already checked in (409).
    */
   async scanQR(qrHash: string, eventId: number): Promise<CheckinResult> {
-    if (USE_MOCK) {
-      await sleep(600);
-
-      const guest = MOCK_GUESTS.find(
-        (g) =>
-          g.qrHash === qrHash && g.eventId.toString() === eventId.toString(),
-      );
-
-      if (!guest) throw new Error("QR inválido — invitado no encontrado.");
-
-      // Anti-duplicate: already checked in
-      if (guest.checkedIn) {
-        return { guest, alreadyIn: true };
-      }
-
-      // Mark as checked in (mutate mock in memory)
-      guest.checkedIn = true;
-      guest.checkedInAt = new Date().toISOString();
-
-      return { guest, alreadyIn: false };
-    }
-
-    const { data } = await api.post<CheckinResult>(
-      `/events/${eventId}/checkin`,
-      { qrHash },
-    );
+    const { data } = await api.post<CheckinResult>(`/checkin/${eventId}/scan`, {
+      qrCode: qrHash,
+    });
     return data;
   },
 
@@ -45,19 +18,8 @@ export const checkinService = {
    * Manual check-in by guest ID (fallback when QR can't be scanned)
    */
   async checkinById(guestId: number, eventId: number): Promise<CheckinResult> {
-    if (USE_MOCK) {
-      await sleep(400);
-      const guest = MOCK_GUESTS.find(
-        (g) => g.id === guestId && g.eventId === eventId,
-      );
-      if (!guest) throw new Error("Invitado no encontrado.");
-      if (guest.checkedIn) return { guest, alreadyIn: true };
-      guest.checkedIn = true;
-      guest.checkedInAt = new Date().toISOString();
-      return { guest, alreadyIn: false };
-    }
     const { data } = await api.post<CheckinResult>(
-      `/events/${eventId}/checkin`,
+      `/checkin/${eventId}/manual`,
       { guestId },
     );
     return data;

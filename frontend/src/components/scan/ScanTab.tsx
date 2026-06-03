@@ -87,9 +87,15 @@ export default function ScanTab({ eventId }: { eventId: number }) {
   const handleCameraScan = useCallback(
     (qrCode: string) => {
       if (scanMutation.isPending) return;
+      console.log("🚀 Enviando al backend:", qrCode);
       scanMutation.mutate(qrCode, {
-        onSuccess: (res) => handleScanResult(res),
+        onSuccess: (res) => {
+          console.log("✅ Respuesta backend:", res);
+          handleScanResult(res);
+        },
         onError: (err) => {
+          console.error("❌ Error backend:", err);
+          console.error("❌ Detalle:", (err as any)?.response?.data);
           setFeedback({ type: "error", message: (err as Error).message });
           if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
           feedbackTimer.current = setTimeout(() => setFeedback(null), 3500);
@@ -196,7 +202,7 @@ export default function ScanTab({ eventId }: { eventId: number }) {
               <QRCamera
                 onScan={handleCameraScan}
                 active={scanActive}
-                disabled={scanMutation.isPending}
+                disabled={scanMutation.isPending || feedback !== null}
               />
 
               {/* Feedback overlay */}

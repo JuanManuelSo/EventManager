@@ -173,6 +173,12 @@ export const guestsService = {
     return data;
   },
 
+  async create(eventId: number, guest: Partial<Guest>): Promise<Guest> {
+    const { default: api } = await import("../lib/api");
+    const { data } = await api.post(`/events/${eventId}/guests`, guest);
+    return data.data;
+  },
+
   async sendInvitations(
     eventId: number,
     guestIds: string[],
@@ -204,5 +210,11 @@ export const guestsService = {
       responseType: "blob",
     });
     return response.data as Blob;
+  },
+
+  async delete(eventId: number, guestId: number): Promise<void> {
+    const { default: api } = await import("../lib/api");
+    const response = await api.delete(`/events/${eventId}/guests/${guestId}`);
+    return response.data;
   },
 };
