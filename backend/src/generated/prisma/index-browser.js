@@ -173,6 +173,20 @@ exports.Prisma.GuestScalarFieldEnum = {
   eventId: 'eventId'
 };
 
+exports.Prisma.EventMediaScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  publicId: 'publicId',
+  videoUrl: 'videoUrl',
+  nombre: 'nombre',
+  tipo: 'tipo',
+  mesa: 'mesa',
+  formato: 'formato',
+  duracion: 'duracion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -208,7 +222,8 @@ exports.GuestStatus = exports.$Enums.GuestStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Event: 'Event',
-  Guest: 'Guest'
+  Guest: 'Guest',
+  EventMedia: 'EventMedia'
 };
 
 /**

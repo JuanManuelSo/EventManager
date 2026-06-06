@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { getIo } from "../lib/socket.js";
 
 export interface CheckinResult {
   alreadyIn: boolean;
@@ -11,6 +12,7 @@ export interface CheckinResult {
     qrHash: string;
     checkInTime: Date | null;
     status: string;
+    video: string | null;
   };
 }
 
@@ -22,6 +24,17 @@ export const checkinService = {
   async scanQR(eventId: number, raw: string): Promise<CheckinResult> {
     const guest = await prisma.guest.findFirst({
       where: { qrHash: raw, eventId },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+      },
     });
 
     if (!guest) {
@@ -40,7 +53,32 @@ export const checkinService = {
         checkInTime: new Date(),
         status: "PRESENTE",
       },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+      },
     });
+
+    // Emitir evento de video a la pantalla TV
+    if (updated.video) {
+      const io = getIo();
+      io.to(`event:${eventId}:display`).emit("display:play_video", {
+        guest: {
+          id: updated.id,
+          nombre: updated.nombre,
+          apellido: updated.apellido,
+          mesa: updated.mesa,
+        },
+        videoUrl: updated.video,
+      });
+    }
 
     return { alreadyIn: false, guest: updated };
   },
@@ -51,6 +89,17 @@ export const checkinService = {
   async checkinById(eventId: number, guestId: number): Promise<CheckinResult> {
     const guest = await prisma.guest.findFirst({
       where: { id: guestId, eventId },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+      },
     });
 
     if (!guest) {
@@ -67,7 +116,32 @@ export const checkinService = {
         checkInTime: new Date(),
         status: "PRESENTE",
       },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+      },
     });
+
+    // Emitir evento de video a la pantalla TV
+    if (updated.video) {
+      const io = getIo();
+      io.to(`event:${eventId}:display`).emit("display:play_video", {
+        guest: {
+          id: updated.id,
+          nombre: updated.nombre,
+          apellido: updated.apellido,
+          mesa: updated.mesa,
+        },
+        videoUrl: updated.video,
+      });
+    }
 
     return { alreadyIn: false, guest: updated };
   },

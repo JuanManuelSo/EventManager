@@ -60,6 +60,9 @@ model Event {
   // Relación con invitados
   guests      Guest[]
 
+  // Relación con media (videos)
+  media       EventMedia[]
+
   qrJobStatus       QrJobStatus @default(IDLE)
   qrGeneratedAt     DateTime?
   qrJobStartedAt    DateTime?
@@ -104,4 +107,23 @@ model Guest {
 
   @@unique([email, eventId]) // Un mismo mail no puede estar dos veces en el mismo evento
   @@unique([eventId, qrHash])
+}
+
+model EventMedia {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id_evento], onDelete: Cascade)
+
+  publicId  String   // Cloudinary public_id
+  videoUrl  String   // Cloudinary URL
+  nombre    String   // Nombre amigable para identificar el video
+  tipo      String   // "individual" | "con_acompanantes" | "general"
+  mesa      Int?     // null = aplica a cualquier mesa
+  formato   String?  // "mp4", "webm", etc.
+  duracion  Int?     // Duración en segundos
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventId])
 }

@@ -13,6 +13,8 @@ router.post("/:guestId/checkin", authMiddleware, guestController.manualCheckin);
 router.post("/invitations", authMiddleware, guestController.sendInvitations);
 router.post("/qr/generate", authMiddleware, guestController.generateQrs);
 router.get("/qr/download", authMiddleware, guestController.downloadQrs);
+router.put("/:guestId", authMiddleware, guestController.update);
+router.post("/bulk-assign-video", authMiddleware, guestController.bulkAssignVideo);
 router.delete("/:guestId", authMiddleware, guestController.delete);
 
 export default router;

@@ -28,6 +28,11 @@ export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
  * 
  */
 export type Guest = $Result.DefaultSelection<Prisma.$GuestPayload>
+/**
+ * Model EventMedia
+ * 
+ */
+export type EventMedia = $Result.DefaultSelection<Prisma.$EventMediaPayload>
 
 /**
  * Enums
@@ -223,6 +228,16 @@ export class PrismaClient<
     * ```
     */
   get guest(): Prisma.GuestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eventMedia`: Exposes CRUD operations for the **EventMedia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventMedias
+    * const eventMedias = await prisma.eventMedia.findMany()
+    * ```
+    */
+  get eventMedia(): Prisma.EventMediaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -659,7 +674,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Event: 'Event',
-    Guest: 'Guest'
+    Guest: 'Guest',
+    EventMedia: 'EventMedia'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -675,7 +691,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "event" | "guest"
+      modelProps: "user" | "event" | "guest" | "eventMedia"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -901,6 +917,80 @@ export namespace Prisma {
           }
         }
       }
+      EventMedia: {
+        payload: Prisma.$EventMediaPayload<ExtArgs>
+        fields: Prisma.EventMediaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EventMediaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EventMediaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          findFirst: {
+            args: Prisma.EventMediaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EventMediaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          findMany: {
+            args: Prisma.EventMediaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>[]
+          }
+          create: {
+            args: Prisma.EventMediaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          createMany: {
+            args: Prisma.EventMediaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EventMediaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>[]
+          }
+          delete: {
+            args: Prisma.EventMediaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          update: {
+            args: Prisma.EventMediaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          deleteMany: {
+            args: Prisma.EventMediaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EventMediaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EventMediaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>[]
+          }
+          upsert: {
+            args: Prisma.EventMediaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventMediaPayload>
+          }
+          aggregate: {
+            args: Prisma.EventMediaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEventMedia>
+          }
+          groupBy: {
+            args: Prisma.EventMediaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EventMediaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EventMediaCountArgs<ExtArgs>
+            result: $Utils.Optional<EventMediaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1012,6 +1102,7 @@ export namespace Prisma {
     user?: UserOmit
     event?: EventOmit
     guest?: GuestOmit
+    eventMedia?: EventMediaOmit
   }
 
   /* Types for Logging */
@@ -1124,10 +1215,12 @@ export namespace Prisma {
 
   export type EventCountOutputType = {
     guests: number
+    media: number
   }
 
   export type EventCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guests?: boolean | EventCountOutputTypeCountGuestsArgs
+    media?: boolean | EventCountOutputTypeCountMediaArgs
   }
 
   // Custom InputTypes
@@ -1146,6 +1239,13 @@ export namespace Prisma {
    */
   export type EventCountOutputTypeCountGuestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GuestWhereInput
+  }
+
+  /**
+   * EventCountOutputType without action
+   */
+  export type EventCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventMediaWhereInput
   }
 
 
@@ -2626,6 +2726,7 @@ export namespace Prisma {
     createdAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     guests?: boolean | Event$guestsArgs<ExtArgs>
+    media?: boolean | Event$mediaArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
@@ -2710,6 +2811,7 @@ export namespace Prisma {
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     guests?: boolean | Event$guestsArgs<ExtArgs>
+    media?: boolean | Event$mediaArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2724,6 +2826,7 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
       guests: Prisma.$GuestPayload<ExtArgs>[]
+      media: Prisma.$EventMediaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id_evento: number
@@ -3144,6 +3247,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     guests<T extends Event$guestsArgs<ExtArgs> = {}>(args?: Subset<T, Event$guestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    media<T extends Event$mediaArgs<ExtArgs> = {}>(args?: Subset<T, Event$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3617,6 +3721,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GuestScalarFieldEnum | GuestScalarFieldEnum[]
+  }
+
+  /**
+   * Event.media
+   */
+  export type Event$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    where?: EventMediaWhereInput
+    orderBy?: EventMediaOrderByWithRelationInput | EventMediaOrderByWithRelationInput[]
+    cursor?: EventMediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventMediaScalarFieldEnum | EventMediaScalarFieldEnum[]
   }
 
   /**
@@ -4900,6 +5028,1193 @@ export namespace Prisma {
 
 
   /**
+   * Model EventMedia
+   */
+
+  export type AggregateEventMedia = {
+    _count: EventMediaCountAggregateOutputType | null
+    _avg: EventMediaAvgAggregateOutputType | null
+    _sum: EventMediaSumAggregateOutputType | null
+    _min: EventMediaMinAggregateOutputType | null
+    _max: EventMediaMaxAggregateOutputType | null
+  }
+
+  export type EventMediaAvgAggregateOutputType = {
+    id: number | null
+    eventId: number | null
+    mesa: number | null
+    duracion: number | null
+  }
+
+  export type EventMediaSumAggregateOutputType = {
+    id: number | null
+    eventId: number | null
+    mesa: number | null
+    duracion: number | null
+  }
+
+  export type EventMediaMinAggregateOutputType = {
+    id: number | null
+    eventId: number | null
+    publicId: string | null
+    videoUrl: string | null
+    nombre: string | null
+    tipo: string | null
+    mesa: number | null
+    formato: string | null
+    duracion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EventMediaMaxAggregateOutputType = {
+    id: number | null
+    eventId: number | null
+    publicId: string | null
+    videoUrl: string | null
+    nombre: string | null
+    tipo: string | null
+    mesa: number | null
+    formato: string | null
+    duracion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EventMediaCountAggregateOutputType = {
+    id: number
+    eventId: number
+    publicId: number
+    videoUrl: number
+    nombre: number
+    tipo: number
+    mesa: number
+    formato: number
+    duracion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EventMediaAvgAggregateInputType = {
+    id?: true
+    eventId?: true
+    mesa?: true
+    duracion?: true
+  }
+
+  export type EventMediaSumAggregateInputType = {
+    id?: true
+    eventId?: true
+    mesa?: true
+    duracion?: true
+  }
+
+  export type EventMediaMinAggregateInputType = {
+    id?: true
+    eventId?: true
+    publicId?: true
+    videoUrl?: true
+    nombre?: true
+    tipo?: true
+    mesa?: true
+    formato?: true
+    duracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EventMediaMaxAggregateInputType = {
+    id?: true
+    eventId?: true
+    publicId?: true
+    videoUrl?: true
+    nombre?: true
+    tipo?: true
+    mesa?: true
+    formato?: true
+    duracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EventMediaCountAggregateInputType = {
+    id?: true
+    eventId?: true
+    publicId?: true
+    videoUrl?: true
+    nombre?: true
+    tipo?: true
+    mesa?: true
+    formato?: true
+    duracion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EventMediaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EventMedia to aggregate.
+     */
+    where?: EventMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventMedias to fetch.
+     */
+    orderBy?: EventMediaOrderByWithRelationInput | EventMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EventMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EventMedias
+    **/
+    _count?: true | EventMediaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EventMediaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EventMediaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EventMediaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EventMediaMaxAggregateInputType
+  }
+
+  export type GetEventMediaAggregateType<T extends EventMediaAggregateArgs> = {
+        [P in keyof T & keyof AggregateEventMedia]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEventMedia[P]>
+      : GetScalarType<T[P], AggregateEventMedia[P]>
+  }
+
+
+
+
+  export type EventMediaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventMediaWhereInput
+    orderBy?: EventMediaOrderByWithAggregationInput | EventMediaOrderByWithAggregationInput[]
+    by: EventMediaScalarFieldEnum[] | EventMediaScalarFieldEnum
+    having?: EventMediaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EventMediaCountAggregateInputType | true
+    _avg?: EventMediaAvgAggregateInputType
+    _sum?: EventMediaSumAggregateInputType
+    _min?: EventMediaMinAggregateInputType
+    _max?: EventMediaMaxAggregateInputType
+  }
+
+  export type EventMediaGroupByOutputType = {
+    id: number
+    eventId: number
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa: number | null
+    formato: string | null
+    duracion: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: EventMediaCountAggregateOutputType | null
+    _avg: EventMediaAvgAggregateOutputType | null
+    _sum: EventMediaSumAggregateOutputType | null
+    _min: EventMediaMinAggregateOutputType | null
+    _max: EventMediaMaxAggregateOutputType | null
+  }
+
+  type GetEventMediaGroupByPayload<T extends EventMediaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EventMediaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EventMediaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EventMediaGroupByOutputType[P]>
+            : GetScalarType<T[P], EventMediaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EventMediaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    publicId?: boolean
+    videoUrl?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    mesa?: boolean
+    formato?: boolean
+    duracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventMedia"]>
+
+  export type EventMediaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    publicId?: boolean
+    videoUrl?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    mesa?: boolean
+    formato?: boolean
+    duracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventMedia"]>
+
+  export type EventMediaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    publicId?: boolean
+    videoUrl?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    mesa?: boolean
+    formato?: boolean
+    duracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventMedia"]>
+
+  export type EventMediaSelectScalar = {
+    id?: boolean
+    eventId?: boolean
+    publicId?: boolean
+    videoUrl?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    mesa?: boolean
+    formato?: boolean
+    duracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EventMediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "publicId" | "videoUrl" | "nombre" | "tipo" | "mesa" | "formato" | "duracion" | "createdAt" | "updatedAt", ExtArgs["result"]["eventMedia"]>
+  export type EventMediaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type EventMediaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type EventMediaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+
+  export type $EventMediaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EventMedia"
+    objects: {
+      event: Prisma.$EventPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      eventId: number
+      publicId: string
+      videoUrl: string
+      nombre: string
+      tipo: string
+      mesa: number | null
+      formato: string | null
+      duracion: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["eventMedia"]>
+    composites: {}
+  }
+
+  type EventMediaGetPayload<S extends boolean | null | undefined | EventMediaDefaultArgs> = $Result.GetResult<Prisma.$EventMediaPayload, S>
+
+  type EventMediaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EventMediaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EventMediaCountAggregateInputType | true
+    }
+
+  export interface EventMediaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EventMedia'], meta: { name: 'EventMedia' } }
+    /**
+     * Find zero or one EventMedia that matches the filter.
+     * @param {EventMediaFindUniqueArgs} args - Arguments to find a EventMedia
+     * @example
+     * // Get one EventMedia
+     * const eventMedia = await prisma.eventMedia.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EventMediaFindUniqueArgs>(args: SelectSubset<T, EventMediaFindUniqueArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EventMedia that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EventMediaFindUniqueOrThrowArgs} args - Arguments to find a EventMedia
+     * @example
+     * // Get one EventMedia
+     * const eventMedia = await prisma.eventMedia.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EventMediaFindUniqueOrThrowArgs>(args: SelectSubset<T, EventMediaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EventMedia that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaFindFirstArgs} args - Arguments to find a EventMedia
+     * @example
+     * // Get one EventMedia
+     * const eventMedia = await prisma.eventMedia.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EventMediaFindFirstArgs>(args?: SelectSubset<T, EventMediaFindFirstArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EventMedia that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaFindFirstOrThrowArgs} args - Arguments to find a EventMedia
+     * @example
+     * // Get one EventMedia
+     * const eventMedia = await prisma.eventMedia.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EventMediaFindFirstOrThrowArgs>(args?: SelectSubset<T, EventMediaFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EventMedias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EventMedias
+     * const eventMedias = await prisma.eventMedia.findMany()
+     * 
+     * // Get first 10 EventMedias
+     * const eventMedias = await prisma.eventMedia.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eventMediaWithIdOnly = await prisma.eventMedia.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EventMediaFindManyArgs>(args?: SelectSubset<T, EventMediaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EventMedia.
+     * @param {EventMediaCreateArgs} args - Arguments to create a EventMedia.
+     * @example
+     * // Create one EventMedia
+     * const EventMedia = await prisma.eventMedia.create({
+     *   data: {
+     *     // ... data to create a EventMedia
+     *   }
+     * })
+     * 
+     */
+    create<T extends EventMediaCreateArgs>(args: SelectSubset<T, EventMediaCreateArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EventMedias.
+     * @param {EventMediaCreateManyArgs} args - Arguments to create many EventMedias.
+     * @example
+     * // Create many EventMedias
+     * const eventMedia = await prisma.eventMedia.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EventMediaCreateManyArgs>(args?: SelectSubset<T, EventMediaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EventMedias and returns the data saved in the database.
+     * @param {EventMediaCreateManyAndReturnArgs} args - Arguments to create many EventMedias.
+     * @example
+     * // Create many EventMedias
+     * const eventMedia = await prisma.eventMedia.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EventMedias and only return the `id`
+     * const eventMediaWithIdOnly = await prisma.eventMedia.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EventMediaCreateManyAndReturnArgs>(args?: SelectSubset<T, EventMediaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EventMedia.
+     * @param {EventMediaDeleteArgs} args - Arguments to delete one EventMedia.
+     * @example
+     * // Delete one EventMedia
+     * const EventMedia = await prisma.eventMedia.delete({
+     *   where: {
+     *     // ... filter to delete one EventMedia
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EventMediaDeleteArgs>(args: SelectSubset<T, EventMediaDeleteArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EventMedia.
+     * @param {EventMediaUpdateArgs} args - Arguments to update one EventMedia.
+     * @example
+     * // Update one EventMedia
+     * const eventMedia = await prisma.eventMedia.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EventMediaUpdateArgs>(args: SelectSubset<T, EventMediaUpdateArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EventMedias.
+     * @param {EventMediaDeleteManyArgs} args - Arguments to filter EventMedias to delete.
+     * @example
+     * // Delete a few EventMedias
+     * const { count } = await prisma.eventMedia.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EventMediaDeleteManyArgs>(args?: SelectSubset<T, EventMediaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EventMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EventMedias
+     * const eventMedia = await prisma.eventMedia.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EventMediaUpdateManyArgs>(args: SelectSubset<T, EventMediaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EventMedias and returns the data updated in the database.
+     * @param {EventMediaUpdateManyAndReturnArgs} args - Arguments to update many EventMedias.
+     * @example
+     * // Update many EventMedias
+     * const eventMedia = await prisma.eventMedia.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EventMedias and only return the `id`
+     * const eventMediaWithIdOnly = await prisma.eventMedia.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EventMediaUpdateManyAndReturnArgs>(args: SelectSubset<T, EventMediaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EventMedia.
+     * @param {EventMediaUpsertArgs} args - Arguments to update or create a EventMedia.
+     * @example
+     * // Update or create a EventMedia
+     * const eventMedia = await prisma.eventMedia.upsert({
+     *   create: {
+     *     // ... data to create a EventMedia
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EventMedia we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EventMediaUpsertArgs>(args: SelectSubset<T, EventMediaUpsertArgs<ExtArgs>>): Prisma__EventMediaClient<$Result.GetResult<Prisma.$EventMediaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EventMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaCountArgs} args - Arguments to filter EventMedias to count.
+     * @example
+     * // Count the number of EventMedias
+     * const count = await prisma.eventMedia.count({
+     *   where: {
+     *     // ... the filter for the EventMedias we want to count
+     *   }
+     * })
+    **/
+    count<T extends EventMediaCountArgs>(
+      args?: Subset<T, EventMediaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EventMediaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EventMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EventMediaAggregateArgs>(args: Subset<T, EventMediaAggregateArgs>): Prisma.PrismaPromise<GetEventMediaAggregateType<T>>
+
+    /**
+     * Group by EventMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventMediaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EventMediaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EventMediaGroupByArgs['orderBy'] }
+        : { orderBy?: EventMediaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EventMediaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventMediaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EventMedia model
+   */
+  readonly fields: EventMediaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EventMedia.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EventMediaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EventMedia model
+   */
+  interface EventMediaFieldRefs {
+    readonly id: FieldRef<"EventMedia", 'Int'>
+    readonly eventId: FieldRef<"EventMedia", 'Int'>
+    readonly publicId: FieldRef<"EventMedia", 'String'>
+    readonly videoUrl: FieldRef<"EventMedia", 'String'>
+    readonly nombre: FieldRef<"EventMedia", 'String'>
+    readonly tipo: FieldRef<"EventMedia", 'String'>
+    readonly mesa: FieldRef<"EventMedia", 'Int'>
+    readonly formato: FieldRef<"EventMedia", 'String'>
+    readonly duracion: FieldRef<"EventMedia", 'Int'>
+    readonly createdAt: FieldRef<"EventMedia", 'DateTime'>
+    readonly updatedAt: FieldRef<"EventMedia", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EventMedia findUnique
+   */
+  export type EventMediaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which EventMedia to fetch.
+     */
+    where: EventMediaWhereUniqueInput
+  }
+
+  /**
+   * EventMedia findUniqueOrThrow
+   */
+  export type EventMediaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which EventMedia to fetch.
+     */
+    where: EventMediaWhereUniqueInput
+  }
+
+  /**
+   * EventMedia findFirst
+   */
+  export type EventMediaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which EventMedia to fetch.
+     */
+    where?: EventMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventMedias to fetch.
+     */
+    orderBy?: EventMediaOrderByWithRelationInput | EventMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EventMedias.
+     */
+    cursor?: EventMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EventMedias.
+     */
+    distinct?: EventMediaScalarFieldEnum | EventMediaScalarFieldEnum[]
+  }
+
+  /**
+   * EventMedia findFirstOrThrow
+   */
+  export type EventMediaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which EventMedia to fetch.
+     */
+    where?: EventMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventMedias to fetch.
+     */
+    orderBy?: EventMediaOrderByWithRelationInput | EventMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EventMedias.
+     */
+    cursor?: EventMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EventMedias.
+     */
+    distinct?: EventMediaScalarFieldEnum | EventMediaScalarFieldEnum[]
+  }
+
+  /**
+   * EventMedia findMany
+   */
+  export type EventMediaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which EventMedias to fetch.
+     */
+    where?: EventMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventMedias to fetch.
+     */
+    orderBy?: EventMediaOrderByWithRelationInput | EventMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EventMedias.
+     */
+    cursor?: EventMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EventMedias.
+     */
+    distinct?: EventMediaScalarFieldEnum | EventMediaScalarFieldEnum[]
+  }
+
+  /**
+   * EventMedia create
+   */
+  export type EventMediaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EventMedia.
+     */
+    data: XOR<EventMediaCreateInput, EventMediaUncheckedCreateInput>
+  }
+
+  /**
+   * EventMedia createMany
+   */
+  export type EventMediaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EventMedias.
+     */
+    data: EventMediaCreateManyInput | EventMediaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EventMedia createManyAndReturn
+   */
+  export type EventMediaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * The data used to create many EventMedias.
+     */
+    data: EventMediaCreateManyInput | EventMediaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EventMedia update
+   */
+  export type EventMediaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EventMedia.
+     */
+    data: XOR<EventMediaUpdateInput, EventMediaUncheckedUpdateInput>
+    /**
+     * Choose, which EventMedia to update.
+     */
+    where: EventMediaWhereUniqueInput
+  }
+
+  /**
+   * EventMedia updateMany
+   */
+  export type EventMediaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EventMedias.
+     */
+    data: XOR<EventMediaUpdateManyMutationInput, EventMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which EventMedias to update
+     */
+    where?: EventMediaWhereInput
+    /**
+     * Limit how many EventMedias to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EventMedia updateManyAndReturn
+   */
+  export type EventMediaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * The data used to update EventMedias.
+     */
+    data: XOR<EventMediaUpdateManyMutationInput, EventMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which EventMedias to update
+     */
+    where?: EventMediaWhereInput
+    /**
+     * Limit how many EventMedias to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EventMedia upsert
+   */
+  export type EventMediaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EventMedia to update in case it exists.
+     */
+    where: EventMediaWhereUniqueInput
+    /**
+     * In case the EventMedia found by the `where` argument doesn't exist, create a new EventMedia with this data.
+     */
+    create: XOR<EventMediaCreateInput, EventMediaUncheckedCreateInput>
+    /**
+     * In case the EventMedia was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EventMediaUpdateInput, EventMediaUncheckedUpdateInput>
+  }
+
+  /**
+   * EventMedia delete
+   */
+  export type EventMediaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+    /**
+     * Filter which EventMedia to delete.
+     */
+    where: EventMediaWhereUniqueInput
+  }
+
+  /**
+   * EventMedia deleteMany
+   */
+  export type EventMediaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EventMedias to delete
+     */
+    where?: EventMediaWhereInput
+    /**
+     * Limit how many EventMedias to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EventMedia without action
+   */
+  export type EventMediaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventMedia
+     */
+    select?: EventMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventMedia
+     */
+    omit?: EventMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventMediaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4973,6 +6288,23 @@ export namespace Prisma {
   };
 
   export type GuestScalarFieldEnum = (typeof GuestScalarFieldEnum)[keyof typeof GuestScalarFieldEnum]
+
+
+  export const EventMediaScalarFieldEnum: {
+    id: 'id',
+    eventId: 'eventId',
+    publicId: 'publicId',
+    videoUrl: 'videoUrl',
+    nombre: 'nombre',
+    tipo: 'tipo',
+    mesa: 'mesa',
+    formato: 'formato',
+    duracion: 'duracion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EventMediaScalarFieldEnum = (typeof EventMediaScalarFieldEnum)[keyof typeof EventMediaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5197,6 +6529,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Event"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     guests?: GuestListRelationFilter
+    media?: EventMediaListRelationFilter
   }
 
   export type EventOrderByWithRelationInput = {
@@ -5224,6 +6557,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     owner?: UserOrderByWithRelationInput
     guests?: GuestOrderByRelationAggregateInput
+    media?: EventMediaOrderByRelationAggregateInput
   }
 
   export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -5254,6 +6588,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Event"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     guests?: GuestListRelationFilter
+    media?: EventMediaListRelationFilter
   }, "id_evento">
 
   export type EventOrderByWithAggregationInput = {
@@ -5433,6 +6768,93 @@ export namespace Prisma {
     eventId?: IntWithAggregatesFilter<"Guest"> | number
   }
 
+  export type EventMediaWhereInput = {
+    AND?: EventMediaWhereInput | EventMediaWhereInput[]
+    OR?: EventMediaWhereInput[]
+    NOT?: EventMediaWhereInput | EventMediaWhereInput[]
+    id?: IntFilter<"EventMedia"> | number
+    eventId?: IntFilter<"EventMedia"> | number
+    publicId?: StringFilter<"EventMedia"> | string
+    videoUrl?: StringFilter<"EventMedia"> | string
+    nombre?: StringFilter<"EventMedia"> | string
+    tipo?: StringFilter<"EventMedia"> | string
+    mesa?: IntNullableFilter<"EventMedia"> | number | null
+    formato?: StringNullableFilter<"EventMedia"> | string | null
+    duracion?: IntNullableFilter<"EventMedia"> | number | null
+    createdAt?: DateTimeFilter<"EventMedia"> | Date | string
+    updatedAt?: DateTimeFilter<"EventMedia"> | Date | string
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }
+
+  export type EventMediaOrderByWithRelationInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    publicId?: SortOrder
+    videoUrl?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    mesa?: SortOrderInput | SortOrder
+    formato?: SortOrderInput | SortOrder
+    duracion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    event?: EventOrderByWithRelationInput
+  }
+
+  export type EventMediaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: EventMediaWhereInput | EventMediaWhereInput[]
+    OR?: EventMediaWhereInput[]
+    NOT?: EventMediaWhereInput | EventMediaWhereInput[]
+    eventId?: IntFilter<"EventMedia"> | number
+    publicId?: StringFilter<"EventMedia"> | string
+    videoUrl?: StringFilter<"EventMedia"> | string
+    nombre?: StringFilter<"EventMedia"> | string
+    tipo?: StringFilter<"EventMedia"> | string
+    mesa?: IntNullableFilter<"EventMedia"> | number | null
+    formato?: StringNullableFilter<"EventMedia"> | string | null
+    duracion?: IntNullableFilter<"EventMedia"> | number | null
+    createdAt?: DateTimeFilter<"EventMedia"> | Date | string
+    updatedAt?: DateTimeFilter<"EventMedia"> | Date | string
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }, "id">
+
+  export type EventMediaOrderByWithAggregationInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    publicId?: SortOrder
+    videoUrl?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    mesa?: SortOrderInput | SortOrder
+    formato?: SortOrderInput | SortOrder
+    duracion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EventMediaCountOrderByAggregateInput
+    _avg?: EventMediaAvgOrderByAggregateInput
+    _max?: EventMediaMaxOrderByAggregateInput
+    _min?: EventMediaMinOrderByAggregateInput
+    _sum?: EventMediaSumOrderByAggregateInput
+  }
+
+  export type EventMediaScalarWhereWithAggregatesInput = {
+    AND?: EventMediaScalarWhereWithAggregatesInput | EventMediaScalarWhereWithAggregatesInput[]
+    OR?: EventMediaScalarWhereWithAggregatesInput[]
+    NOT?: EventMediaScalarWhereWithAggregatesInput | EventMediaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"EventMedia"> | number
+    eventId?: IntWithAggregatesFilter<"EventMedia"> | number
+    publicId?: StringWithAggregatesFilter<"EventMedia"> | string
+    videoUrl?: StringWithAggregatesFilter<"EventMedia"> | string
+    nombre?: StringWithAggregatesFilter<"EventMedia"> | string
+    tipo?: StringWithAggregatesFilter<"EventMedia"> | string
+    mesa?: IntNullableWithAggregatesFilter<"EventMedia"> | number | null
+    formato?: StringNullableWithAggregatesFilter<"EventMedia"> | string | null
+    duracion?: IntNullableWithAggregatesFilter<"EventMedia"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"EventMedia"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EventMedia"> | Date | string
+  }
+
   export type UserCreateInput = {
     email: string
     contrasena: string
@@ -5513,6 +6935,7 @@ export namespace Prisma {
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
     guests?: GuestCreateNestedManyWithoutEventInput
+    media?: EventMediaCreateNestedManyWithoutEventInput
   }
 
   export type EventUncheckedCreateInput = {
@@ -5539,6 +6962,7 @@ export namespace Prisma {
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
+    media?: EventMediaUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type EventUpdateInput = {
@@ -5564,6 +6988,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
     guests?: GuestUpdateManyWithoutEventNestedInput
+    media?: EventMediaUpdateManyWithoutEventNestedInput
   }
 
   export type EventUncheckedUpdateInput = {
@@ -5590,6 +7015,7 @@ export namespace Prisma {
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
+    media?: EventMediaUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type EventCreateManyInput = {
@@ -5801,6 +7227,100 @@ export namespace Prisma {
     eventId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type EventMediaCreateInput = {
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    event: EventCreateNestedOneWithoutMediaInput
+  }
+
+  export type EventMediaUncheckedCreateInput = {
+    id?: number
+    eventId: number
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventMediaUpdateInput = {
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: EventUpdateOneRequiredWithoutMediaNestedInput
+  }
+
+  export type EventMediaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    eventId?: IntFieldUpdateOperationsInput | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventMediaCreateManyInput = {
+    id?: number
+    eventId: number
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventMediaUpdateManyMutationInput = {
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventMediaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    eventId?: IntFieldUpdateOperationsInput | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -5990,12 +7510,22 @@ export namespace Prisma {
     none?: GuestWhereInput
   }
 
+  export type EventMediaListRelationFilter = {
+    every?: EventMediaWhereInput
+    some?: EventMediaWhereInput
+    none?: EventMediaWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type GuestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EventMediaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6281,6 +7811,62 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EventMediaCountOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    publicId?: SortOrder
+    videoUrl?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    mesa?: SortOrder
+    formato?: SortOrder
+    duracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventMediaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    mesa?: SortOrder
+    duracion?: SortOrder
+  }
+
+  export type EventMediaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    publicId?: SortOrder
+    videoUrl?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    mesa?: SortOrder
+    formato?: SortOrder
+    duracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventMediaMinOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    publicId?: SortOrder
+    videoUrl?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    mesa?: SortOrder
+    formato?: SortOrder
+    duracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EventMediaSumOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    mesa?: SortOrder
+    duracion?: SortOrder
+  }
+
   export type EventCreateNestedManyWithoutOwnerInput = {
     create?: XOR<EventCreateWithoutOwnerInput, EventUncheckedCreateWithoutOwnerInput> | EventCreateWithoutOwnerInput[] | EventUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: EventCreateOrConnectWithoutOwnerInput | EventCreateOrConnectWithoutOwnerInput[]
@@ -6352,11 +7938,25 @@ export namespace Prisma {
     connect?: GuestWhereUniqueInput | GuestWhereUniqueInput[]
   }
 
+  export type EventMediaCreateNestedManyWithoutEventInput = {
+    create?: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput> | EventMediaCreateWithoutEventInput[] | EventMediaUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventMediaCreateOrConnectWithoutEventInput | EventMediaCreateOrConnectWithoutEventInput[]
+    createMany?: EventMediaCreateManyEventInputEnvelope
+    connect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+  }
+
   export type GuestUncheckedCreateNestedManyWithoutEventInput = {
     create?: XOR<GuestCreateWithoutEventInput, GuestUncheckedCreateWithoutEventInput> | GuestCreateWithoutEventInput[] | GuestUncheckedCreateWithoutEventInput[]
     connectOrCreate?: GuestCreateOrConnectWithoutEventInput | GuestCreateOrConnectWithoutEventInput[]
     createMany?: GuestCreateManyEventInputEnvelope
     connect?: GuestWhereUniqueInput | GuestWhereUniqueInput[]
+  }
+
+  export type EventMediaUncheckedCreateNestedManyWithoutEventInput = {
+    create?: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput> | EventMediaCreateWithoutEventInput[] | EventMediaUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventMediaCreateOrConnectWithoutEventInput | EventMediaCreateOrConnectWithoutEventInput[]
+    createMany?: EventMediaCreateManyEventInputEnvelope
+    connect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -6405,6 +8005,20 @@ export namespace Prisma {
     deleteMany?: GuestScalarWhereInput | GuestScalarWhereInput[]
   }
 
+  export type EventMediaUpdateManyWithoutEventNestedInput = {
+    create?: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput> | EventMediaCreateWithoutEventInput[] | EventMediaUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventMediaCreateOrConnectWithoutEventInput | EventMediaCreateOrConnectWithoutEventInput[]
+    upsert?: EventMediaUpsertWithWhereUniqueWithoutEventInput | EventMediaUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: EventMediaCreateManyEventInputEnvelope
+    set?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    disconnect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    delete?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    connect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    update?: EventMediaUpdateWithWhereUniqueWithoutEventInput | EventMediaUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: EventMediaUpdateManyWithWhereWithoutEventInput | EventMediaUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: EventMediaScalarWhereInput | EventMediaScalarWhereInput[]
+  }
+
   export type GuestUncheckedUpdateManyWithoutEventNestedInput = {
     create?: XOR<GuestCreateWithoutEventInput, GuestUncheckedCreateWithoutEventInput> | GuestCreateWithoutEventInput[] | GuestUncheckedCreateWithoutEventInput[]
     connectOrCreate?: GuestCreateOrConnectWithoutEventInput | GuestCreateOrConnectWithoutEventInput[]
@@ -6417,6 +8031,20 @@ export namespace Prisma {
     update?: GuestUpdateWithWhereUniqueWithoutEventInput | GuestUpdateWithWhereUniqueWithoutEventInput[]
     updateMany?: GuestUpdateManyWithWhereWithoutEventInput | GuestUpdateManyWithWhereWithoutEventInput[]
     deleteMany?: GuestScalarWhereInput | GuestScalarWhereInput[]
+  }
+
+  export type EventMediaUncheckedUpdateManyWithoutEventNestedInput = {
+    create?: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput> | EventMediaCreateWithoutEventInput[] | EventMediaUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventMediaCreateOrConnectWithoutEventInput | EventMediaCreateOrConnectWithoutEventInput[]
+    upsert?: EventMediaUpsertWithWhereUniqueWithoutEventInput | EventMediaUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: EventMediaCreateManyEventInputEnvelope
+    set?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    disconnect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    delete?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    connect?: EventMediaWhereUniqueInput | EventMediaWhereUniqueInput[]
+    update?: EventMediaUpdateWithWhereUniqueWithoutEventInput | EventMediaUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: EventMediaUpdateManyWithWhereWithoutEventInput | EventMediaUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: EventMediaScalarWhereInput | EventMediaScalarWhereInput[]
   }
 
   export type EventCreateNestedOneWithoutGuestsInput = {
@@ -6439,6 +8067,20 @@ export namespace Prisma {
     upsert?: EventUpsertWithoutGuestsInput
     connect?: EventWhereUniqueInput
     update?: XOR<XOR<EventUpdateToOneWithWhereWithoutGuestsInput, EventUpdateWithoutGuestsInput>, EventUncheckedUpdateWithoutGuestsInput>
+  }
+
+  export type EventCreateNestedOneWithoutMediaInput = {
+    create?: XOR<EventCreateWithoutMediaInput, EventUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: EventCreateOrConnectWithoutMediaInput
+    connect?: EventWhereUniqueInput
+  }
+
+  export type EventUpdateOneRequiredWithoutMediaNestedInput = {
+    create?: XOR<EventCreateWithoutMediaInput, EventUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: EventCreateOrConnectWithoutMediaInput
+    upsert?: EventUpsertWithoutMediaInput
+    connect?: EventWhereUniqueInput
+    update?: XOR<XOR<EventUpdateToOneWithWhereWithoutMediaInput, EventUpdateWithoutMediaInput>, EventUncheckedUpdateWithoutMediaInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6715,6 +8357,7 @@ export namespace Prisma {
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestCreateNestedManyWithoutEventInput
+    media?: EventMediaCreateNestedManyWithoutEventInput
   }
 
   export type EventUncheckedCreateWithoutOwnerInput = {
@@ -6740,6 +8383,7 @@ export namespace Prisma {
     checkedInCount?: number
     createdAt?: Date | string
     guests?: GuestUncheckedCreateNestedManyWithoutEventInput
+    media?: EventMediaUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type EventCreateOrConnectWithoutOwnerInput = {
@@ -6863,6 +8507,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EventMediaCreateWithoutEventInput = {
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventMediaUncheckedCreateWithoutEventInput = {
+    id?: number
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EventMediaCreateOrConnectWithoutEventInput = {
+    where: EventMediaWhereUniqueInput
+    create: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput>
+  }
+
+  export type EventMediaCreateManyEventInputEnvelope = {
+    data: EventMediaCreateManyEventInput | EventMediaCreateManyEventInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutEventsInput = {
     update: XOR<UserUpdateWithoutEventsInput, UserUncheckedUpdateWithoutEventsInput>
     create: XOR<UserCreateWithoutEventsInput, UserUncheckedCreateWithoutEventsInput>
@@ -6928,6 +8607,39 @@ export namespace Prisma {
     eventId?: IntFilter<"Guest"> | number
   }
 
+  export type EventMediaUpsertWithWhereUniqueWithoutEventInput = {
+    where: EventMediaWhereUniqueInput
+    update: XOR<EventMediaUpdateWithoutEventInput, EventMediaUncheckedUpdateWithoutEventInput>
+    create: XOR<EventMediaCreateWithoutEventInput, EventMediaUncheckedCreateWithoutEventInput>
+  }
+
+  export type EventMediaUpdateWithWhereUniqueWithoutEventInput = {
+    where: EventMediaWhereUniqueInput
+    data: XOR<EventMediaUpdateWithoutEventInput, EventMediaUncheckedUpdateWithoutEventInput>
+  }
+
+  export type EventMediaUpdateManyWithWhereWithoutEventInput = {
+    where: EventMediaScalarWhereInput
+    data: XOR<EventMediaUpdateManyMutationInput, EventMediaUncheckedUpdateManyWithoutEventInput>
+  }
+
+  export type EventMediaScalarWhereInput = {
+    AND?: EventMediaScalarWhereInput | EventMediaScalarWhereInput[]
+    OR?: EventMediaScalarWhereInput[]
+    NOT?: EventMediaScalarWhereInput | EventMediaScalarWhereInput[]
+    id?: IntFilter<"EventMedia"> | number
+    eventId?: IntFilter<"EventMedia"> | number
+    publicId?: StringFilter<"EventMedia"> | string
+    videoUrl?: StringFilter<"EventMedia"> | string
+    nombre?: StringFilter<"EventMedia"> | string
+    tipo?: StringFilter<"EventMedia"> | string
+    mesa?: IntNullableFilter<"EventMedia"> | number | null
+    formato?: StringNullableFilter<"EventMedia"> | string | null
+    duracion?: IntNullableFilter<"EventMedia"> | number | null
+    createdAt?: DateTimeFilter<"EventMedia"> | Date | string
+    updatedAt?: DateTimeFilter<"EventMedia"> | Date | string
+  }
+
   export type EventCreateWithoutGuestsInput = {
     nombre: string
     fecha: Date | string
@@ -6950,6 +8662,7 @@ export namespace Prisma {
     checkedInCount?: number
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutEventsInput
+    media?: EventMediaCreateNestedManyWithoutEventInput
   }
 
   export type EventUncheckedCreateWithoutGuestsInput = {
@@ -6975,6 +8688,7 @@ export namespace Prisma {
     invitationBaseImageUrl?: string | null
     checkedInCount?: number
     createdAt?: Date | string
+    media?: EventMediaUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type EventCreateOrConnectWithoutGuestsInput = {
@@ -7015,6 +8729,7 @@ export namespace Prisma {
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutEventsNestedInput
+    media?: EventMediaUpdateManyWithoutEventNestedInput
   }
 
   export type EventUncheckedUpdateWithoutGuestsInput = {
@@ -7040,6 +8755,125 @@ export namespace Prisma {
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    media?: EventMediaUncheckedUpdateManyWithoutEventNestedInput
+  }
+
+  export type EventCreateWithoutMediaInput = {
+    nombre: string
+    fecha: Date | string
+    locacion: string
+    tipo: string
+    salon: string
+    cant_invitados: number
+    coverImage?: string | null
+    Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
+    checkedInCount?: number
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutEventsInput
+    guests?: GuestCreateNestedManyWithoutEventInput
+  }
+
+  export type EventUncheckedCreateWithoutMediaInput = {
+    id_evento?: number
+    nombre: string
+    fecha: Date | string
+    locacion: string
+    tipo: string
+    salon: string
+    cant_invitados: number
+    coverImage?: string | null
+    Estado?: $Enums.EventStatus
+    porcentajeAsistencia?: number
+    ownerId: number
+    qrJobStatus?: $Enums.QrJobStatus
+    qrGeneratedAt?: Date | string | null
+    qrJobStartedAt?: Date | string | null
+    qrJobFinishedAt?: Date | string | null
+    qrJobError?: string | null
+    qrJobTotal?: number | null
+    qrJobProcessed?: number | null
+    qrJobRequestedBy?: number | null
+    invitationBaseImageUrl?: string | null
+    checkedInCount?: number
+    createdAt?: Date | string
+    guests?: GuestUncheckedCreateNestedManyWithoutEventInput
+  }
+
+  export type EventCreateOrConnectWithoutMediaInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutMediaInput, EventUncheckedCreateWithoutMediaInput>
+  }
+
+  export type EventUpsertWithoutMediaInput = {
+    update: XOR<EventUpdateWithoutMediaInput, EventUncheckedUpdateWithoutMediaInput>
+    create: XOR<EventCreateWithoutMediaInput, EventUncheckedCreateWithoutMediaInput>
+    where?: EventWhereInput
+  }
+
+  export type EventUpdateToOneWithWhereWithoutMediaInput = {
+    where?: EventWhereInput
+    data: XOR<EventUpdateWithoutMediaInput, EventUncheckedUpdateWithoutMediaInput>
+  }
+
+  export type EventUpdateWithoutMediaInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    locacion?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    salon?: StringFieldUpdateOperationsInput | string
+    cant_invitados?: IntFieldUpdateOperationsInput | number
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutEventsNestedInput
+    guests?: GuestUpdateManyWithoutEventNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutMediaInput = {
+    id_evento?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    locacion?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    salon?: StringFieldUpdateOperationsInput | string
+    cant_invitados?: IntFieldUpdateOperationsInput | number
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    Estado?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    porcentajeAsistencia?: IntFieldUpdateOperationsInput | number
+    ownerId?: IntFieldUpdateOperationsInput | number
+    qrJobStatus?: EnumQrJobStatusFieldUpdateOperationsInput | $Enums.QrJobStatus
+    qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobFinishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    qrJobError?: NullableStringFieldUpdateOperationsInput | string | null
+    qrJobTotal?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
+    qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    checkedInCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type EventCreateManyOwnerInput = {
@@ -7088,6 +8922,7 @@ export namespace Prisma {
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUpdateManyWithoutEventNestedInput
+    media?: EventMediaUpdateManyWithoutEventNestedInput
   }
 
   export type EventUncheckedUpdateWithoutOwnerInput = {
@@ -7113,6 +8948,7 @@ export namespace Prisma {
     checkedInCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guests?: GuestUncheckedUpdateManyWithoutEventNestedInput
+    media?: EventMediaUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type EventUncheckedUpdateManyWithoutOwnerInput = {
@@ -7156,6 +8992,19 @@ export namespace Prisma {
     qrGeneratedAt?: Date | string | null
     qrHash: string
     checkInTime?: Date | string | null
+  }
+
+  export type EventMediaCreateManyEventInput = {
+    id?: number
+    publicId: string
+    videoUrl: string
+    nombre: string
+    tipo: string
+    mesa?: number | null
+    formato?: string | null
+    duracion?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type GuestUpdateWithoutEventInput = {
@@ -7212,6 +9061,44 @@ export namespace Prisma {
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     qrHash?: StringFieldUpdateOperationsInput | string
     checkInTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EventMediaUpdateWithoutEventInput = {
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventMediaUncheckedUpdateWithoutEventInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventMediaUncheckedUpdateManyWithoutEventInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    mesa?: NullableIntFieldUpdateOperationsInput | number | null
+    formato?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

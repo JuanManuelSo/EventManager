@@ -295,4 +295,58 @@ export const guestService = {
 
     return { sent: guestIds.length };
   },
+
+  async update(eventId: number, guestId: number, data: { video?: string | null; mesa?: string | null; nombre?: string; apellido?: string; email?: string | null }) {
+    const guest = await prisma.guest.findFirst({
+      where: { id: guestId, eventId },
+    });
+
+    if (!guest) {
+      const error = new Error("Invitado no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return prisma.guest.update({
+      where: { id: guestId },
+      data: {
+        ...(data.video !== undefined ? { video: data.video } : {}),
+        ...(data.mesa !== undefined ? { mesa: data.mesa } : {}),
+        ...(data.nombre !== undefined ? { nombre: data.nombre } : {}),
+        ...(data.apellido !== undefined ? { apellido: data.apellido } : {}),
+        ...(data.email !== undefined ? { email: data.email } : {}),
+      },
+    });
+  },
+
+  async bulkAssignVideo(
+    eventId: number,
+    params: {
+      mesa?: string | null;
+      tipo?: "individual" | "con_acompanantes" | "todos";
+      videoUrl: string;
+    },
+  ) {
+    const where: any = { eventId };
+
+    if (params.mesa) {
+      where.mesa = params.mesa;
+    }
+
+    if (params.tipo === "individual") {
+      where.OR = [
+        { cant_acompanantes: 0 },
+        { cant_acompanantes: null },
+      ];
+    } else if (params.tipo === "con_acompanantes") {
+      where.cant_acompanantes = { gt: 0 };
+    }
+
+    const result = await prisma.guest.updateMany({
+      where,
+      data: { video: params.videoUrl },
+    });
+
+    return { updated: result.count };
+  },
 };

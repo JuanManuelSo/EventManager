@@ -140,6 +140,68 @@ export const guestController = {
     }
   },
 
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId, guestId } = paramsSchema.parse({
+        eventId: req.params.eventId,
+        guestId: req.params.guestId,
+      });
+
+      if (!guestId) {
+        res.status(400).json({ status: "error", message: "guestId requerido" });
+        return;
+      }
+
+      const body = z
+        .object({
+          video: z.string().url().nullable().optional(),
+          mesa: z.string().optional(),
+          nombre: z.string().min(1).optional(),
+          apellido: z.string().min(1).optional(),
+          email: z.string().email().nullable().optional(),
+        })
+        .parse(req.body);
+
+      const guest = await guestService.update(eventId, guestId, body);
+
+      res.json({ status: "success", data: guest });
+    } catch (error: any) {
+      if (error?.name === "ZodError") {
+        res.status(400).json({ status: "error", message: error.message });
+        return;
+      }
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ status: "error", message: error.message });
+        return;
+      }
+      next(error);
+    }
+  },
+
+  async bulkAssignVideo(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
+
+      const body = z
+        .object({
+          videoUrl: z.string().url(),
+          mesa: z.string().optional().nullable(),
+          tipo: z.enum(["individual", "con_acompanantes", "todos"]).default("todos"),
+        })
+        .parse(req.body);
+
+      const result = await guestService.bulkAssignVideo(eventId, body);
+
+      res.json({ status: "success", ...result });
+    } catch (error: any) {
+      if (error?.name === "ZodError") {
+        res.status(400).json({ status: "error", message: error.message });
+        return;
+      }
+      next(error);
+    }
+  },
+
   async sendInvitations(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
