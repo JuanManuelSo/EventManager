@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Loader2,
   UserPlus,
+  Film,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
@@ -366,6 +367,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
               <Th>Invitado</Th>
               <Th>Email</Th>
               <Th>Mesa</Th>
+              <Th>Video</Th>
               <Th>Estado</Th>
               <Th>Check-in</Th>
               <Th align="right">Acciones</Th>
@@ -378,7 +380,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
             ) : paginated.length === 0 ? (
               <tr>
                 <td
-                  colSpan={7}
+                  colSpan={8}
                   className="text-center py-16 text-[13px] text-slate-400"
                 >
                   No hay invitados que coincidan con la búsqueda.
@@ -427,6 +429,17 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                     </td>
 
                     <td className="px-3 py-3">
+                      {guest.video ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-600">
+                          <Film size={10} />
+                          Video
+                        </span>
+                      ) : (
+                        <span className="text-[11px] text-slate-300">—</span>
+                      )}
+                    </td>
+
+                    <td className="px-3 py-3">
                       <span
                         className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold ${s.bg} ${s.text}`}
                       >
@@ -472,6 +485,30 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                               <MenuItem
                                 label="Enviar invitación"
                                 onClick={() => {}}
+                              />
+                              <MenuItem
+                                label={guest.video ? "Quitar video" : "Asignar video"}
+                                onClick={async () => {
+                                  setOpenMenu(null);
+                                  // Toggle video assignment
+                                  try {
+                                    await guestsService.updateGuest(
+                                      eventId,
+                                      guest.id,
+                                      { video: guest.video ? null : undefined },
+                                    );
+                                    queryClient.invalidateQueries({
+                                      queryKey: ["guests", eventId],
+                                    });
+                                    toast.success(
+                                      guest.video
+                                        ? "Video eliminado"
+                                        : "Abriendo selector...",
+                                    );
+                                  } catch {
+                                    toast.error("Error al actualizar");
+                                  }
+                                }}
                               />
                               <div className="my-1 border-t border-slate-100" />
                               <MenuItem
@@ -596,6 +633,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
       />
       <ManualGuestModal
         isOpen={isManualGuestOpen}
+        eventId={eventId}
         onClose={() => setIsManualGuestOpen(false)}
         isLoading={manualCreateLoading}
         onConfirm={async (guest) => {
@@ -604,6 +642,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
             await guestsService.create(eventId, {
               ...guest,
               telefono: guest.numero,
+              video: guest.videoUrl || undefined,
             });
             queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
             setIsManualGuestOpen(false);

@@ -36,6 +36,7 @@ export const createGuestSchema = z.object({
     .int("Debe ser un numero entero")
     .min(0, "No puede ser negativo")
     .max(20, "Maximo 20 acompanantes"),
+  videoUrl: z.string().optional().or(z.literal("")),
 });
 
 export type CreateGuestInput = z.infer<typeof createGuestSchema>;

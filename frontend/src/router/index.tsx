@@ -4,12 +4,19 @@ import ProtectedRoute from "../components/layout/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
 import AppLayout from "../components/layout/AppLayout";
 import EventDetailPage from "../pages/EventDetailPage";
+import DisplayPage from "../pages/DisplayPage";
 
 const router = createBrowserRouter([
   /* ── Public ── */
   {
     path: "/login",
     element: <LoginPage />,
+  },
+
+  /* ── Display (TV) — ruta pública sin auth ── */
+  {
+    path: "/display/:id",
+    element: <DisplayPage />,
   },
 
   /* ── Protected ── */

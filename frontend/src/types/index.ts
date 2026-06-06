@@ -42,6 +42,7 @@ export interface Guest {
   cant_acompanantes?: number;
   invitacionEnviada: boolean;
   status: GuestStatus;
+  video?: string | null;
 
   checkedInAt?: string;
   checkedIn: boolean;
@@ -93,4 +94,18 @@ export interface DashboardStats {
 export interface CheckinResult {
   guest: Guest;
   alreadyIn: boolean;
+}
+
+export interface EventMedia {
+  id: number;
+  eventId: number;
+  publicId: string;
+  videoUrl: string;
+  nombre: string;
+  tipo: "individual" | "con_acompanantes" | "general";
+  mesa: number | null;
+  formato: string | null;
+  duracion: number | null;
+  createdAt: string;
+  updatedAt: string;
 }

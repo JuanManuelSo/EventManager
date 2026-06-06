@@ -10,6 +10,7 @@ import {
   UserCheck,
   QrCode,
   BarChart2,
+  Film,
 } from "lucide-react";
 import { useEvent, useDeleteEvent } from "../hooks/useEvents";
 import { useToast } from "../components/ui/Toast";
@@ -24,15 +25,17 @@ import {
 import { EditableField } from "../components/ui/EditableField";
 import GuestsTab from "../components/guests/GuestsTab";
 import ScanTab from "../components/scan/ScanTab";
+import MediaTab from "../components/media/MediaTab";
 import DeleteEventModal from "../components/events/DeleteEventModal";
 
 /* ── Tab definitions ── */
-type Tab = "info" | "guests" | "scan" | "metrics";
+type Tab = "info" | "guests" | "scan" | "media" | "metrics";
 
 const TABS: { key: Tab; label: string; icon: React.ReactNode }[] = [
   { key: "info", label: "Información", icon: <Info size={13} /> },
   { key: "guests", label: "Invitados", icon: <UserCheck size={13} /> },
   { key: "scan", label: "Escaneo QR", icon: <QrCode size={13} /> },
+  { key: "media", label: "Multimedia", icon: <Film size={13} /> },
   { key: "metrics", label: "Métricas", icon: <BarChart2 size={13} /> },
 ];
 
@@ -198,6 +201,7 @@ export default function EventDetailPage() {
       {tab === "info" && <InfoTab event={event} />}
       {tab === "guests" && <GuestsTab eventId={event.id_evento} />}
       {tab === "scan" && <ScanTab eventId={event.id_evento} />}
+      {tab === "media" && <MediaTab eventId={event.id_evento} />}
       {tab === "metrics" && <ComingSoon label="Métricas" />}
 
       <DeleteEventModal

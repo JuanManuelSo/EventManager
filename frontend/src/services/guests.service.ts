@@ -217,4 +217,30 @@ export const guestsService = {
     const response = await api.delete(`/events/${eventId}/guests/${guestId}`);
     return response.data;
   },
+
+  async updateGuest(
+    eventId: number,
+    guestId: number,
+    data: { video?: string | null },
+  ): Promise<Guest> {
+    const { default: api } = await import("../lib/api");
+    const response = await api.put(`/events/${eventId}/guests/${guestId}`, data);
+    return response.data.data;
+  },
+
+  async bulkAssignVideo(
+    eventId: number,
+    payload: {
+      videoUrl: string;
+      mesa?: string | null;
+      tipo?: "individual" | "con_acompanantes" | "todos";
+    },
+  ): Promise<{ updated: number }> {
+    const { default: api } = await import("../lib/api");
+    const { data } = await api.post(
+      `/events/${eventId}/guests/bulk-assign-video`,
+      payload,
+    );
+    return data;
+  },
 };

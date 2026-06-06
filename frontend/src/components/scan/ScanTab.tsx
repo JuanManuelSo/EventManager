@@ -26,7 +26,9 @@ type FeedbackState =
 interface RecentEntry {
   id: number;
   name: string;
+  numero: string;
   table: string;
+  cantAcompanantes: number | null;
   time: string;
   duplicate: boolean;
 }
@@ -57,7 +59,9 @@ export default function ScanTab({ eventId }: { eventId: number }) {
       const entry: RecentEntry = {
         id: result.guest.id,
         name: `${result.guest.nombre} ${result.guest.apellido}`,
+        numero: result.guest.numero ?? "—",
         table: result.guest.mesa ?? "—",
+        cantAcompanantes: result.guest.cant_acompanantes ?? null,
         time: new Date().toLocaleTimeString("es-AR", {
           hour: "2-digit",
           minute: "2-digit",
@@ -227,6 +231,12 @@ export default function ScanTab({ eventId }: { eventId: number }) {
                         {feedback.result.guest.mesa ?? "Sin mesa asignada"} ·
                         Check-in registrado
                       </p>
+                      {(feedback.result as any).guest?.video && (
+                        <p className="text-emerald-300/70 text-[10px] mt-1 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          Reproduciendo video en pantalla
+                        </p>
+                      )}
                     </>
                   )}
                   {feedback.type === "duplicate" && (
@@ -364,15 +374,22 @@ export default function ScanTab({ eventId }: { eventId: number }) {
                 <div
                   key={`${entry.id}-${i}`}
                   className={[
-                    "flex items-center gap-3 px-4 py-3",
-                    i === 0 ? "bg-slate-50/80" : "",
+                    "relative flex items-start gap-3 px-4 py-4",
+                    i === 0
+                      ? "bg-gradient-to-r from-emerald-50/60 to-transparent"
+                      : "",
                     entry.duplicate ? "opacity-60" : "",
                   ].join(" ")}
                 >
+                  {/* Accent bar for first entry */}
+                  {i === 0 && (
+                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-emerald-400" />
+                  )}
+
                   {/* Avatar */}
                   <div
                     className={[
-                      "w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold",
+                      "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-[11px] font-bold shadow-sm",
                       entry.duplicate
                         ? "bg-amber-100 text-amber-700"
                         : "bg-emerald-100 text-emerald-700",
@@ -388,21 +405,45 @@ export default function ScanTab({ eventId }: { eventId: number }) {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-slate-800 truncate">
+                    <p className="text-sm font-semibold text-slate-800 truncate leading-tight">
                       {entry.name}
                     </p>
-                    <p className="text-[11px] text-slate-400">{entry.table}</p>
-                  </div>
-
-                  {/* Time + status */}
-                  <div className="text-right shrink-0">
-                    <p className="text-[11px] font-bold text-slate-700">
+                    <p className="text-[11px] text-slate-400 mt-0.5">
                       {entry.time}
                     </p>
-                    {entry.duplicate && (
-                      <p className="text-[9px] text-amber-500 font-semibold mt-0.5">
+
+                    {/* Badge grid */}
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-semibold text-slate-600">
+                        <span className="text-slate-400 font-medium">Mesa</span>
+                        {entry.table}
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-semibold text-slate-600">
+                        <span className="text-slate-400 font-medium">ID</span>
+                        {entry.numero}
+                      </span>
+                      {entry.cantAcompanantes !== null && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-violet-50 text-[10px] font-semibold text-violet-700">
+                          <span className="text-violet-400 font-medium">+</span>
+                          {entry.cantAcompanantes} acompañante
+                          {entry.cantAcompanantes !== 1 ? "s" : ""}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Status badge */}
+                  <div className="shrink-0 mt-0.5">
+                    {entry.duplicate ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-[9px] font-bold text-amber-600 border border-amber-200/60 whitespace-nowrap">
+                        <span className="w-1 h-1 rounded-full bg-amber-400" />
                         DUPLICADO
-                      </p>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 border border-emerald-200/60 whitespace-nowrap">
+                        <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                        CHECK-IN
+                      </span>
                     )}
                   </div>
                 </div>
