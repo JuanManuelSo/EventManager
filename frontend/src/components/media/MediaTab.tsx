@@ -4,17 +4,20 @@ import {
   Film,
   Upload,
   Trash2,
+  X,
   Image,
   Loader2,
   CheckCircle2,
   XCircle,
   Video,
+  PlayCircle,
   Users,
   Table2,
 } from "lucide-react";
 import { mediaService } from "../../services/media.service";
 import { guestsService } from "../../services/guests.service";
 import { useToast } from "../ui/Toast";
+import Button from "../ui/Button";
 import type { EventMedia } from "../../types";
 
 export default function MediaTab({ eventId }: { eventId: number }) {
@@ -23,6 +26,7 @@ export default function MediaTab({ eventId }: { eventId: number }) {
 
   const [uploadOpen, setUploadOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<EventMedia | null>(null);
 
   const { data: mediaList = [], isLoading } = useQuery<EventMedia[]>({
     queryKey: ["media", eventId],
@@ -34,6 +38,7 @@ export default function MediaTab({ eventId }: { eventId: number }) {
     mutationFn: (mediaId: number) => mediaService.delete(eventId, mediaId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["media", eventId] });
+      setVideoToDelete(null);
       toast.success("Video eliminado");
     },
     onError: () => toast.error("Error al eliminar video"),
@@ -70,9 +75,6 @@ export default function MediaTab({ eventId }: { eventId: number }) {
         </div>
       </div>
 
-      {/* QR Card Section */}
-      <QrCardSection eventId={eventId} />
-
       {/* Upload Modal */}
       {uploadOpen && (
         <UploadVideoModal
@@ -99,14 +101,30 @@ export default function MediaTab({ eventId }: { eventId: number }) {
         />
       )}
 
+      {/* Delete Modal */}
+      <DeleteVideoModal
+        isOpen={!!videoToDelete}
+        onClose={() => setVideoToDelete(null)}
+        onConfirm={() => {
+          if (videoToDelete) deleteMutation.mutate(videoToDelete.id);
+        }}
+        video={videoToDelete}
+        isLoading={deleteMutation.isPending}
+      />
+
       {/* Video List */}
       {isLoading ? (
-        <div className="grid grid-cols-3 gap-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
-              <div className="h-32 bg-slate-100 rounded-lg animate-pulse" />
-              <div className="h-3 w-32 bg-slate-100 rounded animate-pulse" />
-              <div className="h-3 w-24 bg-slate-100 rounded animate-pulse" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-white border border-slate-200 rounded-xl p-2 flex items-center gap-3"
+            >
+              <div className="h-12 w-20 shrink-0 bg-slate-100 rounded-lg animate-pulse" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <div className="h-3 w-36 bg-slate-100 rounded animate-pulse" />
+                <div className="h-3 w-24 bg-slate-100 rounded animate-pulse" />
+              </div>
             </div>
           ))}
         </div>
@@ -126,42 +144,40 @@ export default function MediaTab({ eventId }: { eventId: number }) {
             className="mt-4 flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
           >
             <Upload size={13} />
-            Subir primer video
+            Subir video
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {mediaList.map((media) => (
             <div
               key={media.id}
-              className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.04)] group"
+              className="bg-white border border-slate-200 rounded-xl p-2 flex items-center gap-3 shadow-[0_1px_3px_rgb(0,0,0,0.03)] hover:border-slate-300 transition-colors"
             >
-              {/* Video thumbnail / preview */}
-              <div className="relative h-36 bg-slate-900 flex items-center justify-center overflow-hidden">
+              <div className="relative h-14 w-24 shrink-0 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden">
                 <video
                   src={media.videoUrl}
                   className="w-full h-full object-cover opacity-70"
                   preload="metadata"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                    <Video size={18} className="text-white" />
+                  <div className="w-7 h-7 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                    <Video size={14} className="text-white" />
                   </div>
                 </div>
                 {media.duracion && (
-                  <span className="absolute bottom-2 right-2 text-[10px] font-medium text-white bg-black/50 px-1.5 py-0.5 rounded">
+                  <span className="absolute bottom-1 right-1 text-[9px] font-medium text-white bg-black/60 px-1 py-0.5 rounded">
                     {Math.floor(media.duracion / 60)}:
                     {String(media.duracion % 60).padStart(2, "0")}
                   </span>
                 )}
               </div>
 
-              {/* Info */}
-              <div className="p-3">
-                <p className="text-[13px] font-semibold text-slate-800 truncate">
+              <div className="min-w-0 flex-1">
+                <p className="text-[12px] font-semibold text-slate-800 truncate">
                   {media.nombre}
                 </p>
-                <div className="flex items-center gap-3 mt-1.5">
+                <div className="flex items-center gap-2 mt-1 flex-wrap">
                   <span className="text-[10px] font-medium text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
                     {media.tipo === "individual"
                       ? "Individual"
@@ -175,26 +191,114 @@ export default function MediaTab({ eventId }: { eventId: number }) {
                       Mesa {media.mesa}
                     </span>
                   )}
-                </div>
-                <div className="flex items-center justify-between mt-3 pt-2 border-t border-slate-100">
                   <span className="text-[10px] text-slate-400">
                     {media.formato?.toUpperCase() ?? "—"}
                   </span>
-                  <button
-                    onClick={() => {
-                      if (confirm("¿Eliminar este video?"))
-                        deleteMutation.mutate(media.id);
-                    }}
-                    className="p-1 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
-                  >
-                    <Trash2 size={12} />
-                  </button>
                 </div>
+              </div>
+
+              <div className="flex items-center gap-1 shrink-0">
+                <a
+                  href={media.videoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
+                  title="Reproducir video"
+                >
+                  <PlayCircle size={15} />
+                </a>
+                <button
+                  onClick={() => setVideoToDelete(media)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                  title="Eliminar video"
+                >
+                  <Trash2 size={14} />
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
+      {/* QR Card Section */}
+      <QrCardSection eventId={eventId} />
+    </div>
+  );
+}
+
+function DeleteVideoModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  video,
+  isLoading,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  video: EventMedia | null;
+  isLoading?: boolean;
+}) {
+  if (!isOpen || !video) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900">
+              Eliminar Video
+            </h2>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="mt-3 mb-3 p-4 bg-red-50 border border-red-100 rounded-lg">
+          <p className="text-sm text-red-800 font-medium">
+            ¿Estás seguro de que deseas eliminar este video?
+          </p>
+          <p className="text-xs text-red-600 mt-1">
+            Esta acción es permanente y borrará el video del evento:
+          </p>
+          <p className="text-[13px] text-slate-700 mt-2 font-bold">
+            <Video size={16} className="inline mr-1" />
+            {video.nombre}
+          </p>
+        </div>
+
+        <div className="flex gap-3 mt-2">
+          <Button
+            variant="secondary"
+            onClick={onClose}
+            fullWidth
+            size="lg"
+            className="cursor-pointer"
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="danger"
+            onClick={onConfirm}
+            loading={isLoading}
+            fullWidth
+            size="lg"
+            className="cursor-pointer"
+          >
+            {isLoading ? "Eliminando..." : "Eliminar Video"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -212,7 +316,9 @@ function UploadVideoModal({
   const toast = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [nombre, setNombre] = useState("");
-  const [tipo, setTipo] = useState<"individual" | "con_acompanantes" | "general">("general");
+  const [tipo, setTipo] = useState<
+    "individual" | "con_acompanantes" | "general"
+  >("general");
   const [mesa, setMesa] = useState("");
   const [uploading, setUploading] = useState(false);
 
@@ -241,10 +347,17 @@ function UploadVideoModal({
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-sm font-semibold text-slate-800">Subir video</h3>
-            <p className="text-[11px] text-slate-400">MP4, WebM, MOV o AVI — máximo 200MB</p>
+            <h3 className="text-sm font-semibold text-slate-800">
+              Subir video
+            </h3>
+            <p className="text-[11px] text-slate-400">
+              MP4, WebM, MOV o AVI — máximo 200MB
+            </p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+          >
             <XCircle size={18} />
           </button>
         </div>
@@ -252,15 +365,21 @@ function UploadVideoModal({
         <div className="space-y-4">
           {/* File picker */}
           <div>
-            <label className="text-xs font-medium text-slate-600 mb-1 block">Archivo de video</label>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">
+              Archivo de video
+            </label>
             <div
               className="border-2 border-dashed border-slate-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer"
-              onClick={() => document.getElementById("video-file-input")?.click()}
+              onClick={() =>
+                document.getElementById("video-file-input")?.click()
+              }
             >
               {file ? (
                 <div className="flex items-center justify-center gap-2">
                   <Video size={16} className="text-blue-500" />
-                  <p className="text-xs text-slate-700 font-medium">{file.name}</p>
+                  <p className="text-xs text-slate-700 font-medium">
+                    {file.name}
+                  </p>
                   <p className="text-[10px] text-slate-400">
                     ({(file.size / 1024 / 1024).toFixed(1)} MB)
                   </p>
@@ -285,7 +404,9 @@ function UploadVideoModal({
 
           {/* Name */}
           <div>
-            <label className="text-xs font-medium text-slate-600 mb-1 block">Nombre del video</label>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">
+              Nombre del video
+            </label>
             <input
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -296,7 +417,9 @@ function UploadVideoModal({
 
           {/* Tipo */}
           <div>
-            <label className="text-xs font-medium text-slate-600 mb-1 block">Tipo</label>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">
+              Tipo
+            </label>
             <select
               value={tipo}
               onChange={(e) => setTipo(e.target.value as any)}
@@ -311,7 +434,10 @@ function UploadVideoModal({
           {/* Mesa */}
           <div>
             <label className="text-xs font-medium text-slate-600 mb-1 block">
-              Mesa <span className="text-slate-400">(opcional — dejar vacío para cualquier mesa)</span>
+              Mesa{" "}
+              <span className="text-slate-400">
+                (opcional — dejar vacío para cualquier mesa)
+              </span>
             </label>
             <select
               value={mesa}
@@ -373,7 +499,9 @@ function BulkAssignModal({
   const toast = useToast();
   const [selectedVideo, setSelectedVideo] = useState("");
   const [mesa, setMesa] = useState("");
-  const [tipo, setTipo] = useState<"todos" | "individual" | "con_acompanantes">("todos");
+  const [tipo, setTipo] = useState<"todos" | "individual" | "con_acompanantes">(
+    "todos",
+  );
   const [assigning, setAssigning] = useState(false);
 
   async function handleAssign() {
@@ -399,12 +527,18 @@ function BulkAssignModal({
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-sm font-semibold text-slate-800">Asignar video a invitados</h3>
+            <h3 className="text-sm font-semibold text-slate-800">
+              Asignar video a invitados
+            </h3>
             <p className="text-[11px] text-slate-400">
-              Asigná un video a todos los invitados que coincidan con los filtros
+              Asigná un video a todos los invitados que coincidan con los
+              filtros
             </p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+          >
             <XCircle size={18} />
           </button>
         </div>
@@ -412,7 +546,9 @@ function BulkAssignModal({
         <div className="space-y-4">
           {/* Video selector */}
           <div>
-            <label className="text-xs font-medium text-slate-600 mb-1 block">Video</label>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">
+              Video
+            </label>
             <select
               value={selectedVideo}
               onChange={(e) => setSelectedVideo(e.target.value)}
@@ -448,7 +584,9 @@ function BulkAssignModal({
 
           {/* Tipo filter */}
           <div>
-            <label className="text-xs font-medium text-slate-600 mb-1 block">¿A quiénes asignar?</label>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">
+              ¿A quiénes asignar?
+            </label>
             <div className="flex gap-2">
               {[
                 { key: "todos" as const, label: "Todos" },
@@ -506,12 +644,24 @@ function QrCardSection({ eventId }: { eventId: number }) {
   const toast = useToast();
   const queryClient = useQueryClient();
   const [uploading, setUploading] = useState(false);
+  const [savingSlot, setSavingSlot] = useState(false);
+  const [slotX, setSlotX] = useState("");
+  const [slotY, setSlotY] = useState("");
+  const [slotSize, setSlotSize] = useState("");
 
   const { data: qrCard } = useQuery({
     queryKey: ["qr-card", eventId],
     queryFn: () => mediaService.getQrCard(eventId),
     enabled: !!eventId,
   });
+
+  const currentSlot = qrCard?.slot;
+  const displayedSlotX =
+    slotX || (currentSlot?.x != null ? String(currentSlot.x) : "");
+  const displayedSlotY =
+    slotY || (currentSlot?.y != null ? String(currentSlot.y) : "");
+  const displayedSlotSize =
+    slotSize || (currentSlot?.size != null ? String(currentSlot.size) : "");
 
   async function handleUpload(file: File) {
     setUploading(true);
@@ -526,6 +676,36 @@ function QrCardSection({ eventId }: { eventId: number }) {
     }
   }
 
+  async function handleSaveSlot() {
+    const x = Number(displayedSlotX);
+    const y = Number(displayedSlotY);
+    const size = Number(displayedSlotSize);
+
+    if (
+      !Number.isInteger(x) ||
+      !Number.isInteger(y) ||
+      !Number.isInteger(size) ||
+      size < 32
+    ) {
+      toast.error("Ingresá coordenadas válidas para el slot del QR");
+      return;
+    }
+
+    setSavingSlot(true);
+    try {
+      await mediaService.updateQrCardSlot(eventId, { x, y, size });
+      queryClient.invalidateQueries({ queryKey: ["qr-card", eventId] });
+      setSlotX("");
+      setSlotY("");
+      setSlotSize("");
+      toast.success("Slot del QR guardado");
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message ?? "Error al guardar el slot");
+    } finally {
+      setSavingSlot(false);
+    }
+  }
+
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-[0_1px_3px_rgb(0,0,0,0.04)]">
       <div className="flex items-start justify-between gap-4">
@@ -537,8 +717,8 @@ function QrCardSection({ eventId }: { eventId: number }) {
             </h3>
           </div>
           <p className="text-[11px] text-slate-400 mt-1">
-            Esta imagen se usará como base para generar las tarjetas QR de los invitados.
-            Subí un diseño PNG, JPG, WebP o PDF.
+            Esta imagen se usará como base para generar las tarjetas QR de los
+            invitados. Subí un diseño PNG, JPG, WebP o PDF.
           </p>
         </div>
       </div>
@@ -555,7 +735,8 @@ function QrCardSection({ eventId }: { eventId: number }) {
               onClick={() => {
                 const input = document.createElement("input");
                 input.type = "file";
-                input.accept = "image/png,image/jpeg,image/webp,application/pdf";
+                input.accept =
+                  "image/png,image/jpeg,image/webp,application/pdf";
                 input.onchange = (e) => {
                   const file = (e.target as HTMLInputElement).files?.[0];
                   if (file) handleUpload(file);
@@ -586,10 +767,10 @@ function QrCardSection({ eventId }: { eventId: number }) {
           </div>
         )}
 
-        <div className="text-[11px] text-slate-500">
+        <div className="text-[11px] text-slate-500 space-y-3">
           {qrCard?.url ? (
             <p className="text-emerald-600 font-medium">
-              Imagen cargada correctamente
+              Plantilla cargada correctamente
             </p>
           ) : (
             <p>Aún no hay plantilla subida</p>
@@ -600,6 +781,67 @@ function QrCardSection({ eventId }: { eventId: number }) {
               Subiendo...
             </p>
           )}
+
+          <div className="grid grid-cols-3 gap-2 max-w-xs">
+            <label className="space-y-1">
+              <span className="block text-[10px] font-medium text-slate-500">
+                X
+              </span>
+              <input
+                type="number"
+                min="0"
+                value={displayedSlotX}
+                onChange={(e) => setSlotX(e.target.value)}
+                className="w-full px-2 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                placeholder="px"
+              />
+            </label>
+            <label className="space-y-1">
+              <span className="block text-[10px] font-medium text-slate-500">
+                Y
+              </span>
+              <input
+                type="number"
+                min="0"
+                value={displayedSlotY}
+                onChange={(e) => setSlotY(e.target.value)}
+                className="w-full px-2 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                placeholder="px"
+              />
+            </label>
+            <label className="space-y-1">
+              <span className="block text-[10px] font-medium text-slate-500">
+                Tamaño
+              </span>
+              <input
+                type="number"
+                min="32"
+                value={displayedSlotSize}
+                onChange={(e) => setSlotSize(e.target.value)}
+                className="w-full px-2 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                placeholder="px"
+              />
+            </label>
+          </div>
+
+          <button
+            onClick={handleSaveSlot}
+            disabled={savingSlot}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {savingSlot ? (
+              <>
+                <Loader2 size={12} className="animate-spin" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar slot QR"
+            )}
+          </button>
+          <p className="max-w-md text-[10px] text-slate-400">
+            X/Y son píxeles desde la esquina superior izquierda de la plantilla.
+            Tamaño define el ancho y alto del QR.
+          </p>
         </div>
       </div>
     </div>

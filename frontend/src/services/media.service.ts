@@ -34,7 +34,10 @@ export const mediaService = {
     await api.delete(`/events/${eventId}/media/${mediaId}`);
   },
 
-  async getQrCard(eventId: number): Promise<{ url: string | null }> {
+  async getQrCard(eventId: number): Promise<{
+    url: string | null;
+    slot: { x: number | null; y: number | null; size: number | null };
+  }> {
     const { default: api } = await import("../lib/api");
     const { data } = await api.get(`/events/${eventId}/media/qr-card`);
     return data.data;
@@ -47,6 +50,18 @@ export const mediaService = {
     const { data } = await api.post(`/events/${eventId}/media/qr-card`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    return data.data;
+  },
+
+  async updateQrCardSlot(
+    eventId: number,
+    slot: { x: number; y: number; size: number },
+  ): Promise<{
+    url: string | null;
+    slot: { x: number | null; y: number | null; size: number | null };
+  }> {
+    const { default: api } = await import("../lib/api");
+    const { data } = await api.put(`/events/${eventId}/media/qr-card/slot`, slot);
     return data.data;
   },
 };
