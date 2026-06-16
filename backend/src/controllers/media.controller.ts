@@ -8,6 +8,7 @@ const paramsSchema = z.object({
 });
 
 export const mediaController = {
+  //Listar Medias de un evento
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
@@ -18,6 +19,7 @@ export const mediaController = {
     }
   },
 
+  //Subir video
   async upload(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
@@ -54,6 +56,7 @@ export const mediaController = {
     }
   },
 
+  //Eliminar video
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId, mediaId } = paramsSchema.parse({
@@ -70,13 +73,16 @@ export const mediaController = {
       res.json({ status: "success", ...result });
     } catch (error: any) {
       if (error?.statusCode) {
-        res.status(error.statusCode).json({ status: "error", message: error.message });
+        res
+          .status(error.statusCode)
+          .json({ status: "error", message: error.message });
         return;
       }
       next(error);
     }
   },
 
+  //Subir QR Card
   async uploadQrCard(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
@@ -106,6 +112,31 @@ export const mediaController = {
 
       res.json({ status: "success", data: result });
     } catch (error) {
+      next(error);
+    }
+  },
+
+  //Update slot de QR Card
+  async updateQrCardSlot(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
+
+      const body = z
+        .object({
+          x: z.coerce.number().int().min(0),
+          y: z.coerce.number().int().min(0),
+          size: z.coerce.number().int().min(32),
+        })
+        .parse(req.body);
+
+      const result = await mediaService.updateQrCardSlot(eventId, body);
+
+      res.json({ status: "success", data: result });
+    } catch (error: any) {
+      if (error?.name === "ZodError") {
+        res.status(400).json({ status: "error", message: error.message });
+        return;
+      }
       next(error);
     }
   },

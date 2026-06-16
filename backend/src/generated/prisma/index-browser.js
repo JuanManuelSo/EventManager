@@ -149,6 +149,9 @@ exports.Prisma.EventScalarFieldEnum = {
   qrJobProcessed: 'qrJobProcessed',
   qrJobRequestedBy: 'qrJobRequestedBy',
   invitationBaseImageUrl: 'invitationBaseImageUrl',
+  invitationQrX: 'invitationQrX',
+  invitationQrY: 'invitationQrY',
+  invitationQrSize: 'invitationQrSize',
   checkedInCount: 'checkedInCount',
   createdAt: 'createdAt'
 };

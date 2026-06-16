@@ -156,6 +156,7 @@ export const guestService = {
     return { created: createdCount };
   },
 
+  //Mostrar invitados que hicieroon check-in desde ScanTab
   async checkin(eventId: number, qrCode: string) {
     const guest = await prisma.guest.findFirst({
       where: { eventId, qrHash: qrCode },
@@ -197,6 +198,7 @@ export const guestService = {
     return updated;
   },
 
+  //Cehck-in manual desde ScanTab
   async manualCheckin(eventId: number, guestId: number) {
     const guest = await prisma.guest.findFirst({
       where: { id: guestId, eventId },
@@ -238,6 +240,7 @@ export const guestService = {
     return updated;
   },
 
+  //Eliminacion de invitados desde GuestTab
   async delete(eventId: number, guestId: number, userId: number) {
     const event = await this.getOwnedEvent(eventId, userId);
 
@@ -259,7 +262,7 @@ export const guestService = {
 
     if (guest.status === "PRESENTE") {
       const error = new Error(
-        "No se puede eliminar un invitado que ya está presente"
+        "No se puede eliminar un invitado que ya está presente",
       ) as any;
       error.statusCode = 409;
       throw error;
@@ -274,9 +277,7 @@ export const guestService = {
 
       const totalGuests = await prisma.guest.count({ where: { eventId } });
       const porcentajeAsistencia =
-        totalGuests > 0
-          ? Math.round((checkedInCount / totalGuests) * 100)
-          : 0;
+        totalGuests > 0 ? Math.round((checkedInCount / totalGuests) * 100) : 0;
 
       await prisma.event.update({
         where: { id_evento: eventId },
@@ -287,6 +288,7 @@ export const guestService = {
     return { deleted: true };
   },
 
+  //Marcado de invitaciones como enviada
   async sendInvitations(eventId: number, guestIds: number[]) {
     await prisma.guest.updateMany({
       where: { id: { in: guestIds }, eventId },
@@ -296,7 +298,18 @@ export const guestService = {
     return { sent: guestIds.length };
   },
 
-  async update(eventId: number, guestId: number, data: { video?: string | null; mesa?: string | null; nombre?: string; apellido?: string; email?: string | null }) {
+  //Actualizacion de datos de invitados desde GuestTab
+  async update(
+    eventId: number,
+    guestId: number,
+    data: {
+      video?: string | null;
+      mesa?: string | null;
+      nombre?: string;
+      apellido?: string;
+      email?: string | null;
+    },
+  ) {
     const guest = await prisma.guest.findFirst({
       where: { id: guestId, eventId },
     });
@@ -319,6 +332,7 @@ export const guestService = {
     });
   },
 
+  //Asignacion de videos query en MediaTab
   async bulkAssignVideo(
     eventId: number,
     params: {
@@ -334,12 +348,9 @@ export const guestService = {
     }
 
     if (params.tipo === "individual") {
-      where.OR = [
-        { cant_acompanantes: 0 },
-        { cant_acompanantes: null },
-      ];
+      where.cant_acompanantes = 1;
     } else if (params.tipo === "con_acompanantes") {
-      where.cant_acompanantes = { gt: 0 };
+      where.cant_acompanantes = { gt: 1 };
     }
 
     const result = await prisma.guest.updateMany({

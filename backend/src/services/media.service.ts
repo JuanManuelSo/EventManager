@@ -31,10 +31,12 @@ export const mediaService = {
   ) {
     const publicId = `event_${eventId}_${Date.now()}`;
 
-    const { url, publicId: cloudId, duration, format } = await uploadVideo(
-      filePath,
-      publicId,
-    );
+    const {
+      url,
+      publicId: cloudId,
+      duration,
+      format,
+    } = await uploadVideo(filePath, publicId);
 
     return prisma.eventMedia.create({
       data: {
@@ -74,11 +76,54 @@ export const mediaService = {
     return { url: event.invitationBaseImageUrl };
   },
 
+  //Actualziar slot de QR Card
+  async updateQrCardSlot(
+    eventId: number,
+    slot: { x: number; y: number; size: number },
+  ) {
+    const event = await prisma.event.update({
+      where: { id_evento: eventId },
+      data: {
+        invitationQrX: slot.x,
+        invitationQrY: slot.y,
+        invitationQrSize: slot.size,
+      },
+      select: {
+        invitationBaseImageUrl: true,
+        invitationQrX: true,
+        invitationQrY: true,
+        invitationQrSize: true,
+      },
+    });
+
+    return {
+      url: event.invitationBaseImageUrl,
+      slot: {
+        x: event.invitationQrX,
+        y: event.invitationQrY,
+        size: event.invitationQrSize,
+      },
+    };
+  },
+
+  //Obtener QR Card y slot
   async getQrCard(eventId: number) {
     const event = await prisma.event.findUnique({
       where: { id_evento: eventId },
-      select: { invitationBaseImageUrl: true },
+      select: {
+        invitationBaseImageUrl: true,
+        invitationQrX: true,
+        invitationQrY: true,
+        invitationQrSize: true,
+      },
     });
-    return { url: event?.invitationBaseImageUrl ?? null };
+    return {
+      url: event?.invitationBaseImageUrl ?? null,
+      slot: {
+        x: event?.invitationQrX ?? null,
+        y: event?.invitationQrY ?? null,
+        size: event?.invitationQrSize ?? null,
+      },
+    };
   },
 };

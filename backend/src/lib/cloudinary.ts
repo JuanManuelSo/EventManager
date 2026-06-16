@@ -34,16 +34,26 @@ export async function uploadVideo(
 export async function uploadImage(
   filePath: string,
   publicId?: string,
-): Promise<{ url: string; publicId: string }> {
+): Promise<{ url: string; publicId: string; format: string }> {
   const result = await cloudinary.uploader.upload(filePath, {
     folder: "event_manager/images",
     public_id: publicId,
-    resource_type: "auto",
+    resource_type: "image",
   });
 
+  const url = result.format === "pdf"
+    ? cloudinary.url(result.public_id, {
+        secure: true,
+        resource_type: "image",
+        format: "png",
+        page: 1,
+      })
+    : result.secure_url;
+
   return {
-    url: result.secure_url,
+    url,
     publicId: result.public_id,
+    format: result.format,
   };
 }
 

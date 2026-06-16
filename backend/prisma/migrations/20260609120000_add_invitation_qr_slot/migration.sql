@@ -1,0 +1,3 @@
+ALTER TABLE "Event" ADD COLUMN "invitationQrX" INTEGER;
+ALTER TABLE "Event" ADD COLUMN "invitationQrY" INTEGER;
+ALTER TABLE "Event" ADD COLUMN "invitationQrSize" INTEGER;

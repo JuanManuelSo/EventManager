@@ -71,6 +71,9 @@ model Event {
   qrJobProcessed         Int?
   qrJobRequestedBy       Int?
   invitationBaseImageUrl String?
+  invitationQrX          Int?
+  invitationQrY          Int?
+  invitationQrSize       Int?
 
   checkedInCount Int @default(0)
 
