@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 
 import {
   Search,
@@ -21,6 +20,7 @@ import type { Guest } from "../../types";
 
 import ExcelImportModal from "./ExcelImportModal";
 import ManualGuestModal from "./ManualGuestModal";
+import AssignVideoModal from "./AssignVideoModal";
 import DeleteGuestModal from "../guests/DeleteGuestModal";
 
 import type { GuestImportRow } from "../../lib/guestImport";
@@ -45,8 +45,6 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const { data: guests = [], isLoading } = useGuests(eventId);
   const [importedGuests] = useState<Guest[]>([]);
 
-  const navigate = useNavigate();
-
   console.log("GuestTab render", { guests });
 
   const [query, setQuery] = useState("");
@@ -62,6 +60,8 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   //Estado para modal
   const [isDeleteGuestModalOpen, setIsDeleteGuestModalOpen] = useState(false);
   const [guestToDelete, setGuestToDelete] = useState<Guest | null>(null);
+  const [isAssignVideoOpen, setIsAssignVideoOpen] = useState(false);
+  const [guestToAssignVideo, setGuestToAssignVideo] = useState<Guest | null>(null);
 
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isManualGuestOpen, setIsManualGuestOpen] = useState(false);
@@ -399,21 +399,20 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                                 label={guest.video ? "Quitar video" : "Asignar video"}
                                 onClick={async () => {
                                   setOpenMenu(null);
-                                  // Toggle video assignment
+                                  if (!guest.video) {
+                                    setGuestToAssignVideo(guest);
+                                    setIsAssignVideoOpen(true);
+                                    return;
+                                  }
+
                                   try {
-                                    await guestsService.updateGuest(
-                                      eventId,
-                                      guest.id,
-                                      { video: guest.video ? null : undefined },
-                                    );
+                                    await guestsService.updateGuest(eventId, guest.id, {
+                                      video: null,
+                                    });
                                     queryClient.invalidateQueries({
                                       queryKey: ["guests", eventId],
                                     });
-                                    toast.success(
-                                      guest.video
-                                        ? "Video eliminado"
-                                        : "Abriendo selector...",
-                                    );
+                                    toast.success("Video eliminado");
                                   } catch {
                                     toast.error("Error al actualizar");
                                   }
@@ -588,6 +587,22 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
         guest={guestToDelete!}
         isLoading={deleteGuestMutation.isPending}
       />
+      {guestToAssignVideo && (
+        <AssignVideoModal
+          isOpen={isAssignVideoOpen}
+          eventId={eventId}
+          guest={guestToAssignVideo}
+          onClose={() => {
+            setIsAssignVideoOpen(false);
+            setGuestToAssignVideo(null);
+          }}
+          onSuccess={() => {
+            setIsAssignVideoOpen(false);
+            setGuestToAssignVideo(null);
+            toast.success("Video asignado correctamente");
+          }}
+        />
+      )}
     </div>
   );
 }
