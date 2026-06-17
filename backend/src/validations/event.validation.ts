@@ -17,3 +17,22 @@ export const createEventSchema = z.object({
 });
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;
+
+export const updateEventSchema = z.object({
+  nombre: z.string().min(1, "El nombre del evento es requerido").optional(),
+  fecha: z
+    .string()
+    .datetime("Formato de fecha y hora inválido")
+    .optional(),
+  locacion: z.string().min(1, "La ubicación es requerida").optional(),
+  tipo: z.string().min(1, "El tipo de evento es requerido").optional(),
+  salon: z.string().optional(),
+  cant_invitados: z
+    .number()
+    .min(0, "La cantidad de invitados no puede ser negativa")
+    .int("Debe ser un número entero")
+    .optional(),
+  coverImage: z.string().optional(),
+});
+
+export type UpdateEventInput = z.infer<typeof updateEventSchema>;

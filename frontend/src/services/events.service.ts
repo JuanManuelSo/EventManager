@@ -1,6 +1,6 @@
 import type { Event, User, DashboardStats } from "../types";
-import type { CreateEventDTO } from "../types/EventDto";
-import { MOCK_EVENTS, MOCK_DASHBOARD_STATS } from "../mocks/data";
+import type { CreateEventDTO, UpdateEventDTO } from "../types/EventDto";
+import { MOCK_EVENTS } from "../mocks/data";
 import { sleep } from "../lib/utils";
 
 const USE_MOCK = true;
@@ -22,22 +22,12 @@ export const eventsService = {
   },
 
   async getById(id: number): Promise<Event> {
-    // if (USE_MOCK) {
-    //   await sleep(400);
-    //   const event = MOCK_EVENTS.find((e) => e.id_evento === id);
-    //   if (!event) throw new Error("Evento no encontrado");
-    //   return event;
-    // }
     const { default: api } = await import("../lib/api");
     const response = await api.get(`/events/${id}`);
     return response.data.data;
   },
 
   async getDashboardStats(): Promise<DashboardStats> {
-    // if (USE_MOCK) {
-    //   await sleep(300);
-    //   return MOCK_DASHBOARD_STATS;
-    // }
     const { default: api } = await import("../lib/api");
     const { data } = await api.get<{
       status: string;
@@ -59,37 +49,18 @@ export const eventsService = {
     return res.data;
   },
 
-  async update(id: number, payload: Partial<Event>): Promise<Event> {
-    if (USE_MOCK) {
-      await sleep(500);
-      const idx = MOCK_EVENTS.findIndex((e) => e.id_evento === id);
-      if (idx === -1) throw new Error("Evento no encontrado");
-      MOCK_EVENTS[idx] = { ...MOCK_EVENTS[idx], ...payload };
-      return MOCK_EVENTS[idx];
-    }
+  async update(id: number, payload: UpdateEventDTO): Promise<Event> {
     const { default: api } = await import("../lib/api");
-    const { data } = await api.patch<Event>(`/events/${id}`, payload);
+    const { data } = await api.put<Event>(`/events/${id}`, payload);
     return data;
   },
 
   async delete(id: number): Promise<void> {
-    // if (USE_MOCK) {
-    //   await sleep(400);
-    //   const idx = MOCK_EVENTS.findIndex((e) => e.id_evento === id);
-    //   if (idx !== -1) MOCK_EVENTS.splice(idx, 1);
-    //   return;
-    // }
     const { default: api } = await import("../lib/api");
     await api.delete(`/events/${id}`);
   },
 
   async getEventByUser(): Promise<Event[]> {
-    // if (USE_MOCK) {
-    //   await sleep(400);
-    //   const events = MOCK_EVENTS.filter((e) => e.ownerId === id);
-    //   return events;
-    // }
-
     const { default: api } = await import("../lib/api");
     const response = await api.get<ApiResponse<Event[]>>(`/events`);
 

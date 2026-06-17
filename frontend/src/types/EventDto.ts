@@ -12,3 +12,12 @@ export interface CreateEventDTO {
   checkedInCount?: number;
   porcentajeAsistencia?: number;
 }
+
+export interface UpdateEventDTO {
+  nombre?: string;
+  fecha?: string;
+  locacion?: string;
+  tipo?: string;
+  salon?: string;
+  cant_invitados?: number;
+}

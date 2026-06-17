@@ -58,6 +58,47 @@ export const eventService = {
       success: true,
     };
   },
+  async update(
+    eventId: number,
+    ownerId: number,
+    data: Partial<CreateEventInput>,
+  ) {
+    const event = await prisma.event.findFirst({
+      where: {
+        id_evento: eventId,
+        ownerId,
+      },
+    });
+
+    if (!event) {
+      const error = new Error("Evento no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (event.ownerId !== ownerId) {
+      const error = new Error(
+        "No autorizado para actualizar este evento",
+      ) as any;
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const updatedEvent = await prisma.event.update({
+      where: {
+        id_evento: eventId,
+      },
+      data: {
+        nombre: data.nombre,
+        fecha: data.fecha ? new Date(data.fecha) : undefined,
+        locacion: data.locacion,
+        tipo: data.tipo,
+        salon: data.salon,
+        cant_invitados: data.cant_invitados,
+      },
+    });
+    return updatedEvent;
+  },
   async getById(id: number) {
     const event = await prisma.event.findUnique({
       where: { id_evento: id },

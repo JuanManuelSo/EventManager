@@ -12,7 +12,7 @@ import {
   BarChart2,
   Film,
 } from "lucide-react";
-import { useEvent, useDeleteEvent } from "../hooks/useEvents";
+import { useEvent, useDeleteEvent, useUpdateEvent } from "../hooks/useEvents";
 import { useToast } from "../components/ui/Toast";
 import { formatDate, formatDateTime } from "../lib/utils";
 
@@ -220,6 +220,8 @@ export default function EventDetailPage() {
 ════════════════════════════════════════════ */
 function InfoTab({ event }: { event: import("../types").Event }) {
   const [isEditing, setIsEditing] = useState(false);
+  const updateEvent = useUpdateEvent();
+  const toast = useToast();
 
   const {
     register,
@@ -240,10 +242,28 @@ function InfoTab({ event }: { event: import("../types").Event }) {
     },
   });
 
-  const onSubmit = (data: CreateEventInput) => {
-    console.log("Guardando cambios...", data);
-    // Aquí llamarías a tu API para actualizar el evento en la DB vía Prisma
-    setIsEditing(false);
+  const onSubmit = async (data: CreateEventInput) => {
+    try {
+      await updateEvent.mutateAsync({
+        id: event.id_evento,
+        data: {
+          nombre: data.nombre,
+          tipo: data.tipo,
+          fecha: data.fecha,
+          salon: data.salon,
+          locacion: data.locacion,
+          cant_invitados: data.cant_invitados,
+        },
+      });
+      toast.success("Evento actualizado", {
+        description: "El evento se actualizó correctamente.",
+      });
+      setIsEditing(false);
+    } catch (error) {
+      toast.error("Error al actualizar", {
+        description: "No se pudo actualizar el evento. Intentá nuevamente.",
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -283,7 +303,7 @@ function InfoTab({ event }: { event: import("../types").Event }) {
                 <button
                   type="submit"
                   disabled={!isDirty}
-                  className="text-xs font-bold  text-blue-500  cursor-pointer disabled:opacity-50 hover:text-blue-700 "
+                  className="text-xs font-bold  text-blue-500  cursor-pointer disabled:opacity-90 hover:text-blue-700 hover:underline transitions-all duration-150"
                 >
                   Guardar Cambios
                 </button>

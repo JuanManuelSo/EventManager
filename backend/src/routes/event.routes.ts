@@ -10,6 +10,8 @@ router.get("/stats", authMiddleware, eventController.summary);
 router.get("/:id", authMiddleware, eventController.getById);
 router.delete("/:id", authMiddleware, eventController.delete);
 
+router.put("/:id", authMiddleware, eventController.update);
+
 router;
 
 export default router;

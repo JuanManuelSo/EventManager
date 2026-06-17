@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { eventService } from "../services/event.service.js";
-import type { CreateEventInput } from "../validations/event.validation.js";
-import { createEventSchema } from "../validations/event.validation.js";
+import type {
+  CreateEventInput,
+  UpdateEventInput,
+} from "../validations/event.validation.js";
+import {
+  createEventSchema,
+  updateEventSchema,
+} from "../validations/event.validation.js";
 import z from "zod";
 import { error } from "console";
 import { stat } from "fs";
@@ -91,7 +97,27 @@ export const eventController = {
       next(error);
     }
   },
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = paramsSchema.parse({ id: req.params.id });
+      const ownerId = req.user?.userId;
+      if (!ownerId) {
+        return res.status(401).json({
+          status: "error",
+        });
+      }
 
+      const body = updateEventSchema.parse(req.body);
+      const updatedEvent = await eventService.update(id, ownerId, body);
+
+      res.json({
+        status: "success",
+        data: updatedEvent,
+      });
+    } catch (errror) {
+      next(error);
+    }
+  },
   async summary(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = paramsSchema.parse({

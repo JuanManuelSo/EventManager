@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { eventsService } from "../services/events.service";
+import type { UpdateEventDTO } from "../types/EventDto";
 
 export function useCreateEvent() {
   const queryClient = useQueryClient();
@@ -64,5 +65,20 @@ export function useEventsByUser(id: number) {
     queryFn: () => eventsService.getEventByUser(),
     enabled: !!id,
     staleTime: 1000 * 30,
+  });
+}
+
+export function useUpdateEvent() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: UpdateEventDTO }) =>
+      eventsService.update(id, data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["events", "detail", variables.id],
+      });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
+    },
   });
 }
