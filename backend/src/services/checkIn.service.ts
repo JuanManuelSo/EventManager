@@ -13,6 +13,7 @@ export interface CheckinResult {
     checkInTime: Date | null;
     status: string;
     video: string | null;
+    cant_acompanantes: number | null;
   };
 }
 
@@ -34,6 +35,7 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        cant_acompanantes: true,
       },
     });
 
@@ -63,6 +65,7 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        cant_acompanantes: true,
       },
     });
 
@@ -99,6 +102,7 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        cant_acompanantes: true,
       },
     });
 
@@ -126,6 +130,7 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        cant_acompanantes: true,
       },
     });
 

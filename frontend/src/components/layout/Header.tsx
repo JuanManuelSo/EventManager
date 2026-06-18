@@ -18,7 +18,7 @@ export default function Header() {
       {/* Logo */}
       <button
         onClick={() => navigate("/")}
-        className="flex items-center gap-2.5 select-none focus:outline-none group"
+        className="flex items-center gap-2.5 select-none focus:outline-none group cursor-pointer"
       >
         <div className="w-6.5 h-6.5 bg-slate-900 rounded flex items-center justify-center shrink-0">
           <GridIcon />
