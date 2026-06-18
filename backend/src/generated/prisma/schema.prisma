@@ -62,15 +62,19 @@ model Event {
   // Relación con media (videos)
   media EventMedia[]
 
-  qrJobStatus            QrJobStatus @default(IDLE)
-  qrGeneratedAt          DateTime?
-  qrJobStartedAt         DateTime?
-  qrJobFinishedAt        DateTime?
-  qrJobError             String?
-  qrJobTotal             Int?
-  qrJobProcessed         Int?
-  qrJobRequestedBy       Int?
+  //Atribs usados en la generacion de QRs.
+  qrJobStatus      QrJobStatus @default(IDLE)
+  qrGeneratedAt    DateTime?
+  qrJobStartedAt   DateTime?
+  qrJobFinishedAt  DateTime?
+  qrJobError       String?
+  qrJobTotal       Int?
+  qrJobProcessed   Int?
+  qrJobRequestedBy Int?
+
+  //Plantilla de invitacion 
   invitationBaseImageUrl String?
+  //Coordenadas para SLOT DE QR
   invitationQrX          Int?
   invitationQrY          Int?
   invitationQrSize       Int?
@@ -108,6 +112,7 @@ model Guest {
   @@unique([eventId, qrHash])
 }
 
+//Tabla para videos -- Conexion con Cloudinary
 model EventMedia {
   id      Int   @id @default(autoincrement())
   eventId Int

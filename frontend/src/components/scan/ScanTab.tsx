@@ -114,67 +114,67 @@ export default function ScanTab({ eventId }: { eventId: number }) {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* ── Live stats bar ── */}
+    <div className="flex flex-col gap-4">
+      {/* ── Compact live stats ── */}
       <ScanStats isLoading={isLoading} stats={stats} />
 
-      {/* ── Main panel ── */}
-      <div className="grid grid-cols-[1fr_1fr] gap-5">
-        {/* Left: scanner */}
-        <div className="flex flex-col gap-3">
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+      {/* ── Manual fallback first ── */}
+      <ManualGuestSearchPanel
+        guests={guests}
+        isLoading={checkinMutation.isPending}
+        resetKey={manualResetKey}
+        onConfirmCheckin={(guest) => handleManualCheckin(guest.id)}
+      />
+
+      {/* ── Secondary live panels ── */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 items-start">
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
+          <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-slate-100">
+            <div>
               <h3 className="text-[13px] font-semibold text-slate-800">
                 Cámara de escaneo
               </h3>
-              <button
-                onClick={() => setScanActive((v) => !v)}
-                className="text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                {scanActive ? "Pausar" : "Reanudar"}
-              </button>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Ingreso rápido por QR.
+              </p>
             </div>
-
-            {/* Camera viewport */}
-            <div className="h-55 relative bg-[#0a0a0a]">
-              <QRCamera
-                onScan={handleCameraScan}
-                active={scanActive}
-                disabled={scanMutation.isPending || feedback !== null}
-              />
-
-              {/* Feedback overlay */}
-              <ScanFeedbackOverlay feedback={feedback} />
-            </div>
+            <button
+              onClick={() => setScanActive((v) => !v)}
+              className="text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              {scanActive ? "Pausar" : "Reanudar"}
+            </button>
           </div>
 
-          <ManualGuestSearchPanel
-            guests={guests}
-            isLoading={checkinMutation.isPending}
-            resetKey={manualResetKey}
-            onConfirmCheckin={(guest) => handleManualCheckin(guest.id)}
-          />
+          <div className="h-72 md:h-80 xl:h-96 relative bg-[#0a0a0a]">
+            <QRCamera
+              onScan={handleCameraScan}
+              active={scanActive}
+              disabled={scanMutation.isPending || feedback !== null}
+            />
 
-          {/* Dev simulator */}
-          {import.meta.env.DEV && (
-            <button
-              onClick={simulateScan}
-              disabled={scanMutation.isPending}
-              className="flex items-center justify-center gap-2 py-2 text-xs font-medium
-                         text-slate-400 border border-dashed border-slate-200 rounded-xl
-                         hover:text-slate-600 hover:border-slate-300
-                         disabled:opacity-40 disabled:cursor-not-allowed
-                         transition-colors duration-150"
-            >
-              <RotateCcw size={13} />
-              Simular escaneo QR (DEV)
-            </button>
-          )}
+            <ScanFeedbackOverlay feedback={feedback} />
+          </div>
         </div>
 
-        {/* Right: recent check-ins */}
         <RecentCheckinsPanel recent={recent} />
       </div>
+
+      {/* Dev simulator */}
+      {import.meta.env.DEV && (
+        <button
+          onClick={simulateScan}
+          disabled={scanMutation.isPending}
+          className="flex items-center justify-center gap-2 py-2 text-xs font-medium
+                     text-slate-400 border border-dashed border-slate-200 rounded-xl
+                     hover:text-slate-600 hover:border-slate-300
+                     disabled:opacity-40 disabled:cursor-not-allowed
+                     transition-colors duration-150"
+        >
+          <RotateCcw size={13} />
+          Simular escaneo QR (DEV)
+        </button>
+      )}
     </div>
   );
 }

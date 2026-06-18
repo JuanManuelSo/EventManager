@@ -79,43 +79,50 @@ export default function ManualGuestSearchPanel({
   return (
     <>
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-[0_1px_3px_rgb(0,0,0,0.05)]">
-        <div className="px-4 py-3 border-b border-slate-100">
-          <h3 className="text-[13px] font-semibold text-slate-800">
-            Búsqueda manual
-          </h3>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            Buscá por nombre, apellido, email, documento, teléfono o mesa
-          </p>
+        <div className="px-5 py-4 border-b border-slate-100 bg-linear-to-r from-slate-50 to-white">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+              <Search size={15} />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-slate-900">
+                Check-in manual
+              </h3>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Fallback principal si falla el escaneo QR
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="p-3">
+        <div className="p-4">
           <div className="relative">
             <Search
-              size={12}
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
             />
             <input
               ref={manualInputRef}
               value={manualQ}
               onChange={(e) => handleManualSearch(e.target.value)}
-              placeholder="Buscar invitado manualmente..."
+              placeholder="Buscar por nombre, apellido, DNI, teléfono o mesa..."
               autoFocus
-              className="w-full pl-7 pr-3 py-2 text-xs text-slate-800
-                         bg-slate-50 border border-slate-200 rounded-lg
+              className="w-full pl-10 pr-3 py-3 text-sm text-slate-900
+                         bg-slate-50 border border-slate-200 rounded-xl
                          placeholder:text-slate-400
-                         focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900
+                         focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900
                          transition-colors duration-150"
             />
           </div>
 
           {manualRes.length > 0 && (
-            <div className="mt-2 flex flex-col divide-y divide-slate-100 border border-slate-200 rounded-lg overflow-hidden">
+            <div className="mt-3 flex flex-col divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
               {manualRes.map((g) => (
                 <div
                   key={g.id}
-                  className="flex items-center justify-between px-3 py-2.5 hover:bg-slate-50 transition-colors duration-100 text-left"
+                  className="flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors duration-100 text-left"
                 >
                   <div className="min-w-0 flex-1 pr-3">
-                    <p className="text-xs font-semibold text-slate-800">
+                    <p className="text-sm font-semibold text-slate-800">
                       {g.nombre} {g.apellido}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mt-1.5">
@@ -154,7 +161,7 @@ export default function ManualGuestSearchPanel({
                     <button
                       onClick={() => setSelectedGuest(g)}
                       disabled={isLoading}
-                      className="px-2.5 py-1 text-[10px] font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="px-3 py-1.5 text-[11px] font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       Revisar
                     </button>
@@ -165,14 +172,18 @@ export default function ManualGuestSearchPanel({
           )}
 
           {!manualQ.trim() && (
-            <p className="mt-2 text-[11px] text-slate-400">
-              Escribí datos del invitado para buscarlo y confirmar el check-in
-              manual.
-            </p>
+            <div className="mt-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5">
+              <p className="text-sm font-medium text-slate-600">
+                Escribí datos del invitado para confirmar el check-in manual.
+              </p>
+              <p className="text-[11px] text-slate-400 mt-1">
+                Recomendado: apellido, documento, teléfono, número de invitación o mesa.
+              </p>
+            </div>
           )}
 
           {manualQ.trim() && manualRes.length === 0 && (
-            <div className="mt-2 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-4 text-center">
+            <div className="mt-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center">
               <p className="text-xs font-medium text-slate-500">
                 No encontramos invitados con esa búsqueda.
               </p>
