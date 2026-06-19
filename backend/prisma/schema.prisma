@@ -75,6 +75,7 @@ model Event {
 
   //Plantilla de invitacion 
   invitationBaseImageUrl String?
+  invitationBaseImagePublicId String?
   //Coordenadas para SLOT DE QR
   invitationQrX Int?
   invitationQrY Int?

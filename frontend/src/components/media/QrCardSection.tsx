@@ -195,7 +195,7 @@ export default function QrCardSection({ eventId }: QrCardSectionProps) {
           <button
             onClick={handleSaveSlot}
             disabled={savingSlot}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-900 hover:bg-slate-800 text-white disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {savingSlot ? (
               <>

@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import Button from "../ui/Button";
 import { formatDate } from "../../lib/utils";
 import type { Event } from "../../types";
+import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
 
 interface DeleteEventModalProps {
   isOpen: boolean;
@@ -18,10 +19,12 @@ export default function DeleteEventModal({
   event,
   isLoading,
 }: DeleteEventModalProps) {
+  useScrollLock(isOpen);
+
   if (!isOpen) return null;
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm "
       onClick={onClose}
     >
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">

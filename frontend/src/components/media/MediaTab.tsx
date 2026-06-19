@@ -199,14 +199,14 @@ export default function MediaTab({ eventId }: { eventId: number }) {
                   href={media.videoUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-blue-600 bg-blue-50 transition-colors cursor-pointer hover:text-blue-700 hover:bg-blue-100"
                   title="Reproducir video"
                 >
                   <PlayCircle size={15} />
                 </a>
                 <button
                   onClick={() => setVideoToDelete(media)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg  text-red-500 bg-red-50 transition-colors cursor-pointer hover:text-red-700 hover:bg-red-100"
                   title="Eliminar video"
                 >
                   <Trash2 size={14} />
@@ -221,10 +221,3 @@ export default function MediaTab({ eventId }: { eventId: number }) {
     </div>
   );
 }
-
-
-
-
-
-
-

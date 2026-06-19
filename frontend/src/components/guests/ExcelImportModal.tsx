@@ -4,7 +4,6 @@ import {
   Upload,
   FileSpreadsheet,
   AlertCircle,
-  CheckCircle2,
   ChevronDown,
   Trash2,
 } from "lucide-react";
@@ -132,8 +131,8 @@ export default function ExcelImportModal({
           <button
             onClick={handleClose}
             disabled={isLoading}
-            className="p-1.5 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600
-                       disabled:opacity-40 transition-colors focus:outline-none "
+            className="p-1.5 rounded text-slate-400  hover:text-slate-600
+                       disabled:opacity-40 transition-colors focus:outline-none cursor-pointer "
           >
             <X size={16} />
           </button>

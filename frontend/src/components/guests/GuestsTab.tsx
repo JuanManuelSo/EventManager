@@ -276,6 +276,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
               <Th>Invitado</Th>
               <Th>Email</Th>
               <Th>Mesa</Th>
+              <Th>Acomp.</Th>
               <Th>Video</Th>
               <Th>Estado</Th>
               <Th>Check-in</Th>
@@ -289,7 +290,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
             ) : paginated.length === 0 ? (
               <tr>
                 <td
-                  colSpan={8}
+                  colSpan={9}
                   className="text-center py-16 text-[13px] text-slate-400"
                 >
                   No hay invitados que coincidan con la búsqueda.
@@ -335,6 +336,10 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
 
                     <td className="px-3 py-3 text-xs text-slate-600">
                       {guest.mesa ?? "—"}
+                    </td>
+
+                    <td className="px-3 py-3 text-xs text-slate-600">
+                      {guest.cant_acompanantes ?? 0}
                     </td>
 
                     <td className="px-3 py-3">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { Loader2, CheckCircle2, X } from "lucide-react";
 import { guestsService } from "../../services/guests.service";
 import { useToast } from "../ui/Toast";
 import type { EventMedia } from "../../types";
@@ -60,7 +60,7 @@ export default function BulkAssignModal({
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 cursor-pointer"
           >
-            <XCircle size={18} />
+            <X size={18} />
           </button>
         </div>
 

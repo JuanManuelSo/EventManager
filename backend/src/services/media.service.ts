@@ -63,17 +63,27 @@ export const mediaService = {
   },
 
   async uploadQrCard(eventId: number, filePath: string, originalName: string) {
-    const { url, publicId } = await uploadImage(
-      filePath,
-      `event_${eventId}_qr_card`,
-    );
-
-    const event = await prisma.event.update({
+    const existing = await prisma.event.findUnique({
       where: { id_evento: eventId },
-      data: { invitationBaseImageUrl: url },
+      select: { invitationBaseImagePublicId: true },
     });
 
-    return { url: event.invitationBaseImageUrl };
+    const publicId = `event_${eventId}_qr_card_${Date.now()}`;
+    const { url, publicId: cloudId } = await uploadImage(filePath, publicId);
+
+    await prisma.event.update({
+      where: { id_evento: eventId },
+      data: {
+        invitationBaseImageUrl: url,
+        invitationBaseImagePublicId: cloudId,
+      },
+    });
+
+    if (existing?.invitationBaseImagePublicId) {
+      await deleteMedia(existing.invitationBaseImagePublicId, "image");
+    }
+
+    return { url };
   },
 
   //Actualziar slot de QR Card

@@ -2423,6 +2423,7 @@ export namespace Prisma {
     qrJobProcessed: number | null
     qrJobRequestedBy: number | null
     invitationBaseImageUrl: string | null
+    invitationBaseImagePublicId: string | null
     invitationQrX: number | null
     invitationQrY: number | null
     invitationQrSize: number | null
@@ -2451,6 +2452,7 @@ export namespace Prisma {
     qrJobProcessed: number | null
     qrJobRequestedBy: number | null
     invitationBaseImageUrl: string | null
+    invitationBaseImagePublicId: string | null
     invitationQrX: number | null
     invitationQrY: number | null
     invitationQrSize: number | null
@@ -2479,6 +2481,7 @@ export namespace Prisma {
     qrJobProcessed: number
     qrJobRequestedBy: number
     invitationBaseImageUrl: number
+    invitationBaseImagePublicId: number
     invitationQrX: number
     invitationQrY: number
     invitationQrSize: number
@@ -2537,6 +2540,7 @@ export namespace Prisma {
     qrJobProcessed?: true
     qrJobRequestedBy?: true
     invitationBaseImageUrl?: true
+    invitationBaseImagePublicId?: true
     invitationQrX?: true
     invitationQrY?: true
     invitationQrSize?: true
@@ -2565,6 +2569,7 @@ export namespace Prisma {
     qrJobProcessed?: true
     qrJobRequestedBy?: true
     invitationBaseImageUrl?: true
+    invitationBaseImagePublicId?: true
     invitationQrX?: true
     invitationQrY?: true
     invitationQrSize?: true
@@ -2593,6 +2598,7 @@ export namespace Prisma {
     qrJobProcessed?: true
     qrJobRequestedBy?: true
     invitationBaseImageUrl?: true
+    invitationBaseImagePublicId?: true
     invitationQrX?: true
     invitationQrY?: true
     invitationQrSize?: true
@@ -2708,6 +2714,7 @@ export namespace Prisma {
     qrJobProcessed: number | null
     qrJobRequestedBy: number | null
     invitationBaseImageUrl: string | null
+    invitationBaseImagePublicId: string | null
     invitationQrX: number | null
     invitationQrY: number | null
     invitationQrSize: number | null
@@ -2755,6 +2762,7 @@ export namespace Prisma {
     qrJobProcessed?: boolean
     qrJobRequestedBy?: boolean
     invitationBaseImageUrl?: boolean
+    invitationBaseImagePublicId?: boolean
     invitationQrX?: boolean
     invitationQrY?: boolean
     invitationQrSize?: boolean
@@ -2787,6 +2795,7 @@ export namespace Prisma {
     qrJobProcessed?: boolean
     qrJobRequestedBy?: boolean
     invitationBaseImageUrl?: boolean
+    invitationBaseImagePublicId?: boolean
     invitationQrX?: boolean
     invitationQrY?: boolean
     invitationQrSize?: boolean
@@ -2816,6 +2825,7 @@ export namespace Prisma {
     qrJobProcessed?: boolean
     qrJobRequestedBy?: boolean
     invitationBaseImageUrl?: boolean
+    invitationBaseImagePublicId?: boolean
     invitationQrX?: boolean
     invitationQrY?: boolean
     invitationQrSize?: boolean
@@ -2845,6 +2855,7 @@ export namespace Prisma {
     qrJobProcessed?: boolean
     qrJobRequestedBy?: boolean
     invitationBaseImageUrl?: boolean
+    invitationBaseImagePublicId?: boolean
     invitationQrX?: boolean
     invitationQrY?: boolean
     invitationQrSize?: boolean
@@ -2852,7 +2863,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "porcentajeAsistencia" | "ownerId" | "qrJobStatus" | "qrGeneratedAt" | "qrJobStartedAt" | "qrJobFinishedAt" | "qrJobError" | "qrJobTotal" | "qrJobProcessed" | "qrJobRequestedBy" | "invitationBaseImageUrl" | "invitationQrX" | "invitationQrY" | "invitationQrSize" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_evento" | "nombre" | "fecha" | "locacion" | "tipo" | "salon" | "cant_invitados" | "coverImage" | "Estado" | "porcentajeAsistencia" | "ownerId" | "qrJobStatus" | "qrGeneratedAt" | "qrJobStartedAt" | "qrJobFinishedAt" | "qrJobError" | "qrJobTotal" | "qrJobProcessed" | "qrJobRequestedBy" | "invitationBaseImageUrl" | "invitationBaseImagePublicId" | "invitationQrX" | "invitationQrY" | "invitationQrSize" | "checkedInCount" | "createdAt", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     guests?: boolean | Event$guestsArgs<ExtArgs>
@@ -2894,6 +2905,7 @@ export namespace Prisma {
       qrJobProcessed: number | null
       qrJobRequestedBy: number | null
       invitationBaseImageUrl: string | null
+      invitationBaseImagePublicId: string | null
       invitationQrX: number | null
       invitationQrY: number | null
       invitationQrSize: number | null
@@ -3345,6 +3357,7 @@ export namespace Prisma {
     readonly qrJobProcessed: FieldRef<"Event", 'Int'>
     readonly qrJobRequestedBy: FieldRef<"Event", 'Int'>
     readonly invitationBaseImageUrl: FieldRef<"Event", 'String'>
+    readonly invitationBaseImagePublicId: FieldRef<"Event", 'String'>
     readonly invitationQrX: FieldRef<"Event", 'Int'>
     readonly invitationQrY: FieldRef<"Event", 'Int'>
     readonly invitationQrSize: FieldRef<"Event", 'Int'>
@@ -6311,6 +6324,7 @@ export namespace Prisma {
     qrJobProcessed: 'qrJobProcessed',
     qrJobRequestedBy: 'qrJobRequestedBy',
     invitationBaseImageUrl: 'invitationBaseImageUrl',
+    invitationBaseImagePublicId: 'invitationBaseImagePublicId',
     invitationQrX: 'invitationQrX',
     invitationQrY: 'invitationQrY',
     invitationQrSize: 'invitationQrSize',
@@ -6579,6 +6593,7 @@ export namespace Prisma {
     qrJobProcessed?: IntNullableFilter<"Event"> | number | null
     qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
     invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
+    invitationBaseImagePublicId?: StringNullableFilter<"Event"> | string | null
     invitationQrX?: IntNullableFilter<"Event"> | number | null
     invitationQrY?: IntNullableFilter<"Event"> | number | null
     invitationQrSize?: IntNullableFilter<"Event"> | number | null
@@ -6610,6 +6625,7 @@ export namespace Prisma {
     qrJobProcessed?: SortOrderInput | SortOrder
     qrJobRequestedBy?: SortOrderInput | SortOrder
     invitationBaseImageUrl?: SortOrderInput | SortOrder
+    invitationBaseImagePublicId?: SortOrderInput | SortOrder
     invitationQrX?: SortOrderInput | SortOrder
     invitationQrY?: SortOrderInput | SortOrder
     invitationQrSize?: SortOrderInput | SortOrder
@@ -6644,6 +6660,7 @@ export namespace Prisma {
     qrJobProcessed?: IntNullableFilter<"Event"> | number | null
     qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
     invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
+    invitationBaseImagePublicId?: StringNullableFilter<"Event"> | string | null
     invitationQrX?: IntNullableFilter<"Event"> | number | null
     invitationQrY?: IntNullableFilter<"Event"> | number | null
     invitationQrSize?: IntNullableFilter<"Event"> | number | null
@@ -6675,6 +6692,7 @@ export namespace Prisma {
     qrJobProcessed?: SortOrderInput | SortOrder
     qrJobRequestedBy?: SortOrderInput | SortOrder
     invitationBaseImageUrl?: SortOrderInput | SortOrder
+    invitationBaseImagePublicId?: SortOrderInput | SortOrder
     invitationQrX?: SortOrderInput | SortOrder
     invitationQrY?: SortOrderInput | SortOrder
     invitationQrSize?: SortOrderInput | SortOrder
@@ -6711,6 +6729,7 @@ export namespace Prisma {
     qrJobProcessed?: IntNullableWithAggregatesFilter<"Event"> | number | null
     qrJobRequestedBy?: IntNullableWithAggregatesFilter<"Event"> | number | null
     invitationBaseImageUrl?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    invitationBaseImagePublicId?: StringNullableWithAggregatesFilter<"Event"> | string | null
     invitationQrX?: IntNullableWithAggregatesFilter<"Event"> | number | null
     invitationQrY?: IntNullableWithAggregatesFilter<"Event"> | number | null
     invitationQrSize?: IntNullableWithAggregatesFilter<"Event"> | number | null
@@ -7000,6 +7019,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -7031,6 +7051,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -7059,6 +7080,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7090,6 +7112,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7120,6 +7143,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -7146,6 +7170,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7174,6 +7199,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7640,6 +7666,7 @@ export namespace Prisma {
     qrJobProcessed?: SortOrder
     qrJobRequestedBy?: SortOrder
     invitationBaseImageUrl?: SortOrder
+    invitationBaseImagePublicId?: SortOrder
     invitationQrX?: SortOrder
     invitationQrY?: SortOrder
     invitationQrSize?: SortOrder
@@ -7682,6 +7709,7 @@ export namespace Prisma {
     qrJobProcessed?: SortOrder
     qrJobRequestedBy?: SortOrder
     invitationBaseImageUrl?: SortOrder
+    invitationBaseImagePublicId?: SortOrder
     invitationQrX?: SortOrder
     invitationQrY?: SortOrder
     invitationQrSize?: SortOrder
@@ -7710,6 +7738,7 @@ export namespace Prisma {
     qrJobProcessed?: SortOrder
     qrJobRequestedBy?: SortOrder
     invitationBaseImageUrl?: SortOrder
+    invitationBaseImagePublicId?: SortOrder
     invitationQrX?: SortOrder
     invitationQrY?: SortOrder
     invitationQrSize?: SortOrder
@@ -8459,6 +8488,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8488,6 +8518,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8547,6 +8578,7 @@ export namespace Prisma {
     qrJobProcessed?: IntNullableFilter<"Event"> | number | null
     qrJobRequestedBy?: IntNullableFilter<"Event"> | number | null
     invitationBaseImageUrl?: StringNullableFilter<"Event"> | string | null
+    invitationBaseImagePublicId?: StringNullableFilter<"Event"> | string | null
     invitationQrX?: IntNullableFilter<"Event"> | number | null
     invitationQrY?: IntNullableFilter<"Event"> | number | null
     invitationQrSize?: IntNullableFilter<"Event"> | number | null
@@ -8773,6 +8805,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8803,6 +8836,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8846,6 +8880,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8876,6 +8911,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8903,6 +8939,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8933,6 +8970,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -8976,6 +9014,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9006,6 +9045,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9034,6 +9074,7 @@ export namespace Prisma {
     qrJobProcessed?: number | null
     qrJobRequestedBy?: number | null
     invitationBaseImageUrl?: string | null
+    invitationBaseImagePublicId?: string | null
     invitationQrX?: number | null
     invitationQrY?: number | null
     invitationQrSize?: number | null
@@ -9060,6 +9101,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9089,6 +9131,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9118,6 +9161,7 @@ export namespace Prisma {
     qrJobProcessed?: NullableIntFieldUpdateOperationsInput | number | null
     qrJobRequestedBy?: NullableIntFieldUpdateOperationsInput | number | null
     invitationBaseImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invitationBaseImagePublicId?: NullableStringFieldUpdateOperationsInput | string | null
     invitationQrX?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrY?: NullableIntFieldUpdateOperationsInput | number | null
     invitationQrSize?: NullableIntFieldUpdateOperationsInput | number | null

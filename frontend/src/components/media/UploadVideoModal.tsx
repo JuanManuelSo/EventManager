@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { XCircle, Video, Upload, Loader2 } from "lucide-react";
+import { Video, Upload, Loader2, X } from "lucide-react";
 import { mediaService } from "../../services/media.service";
 import { useToast } from "../ui/Toast";
 
@@ -59,7 +59,7 @@ export default function UploadVideoModal({
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 cursor-pointer"
           >
-            <XCircle size={18} />
+            <X size={18} />
           </button>
         </div>
 

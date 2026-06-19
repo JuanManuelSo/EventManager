@@ -73,11 +73,12 @@ model Event {
   qrJobRequestedBy Int?
 
   //Plantilla de invitacion 
-  invitationBaseImageUrl String?
+  invitationBaseImageUrl      String?
+  invitationBaseImagePublicId String?
   //Coordenadas para SLOT DE QR
-  invitationQrX          Int?
-  invitationQrY          Int?
-  invitationQrSize       Int?
+  invitationQrX               Int?
+  invitationQrY               Int?
+  invitationQrSize            Int?
 
   checkedInCount Int @default(0)
 

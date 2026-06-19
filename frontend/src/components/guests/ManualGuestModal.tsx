@@ -11,6 +11,7 @@ import {
   type CreateGuestInput,
 } from "../../validations/validateCreateGuest";
 import type { EventMedia } from "../../types";
+import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
 
 interface ManualGuestModalProps {
   isOpen: boolean;
@@ -61,6 +62,7 @@ export default function ManualGuestModal({
       reset();
     }
   }, [isOpen, reset]);
+  useScrollLock(isOpen);
 
   if (!isOpen) return null;
 
@@ -74,11 +76,18 @@ export default function ManualGuestModal({
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">Cargar invitado manualmente</h2>
-            <p className="text-xs text-slate-500">Complete los datos para crear un invitado en la base.</p>
+            <h2 className="text-xl font-semibold text-slate-900">
+              Cargar invitado manualmente
+            </h2>
+            <p className="text-xs text-slate-500">
+              Complete los datos para crear un invitado en la base.
+            </p>
           </div>
 
-          <button onClick={handleClose} className="text-slate-400 hover:text-slate-600">
+          <button
+            onClick={handleClose}
+            className="text-slate-400 hover:text-slate-600"
+          >
             <X size={20} />
           </button>
         </div>
@@ -92,7 +101,9 @@ export default function ManualGuestModal({
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-slate-600 mb-1">Documento</label>
+              <label className="text-xs font-medium text-slate-600 mb-1">
+                Documento
+              </label>
               <Input
                 {...register("documento")}
                 placeholder="DNI o Pasaporte"
@@ -100,7 +111,9 @@ export default function ManualGuestModal({
               />
             </div>
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-slate-600 mb-1">Nombre</label>
+              <label className="text-xs font-medium text-slate-600 mb-1">
+                Nombre
+              </label>
               <Input
                 {...register("nombre")}
                 placeholder="Nombre"
@@ -108,7 +121,9 @@ export default function ManualGuestModal({
               />
             </div>
             <div className="flex flex-col">
-              <label className="text-xs font-medium text-slate-600 mb-1">Apellido</label>
+              <label className="text-xs font-medium text-slate-600 mb-1">
+                Apellido
+              </label>
               <Input
                 {...register("apellido")}
                 placeholder="Apellido"
@@ -117,7 +132,8 @@ export default function ManualGuestModal({
             </div>
             <div className="flex flex-col">
               <label className="text-xs font-medium text-slate-600 mb-1">
-                Email <span className="text-slate-400 font-normal">(opcional)</span>
+                Email{" "}
+                <span className="text-slate-400 font-normal">(opcional)</span>
               </label>
               <Input
                 type="email"
@@ -128,7 +144,8 @@ export default function ManualGuestModal({
             </div>
             <div className="flex flex-col">
               <label className="text-xs font-medium text-slate-600 mb-1">
-                Telefono <span className="text-slate-400 font-normal">(opcional)</span>
+                Telefono{" "}
+                <span className="text-slate-400 font-normal">(opcional)</span>
               </label>
               <Input
                 {...register("numero")}
@@ -138,7 +155,8 @@ export default function ManualGuestModal({
             </div>
             <div className="flex flex-col">
               <label className="text-xs font-medium text-slate-600 mb-1">
-                Mesa <span className="text-slate-400 font-normal">(opcional)</span>
+                Mesa{" "}
+                <span className="text-slate-400 font-normal">(opcional)</span>
               </label>
               <Input
                 {...register("mesa")}
@@ -148,7 +166,8 @@ export default function ManualGuestModal({
             </div>
             <div className="flex flex-col">
               <label className="text-xs font-medium text-slate-600 mb-1">
-                Acompanantes <span className="text-slate-400 font-normal">(opcional)</span>
+                Acompanantes{" "}
+                <span className="text-slate-400 font-normal">(opcional)</span>
               </label>
               <Input
                 type="number"
@@ -160,7 +179,8 @@ export default function ManualGuestModal({
             </div>
             <div className="flex flex-col md:col-span-2">
               <label className="text-xs font-medium text-slate-600 mb-1">
-                Video <span className="text-slate-400 font-normal">(opcional)</span>
+                Video{" "}
+                <span className="text-slate-400 font-normal">(opcional)</span>
               </label>
               <select
                 value={selectedVideoUrl ?? ""}
@@ -188,7 +208,13 @@ export default function ManualGuestModal({
           </Button>
         </form>
 
-        <Button variant="secondary" onClick={handleClose} fullWidth size="lg" className="mt-4">
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          fullWidth
+          size="lg"
+          className="mt-4"
+        >
           Cancelar
         </Button>
       </div>

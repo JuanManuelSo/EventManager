@@ -6,21 +6,27 @@
 
 @theme {
   --font-family-sans: "Manrope", sans-serif;
-  --color-brand-dark:    #0F172A;
-  --color-brand-blue:    #2563EB;
-  --color-brand-surface: #F8FAFC;
-  --color-brand-border:  #E2E8F0;
+  --color-brand-dark: #0f172a;
+  --color-brand-blue: #2563eb;
+  --color-brand-surface: #f8fafc;
+  --color-brand-border: #e2e8f0;
 }
 
 @layer base {
-  *, *::before, *::after {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
   body {
     font-family: "Manrope", sans-serif;
-    background-color: #F8FAFC;
-    color: #0F172A;
+    background-color: #f8fafc;
+    color: #0f172a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -46,7 +52,9 @@
     border-radius: 4px;
     font-family: "Manrope", sans-serif;
     outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
   }
 
   .input-base::placeholder {
