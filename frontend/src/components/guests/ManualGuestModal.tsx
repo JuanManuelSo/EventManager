@@ -1,17 +1,16 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { X, Film } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { mediaService } from "../../services/media.service";
 import {
-  createGuestSchema,
+  createGuestResolver,
   type CreateGuestInput,
 } from "../../validations/validateCreateGuest";
 import type { EventMedia } from "../../types";
 import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
+import { useQuery } from "@tanstack/react-query";
 
 interface ManualGuestModalProps {
   isOpen: boolean;
@@ -21,7 +20,7 @@ interface ManualGuestModalProps {
   isLoading?: boolean;
 }
 
-export default function ManualGuestModal({
+const ManualGuestModal = memo(function ManualGuestModal({
   isOpen,
   onClose,
   onConfirm,
@@ -36,7 +35,7 @@ export default function ManualGuestModal({
     watch,
     formState: { errors },
   } = useForm<CreateGuestInput>({
-    resolver: zodResolver(createGuestSchema),
+    resolver: createGuestResolver,
     defaultValues: {
       documento: "",
       nombre: "",
@@ -72,7 +71,10 @@ export default function ManualGuestModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 "
+      onClick={onClose}
+    >
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -220,4 +222,6 @@ export default function ManualGuestModal({
       </div>
     </div>
   );
-}
+});
+
+export default ManualGuestModal;

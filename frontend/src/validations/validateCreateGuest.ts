@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const createGuestSchema = z.object({
   documento: z
@@ -40,3 +41,5 @@ export const createGuestSchema = z.object({
 });
 
 export type CreateGuestInput = z.infer<typeof createGuestSchema>;
+
+export const createGuestResolver = zodResolver(createGuestSchema);

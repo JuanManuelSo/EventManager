@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { memo, useState, useRef, useCallback } from "react";
 import {
   X,
   Upload,
@@ -9,8 +9,7 @@ import {
 } from "lucide-react";
 import * as XLSX from "xlsx";
 import Button from "../ui/Button";
-
-import { useToast } from "../ui/Toast";
+import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
 import {
   parseGuestSheet,
   type GuestImportRow,
@@ -27,7 +26,7 @@ interface Props {
 
 type Step = "upload" | "preview";
 
-export default function ExcelImportModal({
+const ExcelImportModal = memo(function ExcelImportModal({
   isOpen,
   onClose,
   onConfirm,
@@ -40,8 +39,6 @@ export default function ExcelImportModal({
   const [errors, setErrors] = useState<RowError[]>([]);
   const [showErr, setShowErr] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const toast = useToast();
 
   const reset = () => {
     setStep("upload");
@@ -106,11 +103,12 @@ export default function ExcelImportModal({
     e.target.value = "";
   };
 
+  useScrollLock(isOpen);
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm "
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm "
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
@@ -400,7 +398,9 @@ export default function ExcelImportModal({
       </div>
     </div>
   );
-}
+});
+
+export default ExcelImportModal;
 
 /* ── StatPill ── */
 function StatPill({

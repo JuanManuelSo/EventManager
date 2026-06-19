@@ -1,4 +1,7 @@
-export default function ConfirmGenerateQrModal({
+import { memo } from "react";
+import { useScrollLock } from "../../../hooks/MyHooks/useScrollLock";
+
+const ConfirmGenerateQrModal = memo(function ConfirmGenerateQrModal({
   isOpen,
   totalGuests,
   isLoading,
@@ -11,6 +14,7 @@ export default function ConfirmGenerateQrModal({
   onClose: () => void;
   onConfirm: () => void;
 }) {
+  useScrollLock(isOpen);
   if (!isOpen) return null;
 
   return (
@@ -43,4 +47,6 @@ export default function ConfirmGenerateQrModal({
       </div>
     </div>
   );
-}
+});
+
+export default ConfirmGenerateQrModal;

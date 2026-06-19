@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Film, X } from "lucide-react";
 import type { EventMedia, Guest } from "../../types";
@@ -15,7 +15,7 @@ interface AssignVideoModalProps {
   onSuccess: () => void;
 }
 
-export default function AssignVideoModal({
+const AssignVideoModal = memo(function AssignVideoModal({
   isOpen,
   eventId,
   guest,
@@ -142,4 +142,6 @@ export default function AssignVideoModal({
       </div>
     </div>
   );
-}
+});
+
+export default AssignVideoModal;

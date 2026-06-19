@@ -13,10 +13,9 @@
 }
 
 @layer base {
-  html {
-    scrollbar-gutter: stable;
+  html.modal-open body {
+    overflow: hidden;
   }
-
   *,
   *::before,
   *::after {

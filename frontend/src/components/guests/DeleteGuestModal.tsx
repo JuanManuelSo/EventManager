@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { X, User } from "lucide-react";
 import Button from "../ui/Button";
 import type { Guest } from "../../types";
@@ -10,7 +11,7 @@ interface DeleteGuestModalProps {
   isLoading?: boolean;
 }
 
-export default function DeleteGuestModal({
+const DeleteGuestModal = memo(function DeleteGuestModal({
   isOpen,
   onClose,
   onConfirm,
@@ -75,4 +76,6 @@ export default function DeleteGuestModal({
       </div>
     </div>
   );
-}
+});
+
+export default DeleteGuestModal;

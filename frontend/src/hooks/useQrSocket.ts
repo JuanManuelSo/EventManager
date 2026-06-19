@@ -11,7 +11,7 @@ export interface QrJobState {
   error?: string;
 }
 
-type QrJobUpdate = QrJobState | ((prev: QrJobState) => QrJobState);
+export type QrJobUpdate = QrJobState | ((prev: QrJobState) => QrJobState);
 
 export function useQrSocket(
   eventId: number,

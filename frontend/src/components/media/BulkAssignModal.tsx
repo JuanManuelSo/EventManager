@@ -3,6 +3,7 @@ import { Loader2, CheckCircle2, X } from "lucide-react";
 import { guestsService } from "../../services/guests.service";
 import { useToast } from "../ui/Toast";
 import type { EventMedia } from "../../types";
+import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
 
 interface BulkAssignModalProps {
   eventId: number;
@@ -24,6 +25,8 @@ export default function BulkAssignModal({
     "todos",
   );
   const [assigning, setAssigning] = useState(false);
+
+  useScrollLock(true);
 
   async function handleAssign() {
     if (!selectedVideo) return;

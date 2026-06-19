@@ -1,6 +1,7 @@
 import { X, Video } from "lucide-react";
 import Button from "../ui/Button";
 import type { EventMedia } from "../../types";
+import { useScrollLock } from "../../hooks/MyHooks/useScrollLock";
 
 interface DeleteVideoModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ export default function DeleteVideoModal({
   video,
   isLoading,
 }: DeleteVideoModalProps) {
+  useScrollLock(isOpen);
   if (!isOpen || !video) return null;
 
   return (
