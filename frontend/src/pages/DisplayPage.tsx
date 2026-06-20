@@ -76,8 +76,7 @@ export default function DisplayPage() {
   useEffect(() => {
     if (!playing || !currentVideo || !videoRef.current) return;
 
-    videoRef.current.play().catch((error) => {
-      console.error("[Display] Browser blocked video playback", error);
+    videoRef.current.play().catch(() => {
       setPlayError(
         "El navegador bloqueó la reproducción automática. Tocá Reintentar reproducción o mantené el display en silencio.",
       );

@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import { getIo } from "../lib/socket.js";
+import { checkConnectivity } from "../lib/checkConnectivity.js";
 
 export interface CheckinResult {
   alreadyIn: boolean;
@@ -65,22 +66,28 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        localVideo: true,
         cant_acompanantes: true,
       },
     });
 
     // Emitir evento de video a la pantalla TV
-    if (updated.video) {
+    if (updated.video || updated.localVideo) {
+      const isOnline = await checkConnectivity();
+      const videoUrl = isOnline ? updated.video : updated.localVideo;
       const io = getIo();
-      io.to(`event:${eventId}:display`).emit("display:play_video", {
-        guest: {
-          id: updated.id,
-          nombre: updated.nombre,
-          apellido: updated.apellido,
-          mesa: updated.mesa,
-        },
-        videoUrl: updated.video,
-      });
+
+      if (videoUrl) {
+        io.to(`event:${eventId}:display`).emit("display:play_video", {
+          guest: {
+            id: updated.id,
+            nombre: updated.nombre,
+            apellido: updated.apellido,
+            mesa: updated.mesa,
+          },
+          videoUrl: updated.video,
+        });
+      }
     }
 
     return { alreadyIn: false, guest: updated };
@@ -102,6 +109,7 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        localVideo: true,
         cant_acompanantes: true,
       },
     });
@@ -130,22 +138,28 @@ export const checkinService = {
         checkInTime: true,
         status: true,
         video: true,
+        localVideo: true,
         cant_acompanantes: true,
       },
     });
 
     // Emitir evento de video a la pantalla TV
-    if (updated.video) {
+    if (updated.video || updated.localVideo) {
+      const isOnline = await checkConnectivity();
+      const videoUrl = isOnline ? updated.video : updated.localVideo;
       const io = getIo();
-      io.to(`event:${eventId}:display`).emit("display:play_video", {
-        guest: {
-          id: updated.id,
-          nombre: updated.nombre,
-          apellido: updated.apellido,
-          mesa: updated.mesa,
-        },
-        videoUrl: updated.video,
-      });
+
+      if (videoUrl) {
+        io.to(`event:${eventId}:display`).emit("display:play_video", {
+          guest: {
+            id: updated.id,
+            nombre: updated.nombre,
+            apellido: updated.apellido,
+            mesa: updated.mesa,
+          },
+          videoUrl: updated.video,
+        });
+      }
     }
 
     return { alreadyIn: false, guest: updated };

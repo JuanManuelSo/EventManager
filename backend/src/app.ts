@@ -5,6 +5,7 @@ import morgan from "morgan";
 
 import { env } from "./config/env.js";
 import router from "./routes/index.js";
+import path from "path";
 
 import notFoundMiddleware from "./middlewares/notFound.middleware.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", router);
+app.use("/local_media", express.static(path.resolve("local_media")));
 
 app.use(notFoundMiddleware);
 
