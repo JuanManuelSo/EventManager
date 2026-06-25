@@ -5,7 +5,7 @@ import { NavBtn } from "../ui/NavBtn";
 import { LogOutBtn } from "../ui/LogOutBtn";
 
 export default function Header() {
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   function handleLogout() {

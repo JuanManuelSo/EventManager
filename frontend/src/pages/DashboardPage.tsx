@@ -24,7 +24,7 @@ const FILTERS: { key: Filter; label: string }[] = [
 ];
 
 export default function DashboardPage() {
-  function NewEventCard({ onClick }: { onClick: () => void }) {
+  function NewEventCard() {
     return (
       <button
         onClick={() => setIsModalOpen(true)}
@@ -280,9 +280,7 @@ export default function DashboardPage() {
           ))}
 
           {/* New event placeholder — only in default view */}
-          {!isSearching && viewGrid && (
-            <NewEventCard onClick={() => setIsModalOpen(true)} />
-          )}
+          {!isSearching && viewGrid && <NewEventCard />}
         </div>
       )}
     </div>

@@ -1,27 +1,7 @@
 import type { AuthResponse, LoginCredentials } from "../types";
-import { MOCK_USER, VALID_CREDENTIALS } from "../mocks/data";
-import { sleep } from "../lib/utils";
-
-const USE_MOCK = false; // Toggle to false when backend is ready
 
 export const authService = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    console.log("[authService.login] iniciando con:", {
-      email: credentials.email,
-      password: "***",
-      USE_MOCK,
-    });
-
-    if (USE_MOCK) {
-      await sleep(800);
-      const valid = VALID_CREDENTIALS.find(
-        (c) =>
-          c.email === credentials.email && c.password === credentials.password,
-      );
-      if (!valid) throw new Error("Credenciales inválidas");
-      return { user: MOCK_USER, accessToken: "mock-token-abc123" };
-    }
-
     try {
       const { default: api } = await import("../lib/api");
 

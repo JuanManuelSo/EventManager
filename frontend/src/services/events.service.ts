@@ -1,9 +1,5 @@
-import type { Event, User, DashboardStats } from "../types";
+import type { Event, DashboardStats } from "../types";
 import type { CreateEventDTO, UpdateEventDTO } from "../types/EventDto";
-import { MOCK_EVENTS } from "../mocks/data";
-import { sleep } from "../lib/utils";
-
-const USE_MOCK = true;
 
 type ApiResponse<T> = {
   status: string;
@@ -12,10 +8,6 @@ type ApiResponse<T> = {
 
 export const eventsService = {
   async getAll(): Promise<Event[]> {
-    if (USE_MOCK) {
-      await sleep(600);
-      return MOCK_EVENTS;
-    }
     const { default: api } = await import("../lib/api");
     const { data } = await api.get<Event[]>("/events");
     return data;

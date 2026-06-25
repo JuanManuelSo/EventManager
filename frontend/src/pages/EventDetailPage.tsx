@@ -67,14 +67,7 @@ export default function EventDetailPage() {
 
   const eventId = id ? Number(id) : NaN;
 
-  const {
-    data: event,
-    isLoading,
-    isError,
-    error,
-    status,
-    fetchStatus,
-  } = useEvent(eventId);
+  const { data: event, isLoading, isError } = useEvent(eventId);
 
   /* ── Loading ── */
   if (isLoading) return <PageSkeleton />;

@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../store/AuthContext";
-import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
 import { useLogin } from "../hooks/useAuth";

@@ -1,5 +1,3 @@
-import type { EventStatus } from ".";
-
 export interface CreateEventDTO {
   nombre: string;
   fecha: string;
