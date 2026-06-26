@@ -34,6 +34,22 @@ export function useDeleteEvent() {
   });
 }
 
+export function useFinalizeEvent() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: eventsService.finalize,
+    onSuccess: (_data, eventId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["events", "detail", eventId],
+      });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
+    },
+  });
+}
+
 export function useEvents() {
   return useQuery({
     queryKey: ["events"],

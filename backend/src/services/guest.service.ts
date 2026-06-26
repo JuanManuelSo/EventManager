@@ -43,6 +43,43 @@ export const guestService = {
     });
   },
 
+  async getOwnedGuest(eventId: number, guestId: number, ownerId: number) {
+    const event = await prisma.event.findFirst({
+      where: { id_evento: eventId, ownerId },
+      select: {
+        id_evento: true,
+        invitationBaseImageUrl: true,
+        invitationQrX: true,
+        invitationQrY: true,
+        invitationQrSize: true,
+      },
+    });
+
+    if (!event) {
+      const error = new Error("Evento no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const guest = await prisma.guest.findFirst({
+      where: { id: guestId, eventId },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        qrHash: true,
+      },
+    });
+
+    if (!guest) {
+      const error = new Error("Invitado no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return { event, guest };
+  },
+
   async getByEvent(eventId: number, options: GetByEventOptions = {}) {
     const { search, status } = options;
 

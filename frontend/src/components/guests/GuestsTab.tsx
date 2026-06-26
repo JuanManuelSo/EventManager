@@ -31,6 +31,7 @@ import ActionBtn from "./components/ActionBtn";
 import PaginationBtn from "./components/PaginationBtn";
 import SkeletonRow from "./components/SkeletonRow";
 import ConfirmGenerateQrModal from "./components/ConfirmGenerateQrModal";
+import ConfirmGuestQrModal from "./components/ConfirmGuestQrModal";
 import QrProgressWidget from "./components/QrProgressWidget";
 import GuestRow from "./components/GuestRow";
 
@@ -60,7 +61,9 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const [importLoading, setImportLoading] = useState(false);
   const [manualCreateLoading, setManualCreateLoading] = useState(false);
   const [isQrConfirmOpen, setIsQrConfirmOpen] = useState(false);
+  const [isGuestQrConfirmOpen, setIsGuestQrConfirmOpen] = useState(false);
   const [qrWidgetOpen, setQrWidgetOpen] = useState(false);
+  const [guestToGenerateQr, setGuestToGenerateQr] = useState<Guest | null>(null);
   const [qrJob, setQrJob] = useState<QrJobState>({
     status: "IDLE",
     processed: 0,
@@ -125,6 +128,36 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
     },
   });
 
+  const generateGuestQrMutation = useMutation({
+    mutationFn: (guest: Guest) => guestsService.generateGuestQr(eventId, guest.id),
+    onSuccess: (blob, guest) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const safeName = `${guest.apellido}-${guest.nombre}`
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9-_]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
+
+      link.href = url;
+      link.download = `qr-${safeName || `guest-${guest.id}`}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      setIsGuestQrConfirmOpen(false);
+      setGuestToGenerateQr(null);
+      toast.success("QR generado correctamente");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message ?? "No se pudo generar el QR del invitado",
+      );
+    },
+  });
+
   const handleDeleteConfirm = useCallback(() => {
     if (!guestToDelete) return;
 
@@ -153,6 +186,11 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
   const handleDelete = useCallback((g: Guest) => {
     setGuestToDelete(g);
     setIsDeleteGuestModalOpen(true);
+  }, []);
+
+  const handleGenerateGuestQr = useCallback((g: Guest) => {
+    setGuestToGenerateQr(g);
+    setIsGuestQrConfirmOpen(true);
   }, []);
 
   const handleQrJobUpdate = useCallback(
@@ -357,6 +395,7 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
                   eventId={eventId}
                   onAssignVideo={handleAssignVideo}
                   onDelete={handleDelete}
+                  onGenerateQr={handleGenerateGuestQr}
                 />
               ))
             )}
@@ -446,6 +485,24 @@ export default function GuestsTab({ eventId }: { eventId: number }) {
         isLoading={generateQrMutation.isPending}
         onClose={() => setIsQrConfirmOpen(false)}
         onConfirm={() => generateQrMutation.mutate()}
+      />
+      <ConfirmGuestQrModal
+        isOpen={isGuestQrConfirmOpen && !!guestToGenerateQr}
+        guestName={
+          guestToGenerateQr
+            ? `${guestToGenerateQr.apellido}, ${guestToGenerateQr.nombre}`
+            : ""
+        }
+        isLoading={generateGuestQrMutation.isPending}
+        onClose={() => {
+          if (generateGuestQrMutation.isPending) return;
+          setIsGuestQrConfirmOpen(false);
+          setGuestToGenerateQr(null);
+        }}
+        onConfirm={() => {
+          if (!guestToGenerateQr) return;
+          generateGuestQrMutation.mutate(guestToGenerateQr);
+        }}
       />
       {qrWidgetOpen && (
         <QrProgressWidget

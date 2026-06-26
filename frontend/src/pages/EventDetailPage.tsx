@@ -6,13 +6,19 @@ import {
   Calendar,
   Users,
   Trash2,
+  Flag,
   Info,
   UserCheck,
   QrCode,
   BarChart2,
   Film,
 } from "lucide-react";
-import { useEvent, useDeleteEvent, useUpdateEvent } from "../hooks/useEvents";
+import {
+  useEvent,
+  useDeleteEvent,
+  useFinalizeEvent,
+  useUpdateEvent,
+} from "../hooks/useEvents";
 import { useToast } from "../components/ui/Toast";
 import { formatDate, formatDateTime } from "../lib/utils";
 
@@ -27,6 +33,7 @@ import GuestsTab from "../components/guests/GuestsTab";
 import ScanTab from "../components/scan/ScanTab";
 import MediaTab from "../components/media/MediaTab";
 import DeleteEventModal from "../components/events/DeleteEventModal";
+import FinalizeEventModal from "../components/events/FinalizeEventModal";
 
 /* ── Tab definitions ── */
 type Tab = "info" | "guests" | "scan" | "media" | "metrics";
@@ -45,8 +52,10 @@ export default function EventDetailPage() {
   const toast = useToast();
   const [tab, setTab] = useState<Tab>("info");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
 
   const deleteEventMutation = useDeleteEvent();
+  const finalizeEventMutation = useFinalizeEvent();
 
   const handleDeleteConfirm = () => {
     deleteEventMutation.mutate(eventId, {
@@ -60,6 +69,24 @@ export default function EventDetailPage() {
       onError: () => {
         toast.error("Error al eliminar", {
           description: "No se pudo eliminar el evento. Intentá nuevamente.",
+        });
+      },
+    });
+  };
+
+  const handleFinalizeConfirm = () => {
+    finalizeEventMutation.mutate(eventId, {
+      onSuccess: () => {
+        setIsFinalizeModalOpen(false);
+        toast.success("Evento finalizado", {
+          description: "Los invitados pendientes fueron marcados como ausentes.",
+        });
+      },
+      onError: (error: any) => {
+        toast.error("No se pudo finalizar el evento", {
+          description:
+            error?.response?.data?.message ??
+            "Intentá nuevamente en unos instantes.",
         });
       },
     });
@@ -153,6 +180,20 @@ export default function EventDetailPage() {
               </div>
             </div>
 
+            {event.Estado === "ACTIVO" && (
+              <button
+                onClick={() => setIsFinalizeModalOpen(true)}
+                className="h-9 inline-flex items-center gap-2 px-3 rounded-lg
+                           bg-white/4 border border-white/10 text-amber-300
+                           hover:bg-amber-500/10 hover:border-amber-500/30 hover:text-amber-200
+                           transition-all duration-150 focus:outline-none cursor-pointer"
+                title="Finalizar evento"
+              >
+                <Flag size={14} />
+                <span className="text-xs font-medium">Finalizar</span>
+              </button>
+            )}
+
             <button
               onClick={() => setIsDeleteModalOpen(true)}
               className="w-9 h-9 flex items-center justify-center rounded-lg
@@ -203,6 +244,16 @@ export default function EventDetailPage() {
         onConfirm={handleDeleteConfirm}
         event={event}
         isLoading={deleteEventMutation.isPending}
+      />
+      <FinalizeEventModal
+        isOpen={isFinalizeModalOpen}
+        onClose={() => {
+          if (finalizeEventMutation.isPending) return;
+          setIsFinalizeModalOpen(false);
+        }}
+        onConfirm={handleFinalizeConfirm}
+        event={event}
+        isLoading={finalizeEventMutation.isPending}
       />
     </div>
   );

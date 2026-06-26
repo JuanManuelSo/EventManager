@@ -9,8 +9,6 @@ import {
   updateEventSchema,
 } from "../validations/event.validation.js";
 import z from "zod";
-import { error } from "console";
-import { stat } from "fs";
 
 const paramsSchema = z.object({
   id: z.coerce.number().int().positive(),
@@ -114,7 +112,44 @@ export const eventController = {
         status: "success",
         data: updatedEvent,
       });
-    } catch (errror) {
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({
+          status: "error",
+          message: error.message,
+        });
+        return;
+      }
+      next(error);
+    }
+  },
+  async finalize(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = paramsSchema.parse({ id: req.params.id });
+      const ownerId = req.user?.userId;
+
+      if (!ownerId) {
+        res.status(401).json({
+          status: "error",
+          message: "Usuario no autenticado",
+        });
+        return;
+      }
+
+      const event = await eventService.finalize(id, ownerId);
+
+      res.json({
+        status: "success",
+        data: event,
+      });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({
+          status: "error",
+          message: error.message,
+        });
+        return;
+      }
       next(error);
     }
   },

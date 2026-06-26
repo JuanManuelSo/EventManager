@@ -16,6 +16,7 @@ interface GuestRowProps {
   eventId: number;
   onAssignVideo: (guest: Guest) => void;
   onDelete: (guest: Guest) => void;
+  onGenerateQr: (guest: Guest) => void;
 }
 
 const GuestRow = memo(function GuestRow({
@@ -27,6 +28,7 @@ const GuestRow = memo(function GuestRow({
   eventId,
   onAssignVideo,
   onDelete,
+  onGenerateQr,
 }: GuestRowProps) {
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -48,9 +50,7 @@ const GuestRow = memo(function GuestRow({
           {guest.apellido}, {guest.nombre}
         </p>
         {guest.telefono && (
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            {guest.telefono}
-          </p>
+          <p className="text-[11px] text-slate-400 mt-0.5">{guest.telefono}</p>
         )}
       </td>
 
@@ -58,9 +58,7 @@ const GuestRow = memo(function GuestRow({
         {guest.email ?? "—"}
       </td>
 
-      <td className="px-3 py-3 text-xs text-slate-600">
-        {guest.mesa ?? "—"}
-      </td>
+      <td className="px-3 py-3 text-xs text-slate-600">{guest.mesa ?? "—"}</td>
 
       <td className="px-3 py-3 text-xs text-slate-600">
         {guest.cant_acompanantes ?? 0}
@@ -89,10 +87,10 @@ const GuestRow = memo(function GuestRow({
       <td className="px-3 py-3">
         {guest.checkedIn && guest.checkedInAt ? (
           <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-white">
-            {new Date(guest.checkedInAt).toLocaleTimeString(
-              "es-AR",
-              { hour: "2-digit", minute: "2-digit" },
-            )}
+            {new Date(guest.checkedInAt).toLocaleTimeString("es-AR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </span>
         ) : (
           <span className="text-xs text-slate-300">—</span>
@@ -115,15 +113,21 @@ const GuestRow = memo(function GuestRow({
                 onClick={() => onToggleMenu(null)}
               />
               <div className="absolute right-0 top-full mt-1 z-20 w-44 bg-white border border-slate-200 rounded-lg shadow-[0_4px_16px_rgb(0,0,0,0.1)] py-1 overflow-hidden">
-                <MenuItem label="Ver QR" onClick={() => {}} />
                 <MenuItem
+                  label="Generar QR"
+                  onClick={() => {
+                    onGenerateQr(guest);
+                    onToggleMenu(null);
+                  }}
+                />
+                {/* <MenuItem
                   label="Editar invitado"
                   onClick={() => {}}
                 />
                 <MenuItem
                   label="Enviar invitación"
                   onClick={() => {}}
-                />
+                /> */}
                 <MenuItem
                   label={guest.video ? "Quitar video" : "Asignar video"}
                   onClick={async () => {

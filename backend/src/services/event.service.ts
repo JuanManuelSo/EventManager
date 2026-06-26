@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import { CreateEventInput } from "../validations/event.validation.js";
+import { qrJobService } from "./qr-job.service.js";
 
 type CreateEventServiceInput = CreateEventInput & {
   ownerId: number;
@@ -97,6 +98,71 @@ export const eventService = {
         cant_invitados: data.cant_invitados,
       },
     });
+    return updatedEvent;
+  },
+  async finalize(eventId: number, ownerId: number) {
+    const event = await prisma.event.findFirst({
+      where: {
+        id_evento: eventId,
+        ownerId,
+      },
+      select: {
+        id_evento: true,
+        ownerId: true,
+        Estado: true,
+        qrJobStatus: true,
+      },
+    });
+
+    if (!event) {
+      const error = new Error("Evento no encontrado") as any;
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (event.Estado === "FINALIZADO") {
+      const error = new Error("El evento ya está finalizado") as any;
+      error.statusCode = 409;
+      throw error;
+    }
+
+    if (event.qrJobStatus === "PROCESSING") {
+      const error = new Error("No se puede finalizar mientras se generan QRs") as any;
+      error.statusCode = 409;
+      throw error;
+    }
+
+    const updatedEvent = await prisma.$transaction(async (tx) => {
+      await tx.guest.updateMany({
+        where: {
+          eventId,
+          status: "PENDIENTE",
+          checkInTime: null,
+        },
+        data: {
+          status: "AUSENTE",
+        },
+      });
+
+      return tx.event.update({
+        where: {
+          id_evento: eventId,
+        },
+        data: {
+          Estado: "FINALIZADO",
+          qrJobStatus: "IDLE",
+          qrJobStartedAt: null,
+          qrJobFinishedAt: null,
+          qrJobError: null,
+          qrJobTotal: null,
+          qrJobProcessed: null,
+          qrJobRequestedBy: null,
+        },
+      });
+    });
+
+    qrJobService.clearZip(eventId);
+
     return updatedEvent;
   },
   async getById(id: number) {

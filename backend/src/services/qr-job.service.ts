@@ -99,11 +99,7 @@ export const qrJobService = {
 
       for (let i = 0; i < guests.length; i++) {
         const guest = guests[i];
-        const png = await QRCode.toBuffer(guest.qrHash, {
-          type: "png",
-          width: 600,
-          errorCorrectionLevel: "M",
-        });
+        const png = await buildQrPng(guest.qrHash);
 
         if (template && templateBuffer) {
           const card = await composeQrCard(templateBuffer, png, template);
@@ -167,7 +163,30 @@ export const qrJobService = {
   getZip(eventId: number) {
     return zipStore.get(eventId) ?? null;
   },
+
+  clearZip(eventId: number) {
+    zipStore.delete(eventId);
+  },
+
+  async generateGuestQr(qrHash: string, template: QrTemplate | null) {
+    const png = await buildQrPng(qrHash);
+
+    if (!template) {
+      return png;
+    }
+
+    const templateBuffer = await fetchImage(template.url);
+    return composeQrCard(templateBuffer, png, template);
+  },
 };
+
+async function buildQrPng(qrHash: string) {
+  return QRCode.toBuffer(qrHash, {
+    type: "png",
+    width: 600,
+    errorCorrectionLevel: "M",
+  });
+}
 
 async function fetchImage(url: string) {
   const response = await fetch(url);

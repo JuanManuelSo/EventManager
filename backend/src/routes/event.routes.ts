@@ -9,7 +9,7 @@ router.get("/", authMiddleware, eventController.getEventByUser);
 router.get("/stats", authMiddleware, eventController.summary);
 router.get("/:id", authMiddleware, eventController.getById);
 router.delete("/:id", authMiddleware, eventController.delete);
-
+router.patch("/:id/finalize", authMiddleware, eventController.finalize);
 router.put("/:id", authMiddleware, eventController.update);
 
 router;

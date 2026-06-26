@@ -1,4 +1,4 @@
-import { XCircle } from "lucide-react";
+import { X } from "lucide-react";
 import type { Guest } from "../../types";
 
 export default function ManualCheckinConfirmModal({
@@ -38,7 +38,7 @@ export default function ManualCheckinConfirmModal({
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 cursor-pointer"
           >
-            <XCircle size={20} />
+            <X size={20} />
           </button>
         </div>
 
@@ -81,7 +81,8 @@ export default function ManualCheckinConfirmModal({
                 Este invitado tiene video asignado.
               </p>
               <p className="text-[11px] text-emerald-700 mt-1">
-                Al confirmar el check-in, el video se enviará automáticamente al display.
+                Al confirmar el check-in, el video se enviará automáticamente al
+                display.
               </p>
             </div>
           ) : (
@@ -95,7 +96,8 @@ export default function ManualCheckinConfirmModal({
           {guest.checkedIn && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5">
               <p className="text-[11px] text-amber-700">
-                El invitado ya tiene check-in registrado. Si continuás, el sistema lo marcará como duplicado.
+                El invitado ya tiene check-in registrado. Si continuás, el
+                sistema lo marcará como duplicado.
               </p>
             </div>
           )}

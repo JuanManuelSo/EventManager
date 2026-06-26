@@ -47,6 +47,12 @@ export const eventsService = {
     return data;
   },
 
+  async finalize(id: number): Promise<Event> {
+    const { default: api } = await import("../lib/api");
+    const response = await api.patch(`/events/${id}/finalize`);
+    return response.data.data;
+  },
+
   async delete(id: number): Promise<void> {
     const { default: api } = await import("../lib/api");
     await api.delete(`/events/${id}`);

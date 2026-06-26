@@ -90,6 +90,14 @@ export const guestsService = {
     return response.data as Blob;
   },
 
+  async generateGuestQr(eventId: number, guestId: number): Promise<Blob> {
+    const { default: api } = await import("../lib/api");
+    const response = await api.get(`/events/${eventId}/guests/${guestId}/qr`, {
+      responseType: "blob",
+    });
+    return response.data as Blob;
+  },
+
   async delete(eventId: number, guestId: number): Promise<void> {
     const { default: api } = await import("../lib/api");
     const response = await api.delete(`/events/${eventId}/guests/${guestId}`);

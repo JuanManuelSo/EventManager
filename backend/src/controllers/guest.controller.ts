@@ -238,6 +238,59 @@ export const guestController = {
     }
   },
 
+  async generateSingleQr(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { eventId, guestId } = paramsSchema.parse({
+        eventId: req.params.eventId,
+        guestId: req.params.guestId,
+      });
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        res.status(401).json({ status: "error", message: "Usuario no autenticado" });
+        return;
+      }
+
+      if (!guestId) {
+        res.status(400).json({ status: "error", message: "guestId requerido" });
+        return;
+      }
+
+      const { event, guest } = await guestService.getOwnedGuest(eventId, guestId, userId);
+
+      const template = event.invitationBaseImageUrl &&
+        event.invitationQrX !== null &&
+        event.invitationQrY !== null &&
+        event.invitationQrSize !== null
+        ? {
+            url: event.invitationBaseImageUrl,
+            x: event.invitationQrX,
+            y: event.invitationQrY,
+            size: event.invitationQrSize,
+          }
+        : null;
+
+      const image = await qrJobService.generateGuestQr(guest.qrHash, template);
+      const safeName = `${guest.apellido}-${guest.nombre}`
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9-_]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase() || `guest-${guest.id}`;
+
+      res.setHeader("Content-Type", "image/png");
+      res.setHeader("Content-Disposition", `attachment; filename="qr-${safeName}.png"`);
+      res.send(image);
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ status: "error", message: error.message });
+        return;
+      }
+
+      next(error);
+    }
+  },
+
   async downloadQrs(req: Request, res: Response, next: NextFunction) {
     try {
       const { eventId } = paramsSchema.parse({ eventId: req.params.eventId });
