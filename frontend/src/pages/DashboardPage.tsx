@@ -9,6 +9,7 @@ import { useAuth } from "../store/AuthContext";
 import { useToast } from "../components/ui/Toast";
 import EventCard from "../components/events/EventCard";
 import EventCardSkeleton from "../components/events/EventCardSkeleton";
+import NewEventCard from "../components/events/NewEventCard";
 import StatCard from "../components/ui/StatCard";
 import type { Event } from "../types";
 
@@ -24,33 +25,6 @@ const FILTERS: { key: Filter; label: string }[] = [
 ];
 
 export default function DashboardPage() {
-  function NewEventCard() {
-    return (
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="rounded-xl border-2 border-dashed border-slate-200 min-h-70
-                 flex flex-col items-center justify-center gap-3
-                 text-slate-400
-                 hover:border-slate-300 hover:bg-slate-50/60 hover:text-slate-500
-                 transition-all duration-200 focus:outline-none group"
-      >
-        <div
-          className="w-9 h-9 rounded-lg border border-dashed border-slate-300
-                      flex items-center justify-center
-                      group-hover:border-slate-400 transition-colors duration-200"
-        >
-          <Plus size={16} />
-        </div>
-        <div className="text-center">
-          <p className="text-[13px] font-medium">Nuevo evento</p>
-          <p className="text-[11px] text-slate-300 mt-0.5">
-            Hacé clic para comenzar
-          </p>
-        </div>
-      </button>
-    );
-  }
-
   const { user } = useAuth();
   const toast = useToast();
 
@@ -280,7 +254,9 @@ export default function DashboardPage() {
           ))}
 
           {/* New event placeholder — only in default view */}
-          {!isSearching && viewGrid && <NewEventCard />}
+          {!isSearching && viewGrid && (
+            <NewEventCard onClick={() => setIsModalOpen(true)} />
+          )}
         </div>
       )}
     </div>

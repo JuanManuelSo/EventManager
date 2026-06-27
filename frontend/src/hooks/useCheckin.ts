@@ -7,9 +7,10 @@ export function useScanQR(eventId: number) {
   return useMutation({
     mutationFn: (qrHash: string) => checkinService.scanQR(qrHash, eventId),
     onSuccess: () => {
-      // Refetch guests list and event (to update checkedInCount)
+      // Refetch guests list, event details, and dashboard stats
       queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
       queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
   });
 }
@@ -23,6 +24,7 @@ export function useCheckinById(eventId: number) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guests", eventId] });
       queryClient.invalidateQueries({ queryKey: ["events", "detail", eventId] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
   });
 }

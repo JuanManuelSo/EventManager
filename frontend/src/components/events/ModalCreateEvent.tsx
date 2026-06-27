@@ -33,7 +33,7 @@ export default function ModalCreateEvent({
 
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600"
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
           >
             <X size={20} />
           </button>

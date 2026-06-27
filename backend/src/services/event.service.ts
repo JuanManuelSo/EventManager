@@ -6,6 +6,28 @@ type CreateEventServiceInput = CreateEventInput & {
   ownerId: number;
 };
 
+export function calculateAttendancePercentage({
+  checkedInCount,
+  totalGuests,
+}: {
+  checkedInCount: number;
+  totalGuests: number;
+}) {
+  if (totalGuests <= 0) return 0;
+  return Math.round((checkedInCount / totalGuests) * 100);
+}
+
+export function calculateAverageAttendance(
+  events: Array<{ porcentajeAsistencia: number | null }>,
+) {
+  if (events.length === 0) return 0;
+
+  return Math.round(
+    events.reduce((sum, event) => sum + (event.porcentajeAsistencia ?? 0), 0) /
+      events.length,
+  );
+}
+
 export const eventService = {
   async create(input: CreateEventServiceInput) {
     const event = await prisma.event.create({
@@ -191,34 +213,33 @@ export const eventService = {
     return events;
   },
   async getDashboardSummary(ownerId: number) {
-    const [totalEvents, guests, attendance] = await Promise.all([
+    const [totalEvents, guests, events] = await Promise.all([
       prisma.event.count({
         where: { ownerId },
       }),
 
       prisma.event.aggregate({
         where: { ownerId },
-
         _sum: {
           cant_invitados: true,
         },
       }),
 
-      prisma.event.aggregate({
+      prisma.event.findMany({
         where: { ownerId },
-
-        _avg: {
+        select: {
           porcentajeAsistencia: true,
         },
       }),
     ]);
 
+    const totalGuests = guests._sum.cant_invitados ?? 0;
+    const averageAttendance = calculateAverageAttendance(events);
+
     return {
       totalEvents,
-
-      totalGuests: guests._sum.cant_invitados ?? 0,
-
-      averageAttendance: Math.round(attendance._avg.porcentajeAsistencia ?? 0),
+      totalGuests,
+      averageAttendance,
     };
   },
 };
