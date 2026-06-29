@@ -94,9 +94,9 @@ export const guestController = {
         return;
       }
 
-      const guest = await guestService.manualCheckin(eventId, guestId);
+      const result = await guestService.manualCheckin(eventId, guestId);
 
-      res.json({ status: "success", data: guest });
+      res.json(result);
     } catch (error) {
       next(error);
     }

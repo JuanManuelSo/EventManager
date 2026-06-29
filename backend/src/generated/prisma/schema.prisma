@@ -75,10 +75,11 @@ model Event {
   //Plantilla de invitacion 
   invitationBaseImageUrl      String?
   invitationBaseImagePublicId String?
+
   //Coordenadas para SLOT DE QR
-  invitationQrX               Int?
-  invitationQrY               Int?
-  invitationQrSize            Int?
+  invitationQrX    Int?
+  invitationQrY    Int?
+  invitationQrSize Int?
 
   checkedInCount Int @default(0)
 
@@ -96,7 +97,8 @@ model Guest {
   status            GuestStatus @default(PENDIENTE)
   cant_acompanantes Int?
   invitacionEnviada Boolean     @default(false)
-  video             String? //Url   
+  video             String? //Url  
+  localVideo        String? // Path local fallback 
   foto              String? //Url
 
   qrImageUrl    String? // URL o path de la imagen generada (para uso futuro)
@@ -119,13 +121,14 @@ model EventMedia {
   eventId Int
   event   Event @relation(fields: [eventId], references: [id_evento], onDelete: Cascade)
 
-  publicId String // Cloudinary public_id
-  videoUrl String // Cloudinary URL
-  nombre   String // Nombre amigable para identificar el video
-  tipo     String // "individual" | "con_acompanantes" | "general"
-  mesa     Int? // null = aplica a cualquier mesa
-  formato  String? // "mp4", "webm", etc.
-  duracion Int? // Duración en segundos
+  publicId      String // Cloudinary public_id
+  videoUrl      String // Cloudinary URL
+  localVideoUrl String?
+  nombre        String // Nombre amigable para identificar el video
+  tipo          String // "individual" | "con_acompanantes" | "general"
+  mesa          Int? // null = aplica a cualquier mesa
+  formato       String? // "mp4", "webm", etc.
+  duracion      Int? // Duración en segundos
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

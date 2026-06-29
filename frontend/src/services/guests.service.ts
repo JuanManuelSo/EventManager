@@ -1,4 +1,4 @@
-import type { Guest, PaginatedResponse, EventStats } from "../types";
+import type { Guest, PaginatedResponse, EventStats, CheckinResult } from "../types";
 
 export const guestsService = {
   async getByEvent(
@@ -34,9 +34,9 @@ export const guestsService = {
     return data;
   },
 
-  async manualCheckin(eventId: number, guestId: number): Promise<Guest> {
+  async manualCheckin(eventId: number, guestId: number): Promise<CheckinResult> {
     const { default: api } = await import("../lib/api");
-    const { data } = await api.post<Guest>(
+    const { data } = await api.post<CheckinResult>(
       `/events/${eventId}/guests/${guestId}/checkin`,
     );
     return data;

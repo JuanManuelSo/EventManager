@@ -3866,6 +3866,7 @@ export namespace Prisma {
     cant_acompanantes: number | null
     invitacionEnviada: boolean | null
     video: string | null
+    localVideo: string | null
     foto: string | null
     qrImageUrl: string | null
     qrGeneratedAt: Date | null
@@ -3886,6 +3887,7 @@ export namespace Prisma {
     cant_acompanantes: number | null
     invitacionEnviada: boolean | null
     video: string | null
+    localVideo: string | null
     foto: string | null
     qrImageUrl: string | null
     qrGeneratedAt: Date | null
@@ -3906,6 +3908,7 @@ export namespace Prisma {
     cant_acompanantes: number
     invitacionEnviada: number
     video: number
+    localVideo: number
     foto: number
     qrImageUrl: number
     qrGeneratedAt: number
@@ -3940,6 +3943,7 @@ export namespace Prisma {
     cant_acompanantes?: true
     invitacionEnviada?: true
     video?: true
+    localVideo?: true
     foto?: true
     qrImageUrl?: true
     qrGeneratedAt?: true
@@ -3960,6 +3964,7 @@ export namespace Prisma {
     cant_acompanantes?: true
     invitacionEnviada?: true
     video?: true
+    localVideo?: true
     foto?: true
     qrImageUrl?: true
     qrGeneratedAt?: true
@@ -3980,6 +3985,7 @@ export namespace Prisma {
     cant_acompanantes?: true
     invitacionEnviada?: true
     video?: true
+    localVideo?: true
     foto?: true
     qrImageUrl?: true
     qrGeneratedAt?: true
@@ -4087,6 +4093,7 @@ export namespace Prisma {
     cant_acompanantes: number | null
     invitacionEnviada: boolean
     video: string | null
+    localVideo: string | null
     foto: string | null
     qrImageUrl: string | null
     qrGeneratedAt: Date | null
@@ -4126,6 +4133,7 @@ export namespace Prisma {
     cant_acompanantes?: boolean
     invitacionEnviada?: boolean
     video?: boolean
+    localVideo?: boolean
     foto?: boolean
     qrImageUrl?: boolean
     qrGeneratedAt?: boolean
@@ -4147,6 +4155,7 @@ export namespace Prisma {
     cant_acompanantes?: boolean
     invitacionEnviada?: boolean
     video?: boolean
+    localVideo?: boolean
     foto?: boolean
     qrImageUrl?: boolean
     qrGeneratedAt?: boolean
@@ -4168,6 +4177,7 @@ export namespace Prisma {
     cant_acompanantes?: boolean
     invitacionEnviada?: boolean
     video?: boolean
+    localVideo?: boolean
     foto?: boolean
     qrImageUrl?: boolean
     qrGeneratedAt?: boolean
@@ -4189,6 +4199,7 @@ export namespace Prisma {
     cant_acompanantes?: boolean
     invitacionEnviada?: boolean
     video?: boolean
+    localVideo?: boolean
     foto?: boolean
     qrImageUrl?: boolean
     qrGeneratedAt?: boolean
@@ -4197,7 +4208,7 @@ export namespace Prisma {
     eventId?: boolean
   }
 
-  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documento" | "nombre" | "apellido" | "email" | "numero" | "mesa" | "status" | "cant_acompanantes" | "invitacionEnviada" | "video" | "foto" | "qrImageUrl" | "qrGeneratedAt" | "qrHash" | "checkInTime" | "eventId", ExtArgs["result"]["guest"]>
+  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documento" | "nombre" | "apellido" | "email" | "numero" | "mesa" | "status" | "cant_acompanantes" | "invitacionEnviada" | "video" | "localVideo" | "foto" | "qrImageUrl" | "qrGeneratedAt" | "qrHash" | "checkInTime" | "eventId", ExtArgs["result"]["guest"]>
   export type GuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
   }
@@ -4225,6 +4236,7 @@ export namespace Prisma {
       cant_acompanantes: number | null
       invitacionEnviada: boolean
       video: string | null
+      localVideo: string | null
       foto: string | null
       qrImageUrl: string | null
       qrGeneratedAt: Date | null
@@ -4666,6 +4678,7 @@ export namespace Prisma {
     readonly cant_acompanantes: FieldRef<"Guest", 'Int'>
     readonly invitacionEnviada: FieldRef<"Guest", 'Boolean'>
     readonly video: FieldRef<"Guest", 'String'>
+    readonly localVideo: FieldRef<"Guest", 'String'>
     readonly foto: FieldRef<"Guest", 'String'>
     readonly qrImageUrl: FieldRef<"Guest", 'String'>
     readonly qrGeneratedAt: FieldRef<"Guest", 'DateTime'>
@@ -5122,6 +5135,7 @@ export namespace Prisma {
     eventId: number | null
     publicId: string | null
     videoUrl: string | null
+    localVideoUrl: string | null
     nombre: string | null
     tipo: string | null
     mesa: number | null
@@ -5136,6 +5150,7 @@ export namespace Prisma {
     eventId: number | null
     publicId: string | null
     videoUrl: string | null
+    localVideoUrl: string | null
     nombre: string | null
     tipo: string | null
     mesa: number | null
@@ -5150,6 +5165,7 @@ export namespace Prisma {
     eventId: number
     publicId: number
     videoUrl: number
+    localVideoUrl: number
     nombre: number
     tipo: number
     mesa: number
@@ -5180,6 +5196,7 @@ export namespace Prisma {
     eventId?: true
     publicId?: true
     videoUrl?: true
+    localVideoUrl?: true
     nombre?: true
     tipo?: true
     mesa?: true
@@ -5194,6 +5211,7 @@ export namespace Prisma {
     eventId?: true
     publicId?: true
     videoUrl?: true
+    localVideoUrl?: true
     nombre?: true
     tipo?: true
     mesa?: true
@@ -5208,6 +5226,7 @@ export namespace Prisma {
     eventId?: true
     publicId?: true
     videoUrl?: true
+    localVideoUrl?: true
     nombre?: true
     tipo?: true
     mesa?: true
@@ -5309,6 +5328,7 @@ export namespace Prisma {
     eventId: number
     publicId: string
     videoUrl: string
+    localVideoUrl: string | null
     nombre: string
     tipo: string
     mesa: number | null
@@ -5342,6 +5362,7 @@ export namespace Prisma {
     eventId?: boolean
     publicId?: boolean
     videoUrl?: boolean
+    localVideoUrl?: boolean
     nombre?: boolean
     tipo?: boolean
     mesa?: boolean
@@ -5357,6 +5378,7 @@ export namespace Prisma {
     eventId?: boolean
     publicId?: boolean
     videoUrl?: boolean
+    localVideoUrl?: boolean
     nombre?: boolean
     tipo?: boolean
     mesa?: boolean
@@ -5372,6 +5394,7 @@ export namespace Prisma {
     eventId?: boolean
     publicId?: boolean
     videoUrl?: boolean
+    localVideoUrl?: boolean
     nombre?: boolean
     tipo?: boolean
     mesa?: boolean
@@ -5387,6 +5410,7 @@ export namespace Prisma {
     eventId?: boolean
     publicId?: boolean
     videoUrl?: boolean
+    localVideoUrl?: boolean
     nombre?: boolean
     tipo?: boolean
     mesa?: boolean
@@ -5396,7 +5420,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type EventMediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "publicId" | "videoUrl" | "nombre" | "tipo" | "mesa" | "formato" | "duracion" | "createdAt" | "updatedAt", ExtArgs["result"]["eventMedia"]>
+  export type EventMediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "publicId" | "videoUrl" | "localVideoUrl" | "nombre" | "tipo" | "mesa" | "formato" | "duracion" | "createdAt" | "updatedAt", ExtArgs["result"]["eventMedia"]>
   export type EventMediaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
   }
@@ -5417,6 +5441,7 @@ export namespace Prisma {
       eventId: number
       publicId: string
       videoUrl: string
+      localVideoUrl: string | null
       nombre: string
       tipo: string
       mesa: number | null
@@ -5852,6 +5877,7 @@ export namespace Prisma {
     readonly eventId: FieldRef<"EventMedia", 'Int'>
     readonly publicId: FieldRef<"EventMedia", 'String'>
     readonly videoUrl: FieldRef<"EventMedia", 'String'>
+    readonly localVideoUrl: FieldRef<"EventMedia", 'String'>
     readonly nombre: FieldRef<"EventMedia", 'String'>
     readonly tipo: FieldRef<"EventMedia", 'String'>
     readonly mesa: FieldRef<"EventMedia", 'Int'>
@@ -6347,6 +6373,7 @@ export namespace Prisma {
     cant_acompanantes: 'cant_acompanantes',
     invitacionEnviada: 'invitacionEnviada',
     video: 'video',
+    localVideo: 'localVideo',
     foto: 'foto',
     qrImageUrl: 'qrImageUrl',
     qrGeneratedAt: 'qrGeneratedAt',
@@ -6363,6 +6390,7 @@ export namespace Prisma {
     eventId: 'eventId',
     publicId: 'publicId',
     videoUrl: 'videoUrl',
+    localVideoUrl: 'localVideoUrl',
     nombre: 'nombre',
     tipo: 'tipo',
     mesa: 'mesa',
@@ -6752,6 +6780,7 @@ export namespace Prisma {
     cant_acompanantes?: IntNullableFilter<"Guest"> | number | null
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
+    localVideo?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
     qrImageUrl?: StringNullableFilter<"Guest"> | string | null
     qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
@@ -6773,6 +6802,7 @@ export namespace Prisma {
     cant_acompanantes?: SortOrderInput | SortOrder
     invitacionEnviada?: SortOrder
     video?: SortOrderInput | SortOrder
+    localVideo?: SortOrderInput | SortOrder
     foto?: SortOrderInput | SortOrder
     qrImageUrl?: SortOrderInput | SortOrder
     qrGeneratedAt?: SortOrderInput | SortOrder
@@ -6799,6 +6829,7 @@ export namespace Prisma {
     cant_acompanantes?: IntNullableFilter<"Guest"> | number | null
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
+    localVideo?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
     qrImageUrl?: StringNullableFilter<"Guest"> | string | null
     qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
@@ -6820,6 +6851,7 @@ export namespace Prisma {
     cant_acompanantes?: SortOrderInput | SortOrder
     invitacionEnviada?: SortOrder
     video?: SortOrderInput | SortOrder
+    localVideo?: SortOrderInput | SortOrder
     foto?: SortOrderInput | SortOrder
     qrImageUrl?: SortOrderInput | SortOrder
     qrGeneratedAt?: SortOrderInput | SortOrder
@@ -6848,6 +6880,7 @@ export namespace Prisma {
     cant_acompanantes?: IntNullableWithAggregatesFilter<"Guest"> | number | null
     invitacionEnviada?: BoolWithAggregatesFilter<"Guest"> | boolean
     video?: StringNullableWithAggregatesFilter<"Guest"> | string | null
+    localVideo?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     foto?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     qrImageUrl?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     qrGeneratedAt?: DateTimeNullableWithAggregatesFilter<"Guest"> | Date | string | null
@@ -6864,6 +6897,7 @@ export namespace Prisma {
     eventId?: IntFilter<"EventMedia"> | number
     publicId?: StringFilter<"EventMedia"> | string
     videoUrl?: StringFilter<"EventMedia"> | string
+    localVideoUrl?: StringNullableFilter<"EventMedia"> | string | null
     nombre?: StringFilter<"EventMedia"> | string
     tipo?: StringFilter<"EventMedia"> | string
     mesa?: IntNullableFilter<"EventMedia"> | number | null
@@ -6879,6 +6913,7 @@ export namespace Prisma {
     eventId?: SortOrder
     publicId?: SortOrder
     videoUrl?: SortOrder
+    localVideoUrl?: SortOrderInput | SortOrder
     nombre?: SortOrder
     tipo?: SortOrder
     mesa?: SortOrderInput | SortOrder
@@ -6897,6 +6932,7 @@ export namespace Prisma {
     eventId?: IntFilter<"EventMedia"> | number
     publicId?: StringFilter<"EventMedia"> | string
     videoUrl?: StringFilter<"EventMedia"> | string
+    localVideoUrl?: StringNullableFilter<"EventMedia"> | string | null
     nombre?: StringFilter<"EventMedia"> | string
     tipo?: StringFilter<"EventMedia"> | string
     mesa?: IntNullableFilter<"EventMedia"> | number | null
@@ -6912,6 +6948,7 @@ export namespace Prisma {
     eventId?: SortOrder
     publicId?: SortOrder
     videoUrl?: SortOrder
+    localVideoUrl?: SortOrderInput | SortOrder
     nombre?: SortOrder
     tipo?: SortOrder
     mesa?: SortOrderInput | SortOrder
@@ -6934,6 +6971,7 @@ export namespace Prisma {
     eventId?: IntWithAggregatesFilter<"EventMedia"> | number
     publicId?: StringWithAggregatesFilter<"EventMedia"> | string
     videoUrl?: StringWithAggregatesFilter<"EventMedia"> | string
+    localVideoUrl?: StringNullableWithAggregatesFilter<"EventMedia"> | string | null
     nombre?: StringWithAggregatesFilter<"EventMedia"> | string
     tipo?: StringWithAggregatesFilter<"EventMedia"> | string
     mesa?: IntNullableWithAggregatesFilter<"EventMedia"> | number | null
@@ -7218,6 +7256,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -7238,6 +7277,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -7257,6 +7297,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7277,6 +7318,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7297,6 +7339,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -7316,6 +7359,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7335,6 +7379,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7346,6 +7391,7 @@ export namespace Prisma {
   export type EventMediaCreateInput = {
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -7361,6 +7407,7 @@ export namespace Prisma {
     eventId: number
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -7373,6 +7420,7 @@ export namespace Prisma {
   export type EventMediaUpdateInput = {
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7388,6 +7436,7 @@ export namespace Prisma {
     eventId?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7402,6 +7451,7 @@ export namespace Prisma {
     eventId: number
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -7414,6 +7464,7 @@ export namespace Prisma {
   export type EventMediaUpdateManyMutationInput = {
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7428,6 +7479,7 @@ export namespace Prisma {
     eventId?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -7867,6 +7919,7 @@ export namespace Prisma {
     cant_acompanantes?: SortOrder
     invitacionEnviada?: SortOrder
     video?: SortOrder
+    localVideo?: SortOrder
     foto?: SortOrder
     qrImageUrl?: SortOrder
     qrGeneratedAt?: SortOrder
@@ -7893,6 +7946,7 @@ export namespace Prisma {
     cant_acompanantes?: SortOrder
     invitacionEnviada?: SortOrder
     video?: SortOrder
+    localVideo?: SortOrder
     foto?: SortOrder
     qrImageUrl?: SortOrder
     qrGeneratedAt?: SortOrder
@@ -7913,6 +7967,7 @@ export namespace Prisma {
     cant_acompanantes?: SortOrder
     invitacionEnviada?: SortOrder
     video?: SortOrder
+    localVideo?: SortOrder
     foto?: SortOrder
     qrImageUrl?: SortOrder
     qrGeneratedAt?: SortOrder
@@ -7950,6 +8005,7 @@ export namespace Prisma {
     eventId?: SortOrder
     publicId?: SortOrder
     videoUrl?: SortOrder
+    localVideoUrl?: SortOrder
     nombre?: SortOrder
     tipo?: SortOrder
     mesa?: SortOrder
@@ -7971,6 +8027,7 @@ export namespace Prisma {
     eventId?: SortOrder
     publicId?: SortOrder
     videoUrl?: SortOrder
+    localVideoUrl?: SortOrder
     nombre?: SortOrder
     tipo?: SortOrder
     mesa?: SortOrder
@@ -7985,6 +8042,7 @@ export namespace Prisma {
     eventId?: SortOrder
     publicId?: SortOrder
     videoUrl?: SortOrder
+    localVideoUrl?: SortOrder
     nombre?: SortOrder
     tipo?: SortOrder
     mesa?: SortOrder
@@ -8617,6 +8675,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -8636,6 +8695,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -8656,6 +8716,7 @@ export namespace Prisma {
   export type EventMediaCreateWithoutEventInput = {
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -8669,6 +8730,7 @@ export namespace Prisma {
     id?: number
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -8745,6 +8807,7 @@ export namespace Prisma {
     cant_acompanantes?: IntNullableFilter<"Guest"> | number | null
     invitacionEnviada?: BoolFilter<"Guest"> | boolean
     video?: StringNullableFilter<"Guest"> | string | null
+    localVideo?: StringNullableFilter<"Guest"> | string | null
     foto?: StringNullableFilter<"Guest"> | string | null
     qrImageUrl?: StringNullableFilter<"Guest"> | string | null
     qrGeneratedAt?: DateTimeNullableFilter<"Guest"> | Date | string | null
@@ -8777,6 +8840,7 @@ export namespace Prisma {
     eventId?: IntFilter<"EventMedia"> | number
     publicId?: StringFilter<"EventMedia"> | string
     videoUrl?: StringFilter<"EventMedia"> | string
+    localVideoUrl?: StringNullableFilter<"EventMedia"> | string | null
     nombre?: StringFilter<"EventMedia"> | string
     tipo?: StringFilter<"EventMedia"> | string
     mesa?: IntNullableFilter<"EventMedia"> | number | null
@@ -9181,6 +9245,7 @@ export namespace Prisma {
     cant_acompanantes?: number | null
     invitacionEnviada?: boolean
     video?: string | null
+    localVideo?: string | null
     foto?: string | null
     qrImageUrl?: string | null
     qrGeneratedAt?: Date | string | null
@@ -9192,6 +9257,7 @@ export namespace Prisma {
     id?: number
     publicId: string
     videoUrl: string
+    localVideoUrl?: string | null
     nombre: string
     tipo: string
     mesa?: number | null
@@ -9212,6 +9278,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9231,6 +9298,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9250,6 +9318,7 @@ export namespace Prisma {
     cant_acompanantes?: NullableIntFieldUpdateOperationsInput | number | null
     invitacionEnviada?: BoolFieldUpdateOperationsInput | boolean
     video?: NullableStringFieldUpdateOperationsInput | string | null
+    localVideo?: NullableStringFieldUpdateOperationsInput | string | null
     foto?: NullableStringFieldUpdateOperationsInput | string | null
     qrImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9260,6 +9329,7 @@ export namespace Prisma {
   export type EventMediaUpdateWithoutEventInput = {
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9273,6 +9343,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null
@@ -9286,6 +9357,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     videoUrl?: StringFieldUpdateOperationsInput | string
+    localVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     mesa?: NullableIntFieldUpdateOperationsInput | number | null

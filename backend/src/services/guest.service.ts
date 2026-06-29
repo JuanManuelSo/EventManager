@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import crypto from "crypto";
+import { emitGuestCheckinVideoIfAvailable } from "./checkin-video.service.js";
 
 type GetByEventOptions = {
   page?: number;
@@ -239,6 +240,19 @@ export const guestService = {
   async manualCheckin(eventId: number, guestId: number) {
     const guest = await prisma.guest.findFirst({
       where: { id: guestId, eventId },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+        localVideo: true,
+        cant_acompanantes: true,
+      },
     });
 
     if (!guest) {
@@ -248,9 +262,7 @@ export const guestService = {
     }
 
     if (guest.checkInTime) {
-      const error = new Error("El invitado ya realizó su check-in") as any;
-      error.statusCode = 409;
-      throw error;
+      return { alreadyIn: true, guest };
     }
 
     const updated = await prisma.guest.update({
@@ -258,6 +270,19 @@ export const guestService = {
       data: {
         status: "PRESENTE",
         checkInTime: new Date(),
+      },
+      select: {
+        id: true,
+        nombre: true,
+        apellido: true,
+        email: true,
+        mesa: true,
+        qrHash: true,
+        checkInTime: true,
+        status: true,
+        video: true,
+        localVideo: true,
+        cant_acompanantes: true,
       },
     });
 
@@ -274,7 +299,9 @@ export const guestService = {
       data: { checkedInCount, porcentajeAsistencia },
     });
 
-    return updated;
+    await emitGuestCheckinVideoIfAvailable(eventId, updated);
+
+    return { alreadyIn: false, guest: updated };
   },
 
   //Eliminacion de invitados desde GuestTab

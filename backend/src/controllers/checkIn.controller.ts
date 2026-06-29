@@ -18,7 +18,7 @@ export const checkInController = {
       return res.json(result);
     } catch (error: any) {
       const isValidation = error?.name === "ZodError";
-      return res.status(isValidation ? 400 : 404).json({
+      return res.status(error?.statusCode ?? (isValidation ? 400 : 500)).json({
         message: error?.message ?? "Error en el check-in.",
       });
     }
@@ -34,7 +34,7 @@ export const checkInController = {
       return res.json(result);
     } catch (error: any) {
       const isValidation = error?.name === "ZodError";
-      return res.status(isValidation ? 400 : 404).json({
+      return res.status(error?.statusCode ?? (isValidation ? 400 : 500)).json({
         message: error?.message ?? "Error en el check-in.",
       });
     }

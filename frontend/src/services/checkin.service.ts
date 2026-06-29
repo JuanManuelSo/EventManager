@@ -19,8 +19,7 @@ export const checkinService = {
    */
   async checkinById(guestId: number, eventId: number): Promise<CheckinResult> {
     const { data } = await api.post<CheckinResult>(
-      `/checkin/${eventId}/manual`,
-      { guestId },
+      `/events/${eventId}/guests/${guestId}/checkin`,
     );
     return data;
   },

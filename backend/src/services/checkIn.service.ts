@@ -1,6 +1,5 @@
 import { prisma } from "../lib/prisma.js";
-import { getIo } from "../lib/socket.js";
-import { checkConnectivity } from "../lib/checkConnectivity.js";
+import { emitGuestCheckinVideoIfAvailable } from "./checkin-video.service.js";
 
 export interface CheckinResult {
   alreadyIn: boolean;
@@ -16,6 +15,23 @@ export interface CheckinResult {
     video: string | null;
     cant_acompanantes: number | null;
   };
+}
+
+async function syncEventAttendance(eventId: number) {
+  const [checkedInCount, totalGuests] = await Promise.all([
+    prisma.guest.count({
+      where: { eventId, checkInTime: { not: null } },
+    }),
+    prisma.guest.count({ where: { eventId } }),
+  ]);
+
+  const porcentajeAsistencia =
+    totalGuests > 0 ? Math.round((checkedInCount / totalGuests) * 100) : 0;
+
+  await prisma.event.update({
+    where: { id_evento: eventId },
+    data: { checkedInCount, porcentajeAsistencia },
+  });
 }
 
 export const checkinService = {
@@ -41,7 +57,11 @@ export const checkinService = {
     });
 
     if (!guest) {
-      throw new Error("QR inválido — invitado no encontrado.");
+      const error = new Error("QR inválido — invitado no encontrado.") as Error & {
+        statusCode?: number;
+      };
+      error.statusCode = 404;
+      throw error;
     }
 
     // Ya hizo check-in
@@ -71,24 +91,9 @@ export const checkinService = {
       },
     });
 
-    // Emitir evento de video a la pantalla TV
-    if (updated.video || updated.localVideo) {
-      const isOnline = await checkConnectivity();
-      const videoUrl = isOnline ? updated.video : updated.localVideo;
-      const io = getIo();
+    await syncEventAttendance(eventId);
 
-      if (videoUrl) {
-        io.to(`event:${eventId}:display`).emit("display:play_video", {
-          guest: {
-            id: updated.id,
-            nombre: updated.nombre,
-            apellido: updated.apellido,
-            mesa: updated.mesa,
-          },
-          videoUrl: updated.video,
-        });
-      }
-    }
+    await emitGuestCheckinVideoIfAvailable(eventId, updated);
 
     return { alreadyIn: false, guest: updated };
   },
@@ -115,7 +120,11 @@ export const checkinService = {
     });
 
     if (!guest) {
-      throw new Error("Invitado no encontrado.");
+      const error = new Error("Invitado no encontrado.") as Error & {
+        statusCode?: number;
+      };
+      error.statusCode = 404;
+      throw error;
     }
 
     if (guest.checkInTime !== null) {
@@ -143,24 +152,9 @@ export const checkinService = {
       },
     });
 
-    // Emitir evento de video a la pantalla TV
-    if (updated.video || updated.localVideo) {
-      const isOnline = await checkConnectivity();
-      const videoUrl = isOnline ? updated.video : updated.localVideo;
-      const io = getIo();
+    await syncEventAttendance(eventId);
 
-      if (videoUrl) {
-        io.to(`event:${eventId}:display`).emit("display:play_video", {
-          guest: {
-            id: updated.id,
-            nombre: updated.nombre,
-            apellido: updated.apellido,
-            mesa: updated.mesa,
-          },
-          videoUrl: updated.video,
-        });
-      }
-    }
+    await emitGuestCheckinVideoIfAvailable(eventId, updated);
 
     return { alreadyIn: false, guest: updated };
   },
