@@ -399,7 +399,7 @@ function InfoTab({ event }: { event: import("../types").Event }) {
           <EditableField
             label="Invitados"
             isEditing={isEditing}
-            register={register("cant_invitados")}
+            register={register("cant_invitados", { valueAsNumber: true })}
             type="number"
             value={`${event.cant_invitados?.toLocaleString("es-AR") ?? "-"} Personas`}
             error={errors.cant_invitados?.message}

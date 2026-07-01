@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:4000",
+  "loginUser": "admin@eventmanager.com ",
+  "loginPassword": "admin1234",
+  "executionArgs": {
+    "projectName": "EventManager",
+    "projectPath": "E:\\EventManager\\EventManager",
+    "testIds": [],
+    "additionalInstruction": "Use the seeded admin credentials for login flows: email admin@eventmanager.com and password admin1234. The frontend is running at http://localhost:4000 and the backend API at http://localhost:3000/api via Docker Compose. Prefer deterministic flows that create their own event and guest data before testing guest, QR, check-in, and media workflows. Avoid relying on physical camera permissions for QR scanning; use manual check-in or API-backed deterministic paths where necessary.",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-jNIqpBSKdwp8Kva6YVhdgqmnFR2qLlrS_qxgtT_uv8wV0K5JwNflokLXNfnRyBIDVQmPV7dNOa4vqg1aH3ZEgss9QRhJWOd10tvfE-C4nKYAh6UnnxsiaJu2azME6bgBYc0"
+    }
+  },
+  "serverPort": 57210
+}

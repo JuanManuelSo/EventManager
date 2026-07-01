@@ -38,6 +38,16 @@ export function useDeleteGuest() {
     mutationFn: ({ eventId, guestId }: { eventId: number; guestId: number }) =>
       guestsService.delete(eventId, guestId),
     onSuccess: (_data, variables) => {
+      queryClient.setQueryData(["guests", variables.eventId], (old: any) => {
+        if (!old?.data || !Array.isArray(old.data)) return old;
+
+        return {
+          ...old,
+          data: old.data.filter((guest: any) => guest.id !== variables.guestId),
+          total:
+            typeof old.total === "number" ? Math.max(0, old.total - 1) : old.total,
+        };
+      });
       queryClient.invalidateQueries({
         queryKey: ["guests", variables.eventId],
       });

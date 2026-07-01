@@ -1,0 +1,237 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - React 19
+  - Vite
+  - React Router
+  - TanStack React Query
+  - Tailwind CSS
+  - Express API
+  - Socket.IO
+  - Prisma PostgreSQL
+routes:
+  - path: /login
+    file: frontend/src/pages/LoginPage.tsx
+    auth_required: false
+    description: Administrator login page.
+  - path: /
+    file: frontend/src/pages/DashboardPage.tsx
+    auth_required: true
+    description: Protected dashboard for event listing, search, filters, stats, and event creation.
+  - path: /events/:id
+    file: frontend/src/pages/EventDetailPage.tsx
+    auth_required: true
+    description: Protected event detail page with information, guests, scan, media, and metrics tabs.
+  - path: /display/:id
+    file: frontend/src/pages/DisplayPage.tsx
+    auth_required: false
+    description: Public display screen that receives Socket.IO playback events for guest welcome videos.
+  - path: '*'
+    file: frontend/src/router/index.tsx
+    auth_required: false
+    description: Fallback route that redirects to the protected dashboard.
+features:
+  - name: Administrator Login
+    description: Authenticate an administrator and store session state for protected app access.
+    files:
+      - frontend/src/pages/LoginPage.tsx
+      - frontend/src/hooks/useAuth.ts
+      - frontend/src/services/auth.service.ts
+      - frontend/src/store/AuthContext.tsx
+    entry_route: /login
+    user_interactions:
+      - Enter email or username in the credentials field.
+      - Enter password.
+      - Submit the login form.
+      - See inline validation for empty fields.
+      - See an error for invalid credentials.
+      - Navigate to the dashboard after valid login.
+    api_calls:
+      - method: POST
+        endpoint: /api/users/login
+    auth_required: false
+  - name: Dashboard Event Browsing
+    description: View event summary metrics and browse events owned by the authenticated user.
+    files:
+      - frontend/src/pages/DashboardPage.tsx
+      - frontend/src/hooks/useEvents.ts
+      - frontend/src/services/events.service.ts
+      - frontend/src/components/events/EventCard.tsx
+    entry_route: /
+    user_interactions:
+      - View total events, managed guests, and average attendance cards.
+      - Search events by name, location, type, or venue.
+      - Filter events by all, active, or finalized status.
+      - Toggle between grid and list views.
+      - Select an event to open its detail page.
+    api_calls:
+      - method: GET
+        endpoint: /api/events
+      - method: GET
+        endpoint: /api/events/stats
+    auth_required: true
+  - name: Event Creation
+    description: Create a new event from the dashboard.
+    files:
+      - frontend/src/pages/DashboardPage.tsx
+      - frontend/src/components/events/ModalCreateEvent.tsx
+      - frontend/src/components/events/EventForm.tsx
+      - frontend/src/validations/validateCreateEvent.ts
+    entry_route: /
+    user_interactions:
+      - Click Crear evento.
+      - Fill event name, type, date, venue, location, and expected guest count.
+      - Submit the modal form.
+      - See validation errors for invalid or missing values.
+      - See the new event in the dashboard list after success.
+    api_calls:
+      - method: POST
+        endpoint: /api/events
+    auth_required: true
+  - name: Event Information Management
+    description: View, edit, finalize, or delete an event.
+    files:
+      - frontend/src/pages/EventDetailPage.tsx
+      - frontend/src/components/events/FinalizeEventModal.tsx
+      - frontend/src/components/events/DeleteEventModal.tsx
+      - frontend/src/components/ui/EditableField.tsx
+    entry_route: /events/:id
+    user_interactions:
+      - Open an event from the dashboard.
+      - Switch to the Información tab.
+      - Click Editar Información.
+      - Change event fields and save changes.
+      - Open finalization confirmation and finalize an active event.
+      - Open deletion confirmation and delete an event.
+    api_calls:
+      - method: GET
+        endpoint: /api/events/:id
+      - method: PUT
+        endpoint: /api/events/:id
+      - method: PATCH
+        endpoint: /api/events/:id/finalize
+      - method: DELETE
+        endpoint: /api/events/:id
+    auth_required: true
+  - name: Guest Management
+    description: Manage event guest lists through manual entry, Excel import, search, filters, pagination, QR generation, video assignment, and deletion.
+    files:
+      - frontend/src/components/guests/GuestsTab.tsx
+      - frontend/src/components/guests/ManualGuestModal.tsx
+      - frontend/src/components/guests/ExcelImportModal.tsx
+      - frontend/src/components/guests/AssignVideoModal.tsx
+      - frontend/src/components/guests/components/GuestRow.tsx
+      - frontend/src/services/guests.service.ts
+    entry_route: /events/:id
+    user_interactions:
+      - Open the Invitados tab.
+      - Search guests by name, email, or table.
+      - Filter guests by status.
+      - Page through guest rows.
+      - Add a guest manually.
+      - Import guests from Excel.
+      - Generate QR codes in bulk.
+      - Generate an individual guest QR.
+      - Assign a video to a guest.
+      - Delete a guest after confirmation.
+    api_calls:
+      - method: GET
+        endpoint: /api/events/:eventId/guests
+      - method: POST
+        endpoint: /api/events/:eventId/guests
+      - method: POST
+        endpoint: /api/events/:eventId/guests/bulk
+      - method: POST
+        endpoint: /api/events/:eventId/guests/qr/generate
+      - method: GET
+        endpoint: /api/events/:eventId/guests/qr/download
+      - method: GET
+        endpoint: /api/events/:eventId/guests/:guestId/qr
+      - method: POST
+        endpoint: /api/events/:eventId/guests/bulk-assign-video
+      - method: DELETE
+        endpoint: /api/events/:eventId/guests/:guestId
+    auth_required: true
+  - name: Check-In Workflow
+    description: Check guests in using QR camera scanning or manual guest search, while showing live stats and recent check-ins.
+    files:
+      - frontend/src/components/scan/ScanTab.tsx
+      - frontend/src/components/scan/QRCamera.tsx
+      - frontend/src/components/scan/ManualGuestSearchPanel.tsx
+      - frontend/src/components/scan/ScanStats.tsx
+      - frontend/src/components/scan/RecentCheckinsPanel.tsx
+      - frontend/src/services/checkin.service.ts
+    entry_route: /events/:id
+    user_interactions:
+      - Open the Escaneo QR tab.
+      - Review total, present, absent, and attendance percentage stats.
+      - Search for a guest manually and confirm check-in.
+      - Scan a QR code with the camera.
+      - Pause or resume camera scanning.
+      - See success, duplicate, or error feedback.
+      - Review recent check-ins.
+    api_calls:
+      - method: POST
+        endpoint: /api/checkin/:eventId/scan
+      - method: POST
+        endpoint: /api/checkin/:eventId/manual
+      - method: GET
+        endpoint: /api/events/:eventId/guests
+    auth_required: true
+  - name: Media Management
+    description: Upload, list, preview, assign, and delete event videos, and manage QR card invitation templates.
+    files:
+      - frontend/src/components/media/MediaTab.tsx
+      - frontend/src/components/media/UploadVideoModal.tsx
+      - frontend/src/components/media/BulkAssignModal.tsx
+      - frontend/src/components/media/QrCardSection.tsx
+      - frontend/src/services/media.service.ts
+    entry_route: /events/:id
+    user_interactions:
+      - Open the Multimedia tab.
+      - Upload a supported video file with metadata.
+      - Open uploaded video in a new tab.
+      - Delete a video after confirmation.
+      - Bulk assign media to guests.
+      - Upload a QR card image or PDF.
+      - Save QR slot coordinates for invitations.
+    api_calls:
+      - method: GET
+        endpoint: /api/events/:eventId/media
+      - method: POST
+        endpoint: /api/events/:eventId/media/upload
+      - method: DELETE
+        endpoint: /api/events/:eventId/media/:mediaId
+      - method: GET
+        endpoint: /api/events/:eventId/media/qr-card
+      - method: POST
+        endpoint: /api/events/:eventId/media/qr-card
+      - method: PUT
+        endpoint: /api/events/:eventId/media/qr-card/slot
+    auth_required: true
+  - name: Public Display Screen
+    description: Public event display that waits for check-in playback events and shows guest welcome videos.
+    files:
+      - frontend/src/pages/DisplayPage.tsx
+      - backend/src/lib/socket.ts
+      - backend/src/services/checkin-video.service.ts
+    entry_route: /display/:id
+    user_interactions:
+      - Open the display route for an event.
+      - Observe connection status.
+      - Toggle audio on or off.
+      - Wait for check-in-triggered video playback.
+      - View current guest welcome overlay and recent guests.
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: Metrics tab is a placeholder and displays a coming soon message.
+    location: frontend/src/pages/EventDetailPage.tsx
+    impact: No metrics interactions are currently available for automated E2E assertions beyond placeholder rendering.
+  - issue: Login page development hint says admin / 123456, but the seeded Docker account is admin@eventmanager.com / admin1234.
+    location: frontend/src/pages/LoginPage.tsx and backend/prisma/seed.ts
+    impact: Tests should use the seeded email/password account rather than the dev hint.
+  - issue: Camera-based QR scanning depends on browser camera permissions and hardware availability.
+    location: frontend/src/components/scan/QRCamera.tsx
+    impact: TestSprite should prefer API-assisted or manual check-in tests for deterministic coverage.

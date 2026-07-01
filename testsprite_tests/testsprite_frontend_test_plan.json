@@ -1,0 +1,1320 @@
+[
+  {
+    "id": "TC001",
+    "title": "Sign in and reach the dashboard",
+    "description": "Verifies that an administrator can sign in with valid credentials and land on the dashboard.",
+    "category": "Administrator Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify event summary information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Check in a guest by scanning a QR code",
+    "description": "This test verifies that a staff user can scan a guest QR code and see successful check-in feedback with the recent check-ins list updated.",
+    "category": "Check-In Workflow",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Escaneo QR tab"
+      },
+      {
+        "type": "action",
+        "description": "Start QR camera scanning"
+      },
+      {
+        "type": "action",
+        "description": "Scan a guest QR code"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify successful check-in feedback is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the recent check-ins list updates"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Sign in and open the dashboard",
+    "description": "This test verifies that an authenticated user can sign in and reach the dashboard where events are available.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify events are listed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Check in a guest manually from search",
+    "description": "This test verifies that a staff user can manually check in a guest and see attendance stats and the recent check-ins list update.",
+    "category": "Check-In Workflow",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Escaneo QR tab"
+      },
+      {
+        "type": "action",
+        "description": "Search for a guest manually"
+      },
+      {
+        "type": "action",
+        "description": "Confirm check-in"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the guest is marked present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the recent check-ins list updates"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Keep playing check-in video on the public display",
+    "description": "This verifies that the public display connects, stays idle, and shows playback when a check-in event occurs for that display.",
+    "category": "Public Display Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /display/1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the display to finish connecting"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the idle state to appear"
+      },
+      {
+        "type": "action",
+        "description": "Toggle audio on or off"
+      },
+      {
+        "type": "action",
+        "description": "Wait for a check-in playback event to arrive"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the guest welcome overlay is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify video playback has started"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Open an event from the dashboard",
+    "description": "This test verifies that a user can open an event from the dashboard and load its detail page.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the event detail page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify event information is loaded"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Open the public display for an event",
+    "description": "This test verifies that the public display screen loads for an event and shows the idle state before playback is triggered.",
+    "category": "Check-In Workflow",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /display/1"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the display screen is loaded"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the idle state is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Add a guest manually",
+    "description": "This test verifies that a staff user can create a guest manually and see the new guest in the guest list.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the manual guest form"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the guest details"
+      },
+      {
+        "type": "action",
+        "description": "Submit the guest form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new guest appears in the guest list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Find an event using search and status filters",
+    "description": "This test verifies that a user can narrow the dashboard event list using search and status filters before opening an event.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Search for an event by name"
+      },
+      {
+        "type": "action",
+        "description": "Filter events by status"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the event list is narrowed to matching results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify event cards or rows remain visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Browse and search events from the dashboard",
+    "description": "Verifies that an authenticated user can review dashboard summaries, search events, filter by status, and open an event detail page.",
+    "category": "Dashboard Event Browsing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the event search field with a matching event name"
+      },
+      {
+        "type": "action",
+        "description": "Select the active status filter"
+      },
+      {
+        "type": "action",
+        "description": "Toggle the list layout"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the filtered list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the event detail page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected event information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Import guests from a valid spreadsheet",
+    "description": "This test verifies that a staff user can import guests from a valid spreadsheet and see the imported guests in the table.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the import guests dialog"
+      },
+      {
+        "type": "action",
+        "description": "Provide a valid spreadsheet file"
+      },
+      {
+        "type": "action",
+        "description": "Complete the import"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify imported guests appear in the guest list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Upload a supported video to an event media list",
+    "description": "This verifies that a staff user can add a supported video with metadata to an event and see it appear in the media list.",
+    "category": "Media Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the event in the dashboard to open its detail page"
+      },
+      {
+        "type": "action",
+        "description": "Open the Multimedia tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the video upload form"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the video name field with Event Welcome Video"
+      },
+      {
+        "type": "action",
+        "description": "Upload a supported video file"
+      },
+      {
+        "type": "action",
+        "description": "Save the uploaded video"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new video appears in the media list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Create a new event from the dashboard",
+    "description": "Verifies that an authenticated user can create a new event and see it appear in the dashboard list.",
+    "category": "Event Creation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new event"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the event name field with a unique event name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the event type field with a valid event type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in a valid date into the date field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the venue field with a venue name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the location field with a location name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the expected guest count field with a valid number"
+      },
+      {
+        "type": "action",
+        "description": "Submit the event form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new event appears in the dashboard list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a creation confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Generate guest QR codes in bulk",
+    "description": "This test verifies that a staff user can generate QR codes for guests in bulk and download the prepared QR assets when ready.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Start bulk QR generation"
+      },
+      {
+        "type": "action",
+        "description": "Wait for QR generation progress to complete"
+      },
+      {
+        "type": "action",
+        "description": "Download the generated QR assets"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify QR generation is available for the guest list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Update event information",
+    "description": "This test verifies that a user can edit event information and see the updated details saved on the event page.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Información tab"
+      },
+      {
+        "type": "action",
+        "description": "Enable editing for the event information"
+      },
+      {
+        "type": "action",
+        "description": "Change the event fields"
+      },
+      {
+        "type": "action",
+        "description": "Save the changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated event information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Assign a welcome video to a guest",
+    "description": "This test verifies that a staff user can assign a welcome video to a guest and see the guest updated with the media assignment.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the video assignment for a guest"
+      },
+      {
+        "type": "action",
+        "description": "Select a welcome video"
+      },
+      {
+        "type": "action",
+        "description": "Save the assignment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the guest shows the assigned video"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Update the dashboard list when changing filters and search",
+    "description": "Verifies that changing the search query and status filter updates the visible event list on the dashboard.",
+    "category": "Dashboard Event Browsing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Select the finalized status filter"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the event search field with a partial event name"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the visible event list is updated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify only matching events are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Delete an event and return to the dashboard",
+    "description": "This test verifies that a user can delete an event and return to the dashboard without the deleted event present.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Información tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the deletion confirmation"
+      },
+      {
+        "type": "action",
+        "description": "Confirm deletion"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deleted event is no longer listed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC019",
+    "title": "Assign media to guests in bulk",
+    "description": "This verifies that a user can bulk assign media to guests and see the guest assignments update after saving.",
+    "category": "Media Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the event in the dashboard to open its detail page"
+      },
+      {
+        "type": "action",
+        "description": "Open the Multimedia tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the bulk media assignment form"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more guests"
+      },
+      {
+        "type": "action",
+        "description": "Select one media item"
+      },
+      {
+        "type": "action",
+        "description": "Save the media assignment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected guests show the assigned media"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC020",
+    "title": "Delete a guest from the list",
+    "description": "This test verifies that a user can delete a guest and see the guest removed from the guest list.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Delete a guest after confirmation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deleted guest is removed from the guest list"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Show recent guests on the public display",
+    "description": "This verifies that the public display shows recent guest activity and updates when a playback event is received.",
+    "category": "Public Display Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /display/1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the display to finish connecting"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the recent guests area to load"
+      },
+      {
+        "type": "action",
+        "description": "Wait for a check-in playback event to arrive"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the recent guests list is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the current guest playback overlay is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Finalize an active event",
+    "description": "This test verifies that a user can finalize an event from the information tab and see it marked as finalized.",
+    "category": "Event Information Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Información tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the finalization confirmation"
+      },
+      {
+        "type": "action",
+        "description": "Confirm finalization"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the event is marked finalized"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Search and filter the guest list",
+    "description": "This test verifies that a user can search and filter guests in the guest table and see only matching results.",
+    "category": "Guest Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Invitados tab"
+      },
+      {
+        "type": "action",
+        "description": "Search for a guest by name, email, or table"
+      },
+      {
+        "type": "action",
+        "description": "Filter guests by status"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the guest list shows matching results only"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Delete an event video from the media list",
+    "description": "This verifies that a user can delete an uploaded video after confirming the action and see it removed from the list.",
+    "category": "Media Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the event in the dashboard to open its detail page"
+      },
+      {
+        "type": "action",
+        "description": "Open the Multimedia tab"
+      },
+      {
+        "type": "action",
+        "description": "Delete an uploaded video"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the deletion"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the video is removed from the media list"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC025",
+    "title": "Prevent a duplicate check-in",
+    "description": "This test verifies that checking in the same guest again shows duplicate feedback instead of creating a second check-in.",
+    "category": "Check-In Workflow",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open an event from the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Switch to the Escaneo QR tab"
+      },
+      {
+        "type": "action",
+        "description": "Search for a guest manually"
+      },
+      {
+        "type": "action",
+        "description": "Confirm check-in"
+      },
+      {
+        "type": "action",
+        "description": "Search for the same guest again"
+      },
+      {
+        "type": "action",
+        "description": "Confirm check-in again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify duplicate check-in feedback is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no second check-in is added"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC026",
+    "title": "Preview an uploaded event video",
+    "description": "This verifies that a user can open an uploaded video from the media list and view it in a preview or new-tab context.",
+    "category": "Media Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the event in the dashboard to open its detail page"
+      },
+      {
+        "type": "action",
+        "description": "Open the Multimedia tab"
+      },
+      {
+        "type": "action",
+        "description": "Open an existing uploaded video"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the video preview or viewing context is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC027",
+    "title": "Upload QR card artwork and save slot coordinates",
+    "description": "This verifies that a user can upload QR card artwork and save QR slot positioning for invitations.",
+    "category": "Media Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the event in the dashboard to open its detail page"
+      },
+      {
+        "type": "action",
+        "description": "Open the Multimedia tab"
+      },
+      {
+        "type": "action",
+        "description": "Open the QR card section"
+      },
+      {
+        "type": "action",
+        "description": "Upload a QR card image or PDF"
+      },
+      {
+        "type": "action",
+        "description": "Save the QR card asset"
+      },
+      {
+        "type": "action",
+        "description": "Configure the QR slot coordinates"
+      },
+      {
+        "type": "action",
+        "description": "Save the QR slot position"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the QR card asset and slot configuration are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC028",
+    "title": "Show validation while creating an event",
+    "description": "Verifies that invalid or missing event details are rejected until the form is corrected and submitted successfully.",
+    "category": "Event Creation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new event"
+      },
+      {
+        "type": "action",
+        "description": "Submit the event form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify event validation errors are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the event is not created"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC029",
+    "title": "Show validation for missing login fields",
+    "description": "Verifies that submitting the login form with required fields empty shows validation messages and does not proceed.",
+    "category": "Administrator Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify validation messages are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard is not displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC030",
+    "title": "Show an authentication error for invalid login",
+    "description": "Verifies that entering invalid credentials shows an authentication error and keeps the user on the login page.",
+    "category": "Administrator Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with invalid@example.com"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with invalid-password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an authentication error is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard is not displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]

@@ -324,14 +324,6 @@ export const guestService = {
       throw error;
     }
 
-    if (guest.status === "PRESENTE") {
-      const error = new Error(
-        "No se puede eliminar un invitado que ya está presente",
-      ) as any;
-      error.statusCode = 409;
-      throw error;
-    }
-
     await prisma.guest.delete({ where: { id: guest.id } });
 
     if (guest.checkInTime) {
